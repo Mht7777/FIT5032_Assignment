@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using FIT5032_Assignment.Models;
 using FIT5032_Assignment.Models.Entites;
+using Microsoft.AspNet.Identity;
 
 namespace FIT5032_Assignment.Controllers
 {
@@ -16,9 +17,13 @@ namespace FIT5032_Assignment.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Patients
+        [Authorize]
         public ActionResult Index()
         {
-            return View(db.Patients.ToList());
+            var userId = User.Identity.GetUserId();
+            var patients = db.Patients.Where(s => s.UserId ==
+            userId).ToList();
+            return View(patients);
         }
 
         // GET: Patients/Details/5
@@ -47,8 +52,12 @@ namespace FIT5032_Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "Id,UserId")] Patient patient)
         {
+            patient.UserId = User.Identity.GetUserId();
+            ModelState.Clear();
+            TryValidateModel(patient);
             if (ModelState.IsValid)
             {
                 db.Patients.Add(patient);

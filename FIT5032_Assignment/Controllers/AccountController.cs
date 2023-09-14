@@ -91,6 +91,41 @@ namespace FIT5032_Assignment.Controllers
             }
         }
 
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(model);
+        //    }
+
+        //     This doesn't count login failures towards lockout only two-factor failures
+        //    var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+        //    switch (result)
+        //    {
+        //        case SignInStatus.Success:
+        //             Check for email confirmation
+        //            var user = await UserManager.FindByNameAsync(model.Email);
+        //            if (user != null && !await UserManager.IsEmailConfirmedAsync(user.Id))
+        //            {
+        //                ModelState.AddModelError("", "You need to confirm your email before logging in.");
+        //                return View(model);
+        //            }
+        //            return RedirectToLocal(returnUrl);
+
+        //        case SignInStatus.LockedOut:
+        //            return View("Lockout");
+        //        case SignInStatus.RequiresVerification:
+        //            return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+        //        case SignInStatus.Failure:
+        //        default:
+        //            ModelState.AddModelError("", "Invalid login attempt.");
+        //            return View(model);
+        //    }
+        //}
+
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -156,13 +191,15 @@ namespace FIT5032_Assignment.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    await UserManager.AddToRoleAsync(user.Id, "Patient");
 
+                    //return View("ConfirmEmail");
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -184,6 +221,26 @@ namespace FIT5032_Assignment.Controllers
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
+
+        //[AllowAnonymous]
+        //public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        //{
+        //    if (userId == null || code == null)
+        //    {
+        //        return View("Error");
+        //    }
+        //    var result = await UserManager.ConfirmEmailAsync(userId, code);
+        //    if (result.Succeeded)
+        //    {
+        //        // Optionally, automatically sign the user in after confirming their email
+        //        var user = await UserManager.FindByIdAsync(userId);
+        //        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    AddErrors(result);
+        //    return View(result.Succeeded ? "ConfirmEmail" : "Error");
+        //}
 
         //
         // GET: /Account/ForgotPassword

@@ -25,7 +25,6 @@ namespace FIT5032_Assignment.Models
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Clinic> Clinics { get; set; }
         public DbSet<FeedbackAndRating> Feedbacks { get; set; }
-        //public DbSet<Staff> StaffMembers { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

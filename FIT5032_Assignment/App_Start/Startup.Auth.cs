@@ -5,6 +5,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
+
 using FIT5032_Assignment.Models;
 
 namespace FIT5032_Assignment
@@ -18,6 +19,7 @@ namespace FIT5032_Assignment
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
@@ -58,11 +60,14 @@ namespace FIT5032_Assignment
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "844067041305-corbluim2d9n13lhqbqijoffe6esb2t8.apps.googleusercontent.com",
+                ClientSecret = "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"
+            });
+            
+
+  
         }
     }
 }
