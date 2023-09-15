@@ -4,6 +4,7 @@
     $stars.click(function () {
         let rating = $(this).data("rating");
         $("#ratingValue").val(rating);
+        $("#ratingDisplay").text("Selected Rating: " + rating); // Displaying the selected rating
         updateStars(rating);
     });
 

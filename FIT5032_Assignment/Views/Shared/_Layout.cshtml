@@ -25,13 +25,9 @@
 
                     @if (User.Identity.IsAuthenticated)
                     {
-
-
-
                         <li>@Html.ActionLink("Patient", "Index", "Patients")</li>
                         <li>@Html.ActionLink("Appointment", "Index", "Appointments", new { area = "" }, new { @class = "nav-link" })</li>
                         <li>@Html.ActionLink("Feedback", "Index", "FeedbackAndRatings", new { area = "" }, new { @class = "nav-link" })</li>
-
 
 
 

@@ -191,6 +191,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppointmentsController.cs" />
     <Compile Include="Controllers\ClinicsController.cs" />
+    <Compile Include="Controllers\FeedbackAndRatings1Controller.cs" />
     <Compile Include="Controllers\FeedbackAndRatingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -214,6 +215,10 @@
     <Compile Include="Migrations\202309150558460_32.cs" />
     <Compile Include="Migrations\202309150558460_32.designer.cs">
       <DependentUpon>202309150558460_32.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202309151009301_NameOfYourMigration.cs" />
+    <Compile Include="Migrations\202309151009301_NameOfYourMigration.designer.cs">
+      <DependentUpon>202309151009301_NameOfYourMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -250,7 +255,7 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="CustomerJsCss\css.css" />
-    <Content Include="CustomerJsCss\JavaScript.js" />
+    <Content Include="CustomerJsCss\feedback.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -331,6 +336,11 @@
     <Content Include="Views\Patients\Edit.cshtml" />
     <Content Include="Views\Patients\Index.cshtml" />
     <Content Include="Views\Account\Error.cshtml" />
+    <Content Include="Views\FeedbackAndRatings1\Create.cshtml" />
+    <Content Include="Views\FeedbackAndRatings1\Delete.cshtml" />
+    <Content Include="Views\FeedbackAndRatings1\Details.cshtml" />
+    <Content Include="Views\FeedbackAndRatings1\Edit.cshtml" />
+    <Content Include="Views\FeedbackAndRatings1\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -372,6 +382,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202309150558460_32.resx">
       <DependentUpon>202309150558460_32.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202309151009301_NameOfYourMigration.resx">
+      <DependentUpon>202309151009301_NameOfYourMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
