@@ -18,7 +18,7 @@ namespace FIT5032_Assignment.Controllers
         // GET: Appointments
         public ActionResult Index()
         {
-            var appointments = db.Appointments.Include(a => a.Clinic).Include(a => a.Feedback);
+            var appointments = db.Appointments.Include(a => a.Clinic).Include(a => a.Feedback).Include(a => a.Patient);
             return View(appointments.ToList());
         }
 
@@ -42,6 +42,7 @@ namespace FIT5032_Assignment.Controllers
         {
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName");
             ViewBag.AppointmentId = new SelectList(db.Feedbacks, "AppointmentId", "Comment");
+            ViewBag.PatientId = new SelectList(db.Patients, "Id", "UserId");
             return View();
         }
 
@@ -50,7 +51,7 @@ namespace FIT5032_Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AppointmentId,PatientName,Birthday,PhoneNumber,Email,ScanPart,Gender,Note,ClinicId,Title,Status,UserID")] Appointment appointment)
+        public ActionResult Create([Bind(Include = "AppointmentId,PatientId,ScanPart,Note,ClinicId,Title,IsConfirmed,UserId")] Appointment appointment)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +62,7 @@ namespace FIT5032_Assignment.Controllers
 
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", appointment.ClinicId);
             ViewBag.AppointmentId = new SelectList(db.Feedbacks, "AppointmentId", "Comment", appointment.AppointmentId);
+            ViewBag.PatientId = new SelectList(db.Patients, "Id", "UserId", appointment.PatientId);
             return View(appointment);
         }
 
@@ -78,6 +80,7 @@ namespace FIT5032_Assignment.Controllers
             }
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", appointment.ClinicId);
             ViewBag.AppointmentId = new SelectList(db.Feedbacks, "AppointmentId", "Comment", appointment.AppointmentId);
+            ViewBag.PatientId = new SelectList(db.Patients, "Id", "UserId", appointment.PatientId);
             return View(appointment);
         }
 
@@ -86,7 +89,7 @@ namespace FIT5032_Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AppointmentId,PatientName,Birthday,PhoneNumber,Email,ScanPart,Gender,Note,ClinicId,Title,Status,UserID")] Appointment appointment)
+        public ActionResult Edit([Bind(Include = "AppointmentId,PatientId,ScanPart,Note,ClinicId,Title,IsConfirmed,UserId")] Appointment appointment)
         {
             if (ModelState.IsValid)
             {
@@ -96,6 +99,7 @@ namespace FIT5032_Assignment.Controllers
             }
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", appointment.ClinicId);
             ViewBag.AppointmentId = new SelectList(db.Feedbacks, "AppointmentId", "Comment", appointment.AppointmentId);
+            ViewBag.PatientId = new SelectList(db.Patients, "Id", "UserId", appointment.PatientId);
             return View(appointment);
         }
 

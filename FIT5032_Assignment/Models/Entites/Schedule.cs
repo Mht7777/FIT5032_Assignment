@@ -18,5 +18,8 @@ namespace FIT5032_Assignment.Models.Entites
         public int ClinicId { get; set; }
         public Clinic Clinic { get; set; }
 
+        public int? AppointmentId { get; set; }
+        public virtual Appointment Appointment { get; set; }
+
     }
 }

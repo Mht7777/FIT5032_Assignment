@@ -13,6 +13,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Appointment.ScanPart)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Clinic.ClinicName)
         </th>
         <th>
@@ -26,6 +29,9 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Appointment.ScanPart)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Clinic.ClinicName)
         </td>

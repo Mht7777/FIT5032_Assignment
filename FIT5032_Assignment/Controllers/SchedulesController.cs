@@ -18,7 +18,7 @@ namespace FIT5032_Assignment.Controllers
         // GET: Schedules
         public ActionResult Index()
         {
-            var schedules = db.Schedules.Include(s => s.Clinic);
+            var schedules = db.Schedules.Include(s => s.Appointment).Include(s => s.Clinic);
             return View(schedules.ToList());
         }
 
@@ -40,6 +40,7 @@ namespace FIT5032_Assignment.Controllers
         // GET: Schedules/Create
         public ActionResult Create()
         {
+            ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "ScanPart");
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName");
             return View();
         }
@@ -49,7 +50,7 @@ namespace FIT5032_Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ScheduleId,TimeSlot,IsOccupied,ClinicId")] Schedule schedule)
+        public ActionResult Create([Bind(Include = "ScheduleId,TimeSlot,IsOccupied,ClinicId,AppointmentId")] Schedule schedule)
         {
             if (ModelState.IsValid)
             {
@@ -58,6 +59,7 @@ namespace FIT5032_Assignment.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "ScanPart", schedule.AppointmentId);
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", schedule.ClinicId);
             return View(schedule);
         }
@@ -74,6 +76,7 @@ namespace FIT5032_Assignment.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "ScanPart", schedule.AppointmentId);
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", schedule.ClinicId);
             return View(schedule);
         }
@@ -83,7 +86,7 @@ namespace FIT5032_Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ScheduleId,TimeSlot,IsOccupied,ClinicId")] Schedule schedule)
+        public ActionResult Edit([Bind(Include = "ScheduleId,TimeSlot,IsOccupied,ClinicId,AppointmentId")] Schedule schedule)
         {
             if (ModelState.IsValid)
             {
@@ -91,6 +94,7 @@ namespace FIT5032_Assignment.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "ScanPart", schedule.AppointmentId);
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", schedule.ClinicId);
             return View(schedule);
         }
