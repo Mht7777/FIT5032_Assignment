@@ -40,7 +40,7 @@ namespace FIT5032_Assignment.Controllers
         // GET: FeedbackAndRatings/Create
         public ActionResult Create()
         {
-            ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "PatientName");
+            ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "ScanPart");
             return View();
         }
 
@@ -58,7 +58,7 @@ namespace FIT5032_Assignment.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "PatientName", feedbackAndRating.AppointmentId);
+            ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "ScanPart", feedbackAndRating.AppointmentId);
             return View(feedbackAndRating);
         }
 
@@ -74,7 +74,7 @@ namespace FIT5032_Assignment.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "PatientName", feedbackAndRating.AppointmentId);
+            ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "ScanPart", feedbackAndRating.AppointmentId);
             return View(feedbackAndRating);
         }
 
@@ -91,7 +91,7 @@ namespace FIT5032_Assignment.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "PatientName", feedbackAndRating.AppointmentId);
+            ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "ScanPart", feedbackAndRating.AppointmentId);
             return View(feedbackAndRating);
         }
 

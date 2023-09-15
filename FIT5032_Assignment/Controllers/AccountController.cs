@@ -199,6 +199,7 @@ namespace FIT5032_Assignment.Controllers
                     //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     await UserManager.AddToRoleAsync(user.Id, "Patient");
 
+
                     //return View("ConfirmEmail");
                     return RedirectToAction("Index", "Home");
                 }

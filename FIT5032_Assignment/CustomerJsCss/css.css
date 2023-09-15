@@ -1,0 +1,11 @@
+﻿.star {
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin-right: 5px;
+    transition: color 0.3s;
+}
+
+    .star:hover,
+    .star:hover ~ .star {
+        color: #ffc107; /* Bootstrap yellow color */
+    }
