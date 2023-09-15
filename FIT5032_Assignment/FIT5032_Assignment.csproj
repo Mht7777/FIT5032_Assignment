@@ -191,7 +191,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppointmentsController.cs" />
     <Compile Include="Controllers\ClinicsController.cs" />
-    <Compile Include="Controllers\FeedbackAndRatings1Controller.cs" />
     <Compile Include="Controllers\FeedbackAndRatingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -320,11 +319,6 @@
     <Content Include="Views\Clinics\Details.cshtml" />
     <Content Include="Views\Clinics\Edit.cshtml" />
     <Content Include="Views\Clinics\Index.cshtml" />
-    <Content Include="Views\FeedbackAndRatings\Create.cshtml" />
-    <Content Include="Views\FeedbackAndRatings\Delete.cshtml" />
-    <Content Include="Views\FeedbackAndRatings\Details.cshtml" />
-    <Content Include="Views\FeedbackAndRatings\Edit.cshtml" />
-    <Content Include="Views\FeedbackAndRatings\Index.cshtml" />
     <Content Include="Views\Schedules\Create.cshtml" />
     <Content Include="Views\Schedules\Delete.cshtml" />
     <Content Include="Views\Schedules\Details.cshtml" />
@@ -336,11 +330,11 @@
     <Content Include="Views\Patients\Edit.cshtml" />
     <Content Include="Views\Patients\Index.cshtml" />
     <Content Include="Views\Account\Error.cshtml" />
-    <Content Include="Views\FeedbackAndRatings1\Create.cshtml" />
-    <Content Include="Views\FeedbackAndRatings1\Delete.cshtml" />
-    <Content Include="Views\FeedbackAndRatings1\Details.cshtml" />
-    <Content Include="Views\FeedbackAndRatings1\Edit.cshtml" />
-    <Content Include="Views\FeedbackAndRatings1\Index.cshtml" />
+    <Content Include="Views\FeedbackAndRatings\Create.cshtml" />
+    <Content Include="Views\FeedbackAndRatings\Delete.cshtml" />
+    <Content Include="Views\FeedbackAndRatings\Details.cshtml" />
+    <Content Include="Views\FeedbackAndRatings\Edit.cshtml" />
+    <Content Include="Views\FeedbackAndRatings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
