@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using FIT5032_Assignment.Models;
 using FIT5032_Assignment.Models.Entites;
+using Microsoft.Owin.BuilderProperties;
 
 namespace FIT5032_Assignment.Controllers
 {
@@ -40,6 +41,20 @@ namespace FIT5032_Assignment.Controllers
             return View(appointment);
         }
 
+        //get addrss list from database
+        public List<string> GetAddress()
+        {
+            var addresses = db.Clinics.Select(c => c.Address).ToList();
+            return addresses;
+        }
+
+        public JsonResult GetAddresses()
+        {
+            var addresses = GetAddress();
+            return Json(addresses, JsonRequestBehavior.AllowGet);
+        }
+
+
         // GET: Appointments/Create
         public ActionResult Create()
         {
@@ -47,6 +62,7 @@ namespace FIT5032_Assignment.Controllers
             ViewBag.AppointmentId = new SelectList(db.Feedbacks, "AppointmentId", "Comment");
             ViewBag.PatientId = new SelectList(db.Patients, "Id", "UserId");
             ViewBag.ScanPartList = new SelectList(GetScanParts());
+            ViewBag.AddressList = GetAddress();
 
             return View();
         }

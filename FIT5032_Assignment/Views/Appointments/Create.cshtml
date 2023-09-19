@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
 <h2>Booking Appointment</h2>
@@ -12,7 +13,7 @@
 {
     @Html.AntiForgeryToken()
     <hr />
-    <div class="form-horizontal container-xl  m-2 p-1 border-bottom border-end border-2 rounded ">
+    <div class="form-horizontal container-xl  m-2 p-1  border-bottom border-end border-5 rounded ">
 
 
         <!-- Progress bar -->
@@ -52,11 +53,17 @@
             <div class="booking-step" id="step-2">
                 <h3>2. Select Clinic</h3>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.ClinicId, "ClinicId", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("ClinicId", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ClinicId, "", new { @class = "text-danger" })
+                    <div id="map" style="width: 100%; height: 400px;"></div>
+                    <div class="mt-3" style="display:none">
+                        <h4>Clinic Addresses:</h4>
+                        <ul id="clinic-address-list">
+                            @foreach (var address in ViewBag.AddressList)
+                            {
+                                <li class="address">@address</li>
+                            }
+                        </ul>
                     </div>
+
                 </div>
                 <button class="btn btn-secondary prev-btn" data-prev="1">Previous</button>
                 <button class="btn btn-primary next-btn" data-next="3">Next</button>
@@ -132,9 +139,12 @@
 
 <div>
     @Html.ActionLink("Back to List", "Index")
+
+
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/CustomerJsCss/Appointment.js")
+
 }
