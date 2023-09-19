@@ -11,9 +11,12 @@ using FIT5032_Assignment.Models.Entites;
 
 namespace FIT5032_Assignment.Controllers
 {
+
+
     public class AppointmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        
 
         // GET: Appointments
         public ActionResult Index()
@@ -43,6 +46,8 @@ namespace FIT5032_Assignment.Controllers
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName");
             ViewBag.AppointmentId = new SelectList(db.Feedbacks, "AppointmentId", "Comment");
             ViewBag.PatientId = new SelectList(db.Patients, "Id", "UserId");
+            ViewBag.ScanPartList = new SelectList(GetScanParts());
+
             return View();
         }
 
@@ -53,6 +58,8 @@ namespace FIT5032_Assignment.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "AppointmentId,PatientId,ScanPart,Note,ClinicId,Title,IsConfirmed,UserId")] Appointment appointment)
         {
+            ViewBag.ScanPartList = new SelectList(GetScanParts());
+
             if (ModelState.IsValid)
             {
                 db.Appointments.Add(appointment);
@@ -63,6 +70,7 @@ namespace FIT5032_Assignment.Controllers
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", appointment.ClinicId);
             ViewBag.AppointmentId = new SelectList(db.Feedbacks, "AppointmentId", "Comment", appointment.AppointmentId);
             ViewBag.PatientId = new SelectList(db.Patients, "Id", "UserId", appointment.PatientId);
+
             return View(appointment);
         }
 
@@ -137,5 +145,23 @@ namespace FIT5032_Assignment.Controllers
             }
             base.Dispose(disposing);
         }
+
+        private IEnumerable<string> GetScanParts()
+        {
+            var scanParts = new List<string>
+            {
+                "Abdomen", "Pelvic", "Obstetric", "Transvaginal", "Cardiac",
+                "Renal", "Thyroid", "Breast", "Musculoskeletal", "Carotid",
+                "Doppler", "Prostate", "Testicular/Scrotal", "Soft tissue",
+                "Vascular", "Fetal echo", "Lung", "Intestinal", "Liver",
+                "Gallbladder", "Pancreas", "Spleen", "Transesophageal echocardiogram"
+            };
+            return scanParts;
+
+        }
+
+
     }
+
+
 }
