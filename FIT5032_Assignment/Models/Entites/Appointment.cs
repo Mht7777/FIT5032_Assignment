@@ -13,8 +13,8 @@ namespace FIT5032_Assignment.Models.Entites
         public int AppointmentId { get; set; }
 
         [Required]
-        public int PatientId { get; set; } // Foreign key to Patient
-        public virtual Patient Patient { get; set; } // Navigation property
+        public int PatientId { get; set; } 
+        public virtual Patient Patient { get; set; } 
 
         [Required]
         public string ScanPart { get; set; }
@@ -30,11 +30,25 @@ namespace FIT5032_Assignment.Models.Entites
 
         [Required]
         public bool IsConfirmed { get; set; }
+
+
         [Required]
-        public DateTime AppointmentDateTime { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime AppointmentDate { get; set; }
+
+        [Required]
+        [DataType(DataType.Time)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
+        public DateTime StartTime { get; set; }
+
+        [Required]
+        [DataType(DataType.Time)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
+        public DateTime EndTime { get; set; }
 
 
-        public string UserId { get; set; }  // Relates to the AspNetUsers table
+        public string UserId { get; set; }  
 
         public virtual Clinic Clinic { get; set; }
         public virtual FeedbackAndRating Feedback { get; set; }

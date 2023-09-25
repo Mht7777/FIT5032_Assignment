@@ -230,6 +230,10 @@
     <Compile Include="Migrations\202309251322106_remove_sched.designer.cs">
       <DependentUpon>202309251322106_remove_sched.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202309251339379_intergratt_time_2_appointmnet.cs" />
+    <Compile Include="Migrations\202309251339379_intergratt_time_2_appointmnet.designer.cs">
+      <DependentUpon>202309251339379_intergratt_time_2_appointmnet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entites\Appointment.cs" />
@@ -395,6 +399,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202309251322106_remove_sched.resx">
       <DependentUpon>202309251322106_remove_sched.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202309251339379_intergratt_time_2_appointmnet.resx">
+      <DependentUpon>202309251339379_intergratt_time_2_appointmnet.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

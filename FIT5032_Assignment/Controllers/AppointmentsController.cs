@@ -15,7 +15,6 @@ namespace FIT5032_Assignment.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-
         // GET: Appointments
         public ActionResult Index()
         {
@@ -69,10 +68,8 @@ namespace FIT5032_Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AppointmentId,PatientId,ScanPart,Note,ClinicId,Title,IsConfirmed,UserId")] Appointment appointment)
+        public ActionResult Create([Bind(Include = "AppointmentId,PatientId,ScanPart,Note,ClinicId,Title,IsConfirmed,AppointmentDateTime,UserId")] Appointment appointment)
         {
-            ViewBag.ScanPartList = new SelectList(GetScanParts());
-
             if (ModelState.IsValid)
             {
                 db.Appointments.Add(appointment);
@@ -83,7 +80,6 @@ namespace FIT5032_Assignment.Controllers
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", appointment.ClinicId);
             ViewBag.AppointmentId = new SelectList(db.Feedbacks, "AppointmentId", "Comment", appointment.AppointmentId);
             ViewBag.PatientId = new SelectList(db.Patients, "Id", "UserId", appointment.PatientId);
-
             return View(appointment);
         }
 
@@ -110,7 +106,7 @@ namespace FIT5032_Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AppointmentId,PatientId,ScanPart,Note,ClinicId,Title,IsConfirmed,UserId")] Appointment appointment)
+        public ActionResult Edit([Bind(Include = "AppointmentId,PatientId,ScanPart,Note,ClinicId,Title,IsConfirmed,AppointmentDateTime,UserId")] Appointment appointment)
         {
             if (ModelState.IsValid)
             {
@@ -172,8 +168,5 @@ namespace FIT5032_Assignment.Controllers
             return scanParts;
 
         }
-
-
     }
-
 }
