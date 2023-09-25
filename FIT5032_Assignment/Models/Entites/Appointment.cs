@@ -30,6 +30,9 @@ namespace FIT5032_Assignment.Models.Entites
 
         [Required]
         public bool IsConfirmed { get; set; }
+        [Required]
+        public DateTime AppointmentDateTime { get; set; }
+
 
         public string UserId { get; set; }  // Relates to the AspNetUsers table
 

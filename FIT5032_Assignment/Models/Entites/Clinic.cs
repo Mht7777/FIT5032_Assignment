@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -12,7 +13,6 @@ namespace FIT5032_Assignment.Models.Entites
 
         public Clinic() { 
 
-            Schedules = new HashSet<Schedule>();
             Appointments = new HashSet<Appointment>();
         }
         [Key]
@@ -25,8 +25,6 @@ namespace FIT5032_Assignment.Models.Entites
         public string Address { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; }
-        public virtual ICollection<Schedule> Schedules { get; set; }
-
 
 
     }

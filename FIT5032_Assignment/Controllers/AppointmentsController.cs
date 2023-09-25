@@ -8,16 +8,13 @@ using System.Web;
 using System.Web.Mvc;
 using FIT5032_Assignment.Models;
 using FIT5032_Assignment.Models.Entites;
-using Microsoft.Owin.BuilderProperties;
 
 namespace FIT5032_Assignment.Controllers
 {
-
-
     public class AppointmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        
+
 
         // GET: Appointments
         public ActionResult Index()
@@ -178,6 +175,5 @@ namespace FIT5032_Assignment.Controllers
 
 
     }
-
 
 }

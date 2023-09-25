@@ -25,7 +25,6 @@ namespace FIT5032_Assignment.Models
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Clinic> Clinics { get; set; }
         public DbSet<FeedbackAndRating> Feedbacks { get; set; }
-        public DbSet<Schedule> Schedules { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -35,11 +34,7 @@ namespace FIT5032_Assignment.Models
 
 
             // Schedule and Clinic Relationship
-            modelBuilder.Entity<Schedule>()
-                .HasRequired(s => s.Clinic)
-                .WithMany(c => c.Schedules)
-                .HasForeignKey(s => s.ClinicId)
-                .WillCascadeOnDelete(false);
+      
 
             // Clinic and Appointment Relationship
             modelBuilder.Entity<Appointment>()

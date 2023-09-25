@@ -75,6 +75,9 @@
                 <h3>3. Choose time</h3>
                 <div class="container ">
                     <input type="text" id="datepicker" class="form-control" placeholder="Please pick a date">
+                    <div id="selectedDate"></div>
+
+                    <div id="timeSlotContainer"></div>
                 </div>
 
                 <button class="btn btn-secondary prev-btn" data-prev="2">Previous</button>
@@ -156,6 +159,41 @@
         autoclose: true,
         todayHighlight: true,
         startDate: new Date()
+    }).on('changeDate', function (e) {
+        var formattedDate = e.format('mm-dd-yyyy');
+        console.log(formattedDate);
+        getTimeSlots(selectedDate);
+
     });
-    $('#datepicker').datepicker("setDate", new Date());
+
+    function getTimeSlots(date) {
+        $.ajax({
+            url: '/AppointmentsController/GetBookedSlots',
+            type: 'GET',
+            data: { date: date },
+            success: function (bookedSlots) {
+                // Assume allSlots is a list of all possible time slots
+                var allSlots = generateAllSlots();
+                var timeSlotContainer = $('#timeSlotContainer');
+                timeSlotContainer.empty();
+
+                allSlots.forEach(function (slot) {
+                    var isBooked = bookedSlots.includes(slot);
+                    var slotElement = $('<div>')
+                        .addClass('time-slot')
+                        .addClass(isBooked ? 'booked' : 'available')
+                        .text(slot);
+
+                    if (!isBooked) {
+                        slotElement.click(function () {
+                            // handle time slot selection...
+                        });
+                    }
+
+                    timeSlotContainer.append(slotElement);
+                });
+            }
+        });
+    }
+
 </script>

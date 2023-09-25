@@ -195,7 +195,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PatientsController.cs" />
-    <Compile Include="Controllers\SchedulesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -227,12 +226,15 @@
     <Compile Include="Migrations\202309250736225_schd.designer.cs">
       <DependentUpon>202309250736225_schd.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202309251322106_remove_sched.cs" />
+    <Compile Include="Migrations\202309251322106_remove_sched.designer.cs">
+      <DependentUpon>202309251322106_remove_sched.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entites\Appointment.cs" />
     <Compile Include="Models\Entites\Clinic.cs" />
     <Compile Include="Models\Entites\FeedbackAndRating.cs" />
-    <Compile Include="Models\Entites\Schedule.cs" />
     <Compile Include="Models\Entites\Patient.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -319,16 +321,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Appointments\Create.cshtml" />
-    <Content Include="Views\Appointments\Delete.cshtml" />
-    <Content Include="Views\Appointments\Details.cshtml" />
-    <Content Include="Views\Appointments\Edit.cshtml" />
-    <Content Include="Views\Appointments\Index.cshtml" />
-    <Content Include="Views\Clinics\Create.cshtml" />
-    <Content Include="Views\Clinics\Delete.cshtml" />
-    <Content Include="Views\Clinics\Details.cshtml" />
-    <Content Include="Views\Clinics\Edit.cshtml" />
-    <Content Include="Views\Clinics\Index.cshtml" />
     <Content Include="Views\Patients\Create.cshtml" />
     <Content Include="Views\Patients\Delete.cshtml" />
     <Content Include="Views\Patients\Details.cshtml" />
@@ -340,11 +332,16 @@
     <Content Include="Views\FeedbackAndRatings\Details.cshtml" />
     <Content Include="Views\FeedbackAndRatings\Edit.cshtml" />
     <Content Include="Views\FeedbackAndRatings\Index.cshtml" />
-    <Content Include="Views\Schedules\Create.cshtml" />
-    <Content Include="Views\Schedules\Delete.cshtml" />
-    <Content Include="Views\Schedules\Details.cshtml" />
-    <Content Include="Views\Schedules\Edit.cshtml" />
-    <Content Include="Views\Schedules\Index.cshtml" />
+    <Content Include="Views\Clinics\Create.cshtml" />
+    <Content Include="Views\Clinics\Delete.cshtml" />
+    <Content Include="Views\Clinics\Details.cshtml" />
+    <Content Include="Views\Clinics\Edit.cshtml" />
+    <Content Include="Views\Clinics\Index.cshtml" />
+    <Content Include="Views\Appointments\Delete.cshtml" />
+    <Content Include="Views\Appointments\Details.cshtml" />
+    <Content Include="Views\Appointments\Edit.cshtml" />
+    <Content Include="Views\Appointments\Index.cshtml" />
+    <Content Include="Views\Appointments\Create.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -395,6 +392,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202309250736225_schd.resx">
       <DependentUpon>202309250736225_schd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202309251322106_remove_sched.resx">
+      <DependentUpon>202309251322106_remove_sched.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
