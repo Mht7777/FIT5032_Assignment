@@ -19,7 +19,10 @@
             @Html.DisplayNameFor(model => model.Clinic.ClinicName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TimeSlot)
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.IsOccupied)
@@ -36,7 +39,10 @@
             @Html.DisplayFor(modelItem => item.Clinic.ClinicName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TimeSlot)
+            @Html.DisplayFor(modelItem => item.StartTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndTime)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.IsOccupied)

@@ -50,7 +50,7 @@ namespace FIT5032_Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ScheduleId,TimeSlot,IsOccupied,ClinicId,AppointmentId")] Schedule schedule)
+        public ActionResult Create([Bind(Include = "ScheduleId,StartTime,EndTime,IsOccupied,ClinicId,AppointmentId")] Schedule schedule)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace FIT5032_Assignment.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ScheduleId,TimeSlot,IsOccupied,ClinicId,AppointmentId")] Schedule schedule)
+        public ActionResult Edit([Bind(Include = "ScheduleId,StartTime,EndTime,IsOccupied,ClinicId,AppointmentId")] Schedule schedule)
         {
             if (ModelState.IsValid)
             {

@@ -219,6 +219,14 @@
     <Compile Include="Migrations\202309151009301_NameOfYourMigration.designer.cs">
       <DependentUpon>202309151009301_NameOfYourMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202309250730363_A.cs" />
+    <Compile Include="Migrations\202309250730363_A.designer.cs">
+      <DependentUpon>202309250730363_A.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202309250736225_schd.cs" />
+    <Compile Include="Migrations\202309250736225_schd.designer.cs">
+      <DependentUpon>202309250736225_schd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entites\Appointment.cs" />
@@ -276,6 +284,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\notify.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -320,11 +329,6 @@
     <Content Include="Views\Clinics\Details.cshtml" />
     <Content Include="Views\Clinics\Edit.cshtml" />
     <Content Include="Views\Clinics\Index.cshtml" />
-    <Content Include="Views\Schedules\Create.cshtml" />
-    <Content Include="Views\Schedules\Delete.cshtml" />
-    <Content Include="Views\Schedules\Details.cshtml" />
-    <Content Include="Views\Schedules\Edit.cshtml" />
-    <Content Include="Views\Schedules\Index.cshtml" />
     <Content Include="Views\Patients\Create.cshtml" />
     <Content Include="Views\Patients\Delete.cshtml" />
     <Content Include="Views\Patients\Details.cshtml" />
@@ -336,6 +340,11 @@
     <Content Include="Views\FeedbackAndRatings\Details.cshtml" />
     <Content Include="Views\FeedbackAndRatings\Edit.cshtml" />
     <Content Include="Views\FeedbackAndRatings\Index.cshtml" />
+    <Content Include="Views\Schedules\Create.cshtml" />
+    <Content Include="Views\Schedules\Delete.cshtml" />
+    <Content Include="Views\Schedules\Details.cshtml" />
+    <Content Include="Views\Schedules\Edit.cshtml" />
+    <Content Include="Views\Schedules\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -380,6 +389,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202309151009301_NameOfYourMigration.resx">
       <DependentUpon>202309151009301_NameOfYourMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202309250730363_A.resx">
+      <DependentUpon>202309250730363_A.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202309250736225_schd.resx">
+      <DependentUpon>202309250736225_schd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
