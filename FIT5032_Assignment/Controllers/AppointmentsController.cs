@@ -59,7 +59,7 @@ namespace FIT5032_Assignment.Controllers
             ViewBag.PatientId = new SelectList(db.Patients, "Id", "UserId");
             ViewBag.ScanPartList = new SelectList(GetScanParts());
             ViewBag.AddressList = GetAddress();
-
+            ViewBag.Time = AvailableTime();
             return View();
         }
 
@@ -168,5 +168,76 @@ namespace FIT5032_Assignment.Controllers
             return scanParts;
 
         }
+
+        [HttpGet]
+        public JsonResult GetBookedSlots(DateTime selectedDate)
+        {
+            var clinicId = 1;
+            var bookedSlots = db.Appointments
+                .Where(a => a.ClinicId == clinicId && a.AppointmentDate == selectedDate.Date)
+                .Select(a => new { a.StartTime, a.EndTime })
+                .ToList();
+
+            return Json(bookedSlots, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult CheckTime(string selectedDate)
+        {
+            if (!string.IsNullOrEmpty(selectedDate))
+            {
+                // The selected date has been passed to the controller
+                // You can use it as needed
+                // Optionally, you can return a response
+                return Json(new { success = true, message = "Date received successfully" });
+            }
+            else
+            {
+                // The selected date was not received
+                // Handle the case where no date is provided
+                return Json(new { success = false, message = "Date not received" });
+            }
+        }
+
+        public List<Appointment> AvailableTime()
+        {
+            var clinicid = 1;
+            var time = db.Clinics.Find(clinicid).Appointments.Select(a =>
+                new Appointment
+                {
+                    AppointmentDate = a.AppointmentDate,
+                    StartTime = a.StartTime,
+                    EndTime = a.EndTime
+                }).ToList();
+            return time;
+        }
+
+
+
+
+        [HttpGet]
+        public JsonResult GetAppointmentTimes(string date)
+        {
+            DateTime selectedDate;
+            if (!DateTime.TryParse(date, out selectedDate))
+            {
+                return Json(new { error = "Invalid date." }, JsonRequestBehavior.AllowGet);
+            }
+
+            var unavailableTimes = db.Appointments
+                .Where(a => DbFunctions.TruncateTime(a.AppointmentDate) == selectedDate.Date)
+                .ToList()  // Pull data into memory
+                .Select(a => new
+                {
+                    StartTime = a.StartTime.ToString("HH:mm"),
+                    EndTime = a.EndTime.ToString("HH:mm")
+                });
+
+            return Json(unavailableTimes, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
     }
 }

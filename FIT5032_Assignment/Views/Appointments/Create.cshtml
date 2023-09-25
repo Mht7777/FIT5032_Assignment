@@ -75,9 +75,28 @@
                 <h3>3. Choose time</h3>
                 <div class="container ">
                     <input type="text" id="datepicker" class="form-control" placeholder="Please pick a date">
-                    <div id="selectedDate"></div>
 
-                    <div id="timeSlotContainer"></div>
+                    <div class="btn-group" role="group" aria-label="Time Slot Selection" id="timeSlotSelection" style="display:none">
+                        <input type="radio" class="btn-check" name="timeSlot" id="timeSlot1" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="timeSlot1">09:00-10:00</label>
+
+                        <input type="radio" class="btn-check" name="timeSlot" id="timeSlot2" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="timeSlot2">10:00-11:00</label>
+
+                        <input type="radio" class="btn-check" name="timeSlot" id="timeSlot3" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="timeSlot3">11:00-12:00</label>
+
+                        <!-- ... additional time slots ... -->
+
+                        <input type="radio" class="btn-check" name="timeSlot" id="timeSlot4" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="timeSlot4">12:00-13:00</label>
+                    </div>
+
+  
+
+                    <span id="appointmentList"></span>
+
+
                 </div>
 
                 <button class="btn btn-secondary prev-btn" data-prev="2">Previous</button>
@@ -158,42 +177,44 @@
         daysOfWeekHighlighted: "6,0",
         autoclose: true,
         todayHighlight: true,
+        format: 'yyyy-mm-dd',
         startDate: new Date()
     }).on('changeDate', function (e) {
-        var formattedDate = e.format('mm-dd-yyyy');
-        console.log(formattedDate);
-        getTimeSlots(selectedDate);
-
+        var date = $('#datepicker').val();
+        console.log(date);
+        fetchData(date);
+        $('#timeSlotSelection').show();
     });
-
-    function getTimeSlots(date) {
+    function fetchData(date) {
         $.ajax({
-            url: '/AppointmentsController/GetBookedSlots',
+            url: '/Appointments/GetAppointmentTimes',
             type: 'GET',
             data: { date: date },
-            success: function (bookedSlots) {
-                // Assume allSlots is a list of all possible time slots
-                var allSlots = generateAllSlots();
-                var timeSlotContainer = $('#timeSlotContainer');
-                timeSlotContainer.empty();
+            dataType: 'json',
+            success: function (data) {
+                // Loop through each item in the returned data
+                $.each(data, function (index, item) {
+                    // Format the start and end times to match the radio button labels
+                    var timeSlotText = item.StartTime + '-' + item.EndTime;
 
-                allSlots.forEach(function (slot) {
-                    var isBooked = bookedSlots.includes(slot);
-                    var slotElement = $('<div>')
-                        .addClass('time-slot')
-                        .addClass(isBooked ? 'booked' : 'available')
-                        .text(slot);
+                    // Disable any radio buttons that match this time slot
+                    $('label.btn').each(function () {
+                        if ($(this).text() === timeSlotText) {
+                            $(this).prev().prop('disabled', true);
+                            $(this).addClass('disabled');
+                            $(this).removeClass('btn-outline-primary');
+                            $(this).addClass('btn-outline-secondary');
 
-                    if (!isBooked) {
-                        slotElement.click(function () {
-                            // handle time slot selection...
-                        });
-                    }
-
-                    timeSlotContainer.append(slotElement);
+                        }
+                    });
                 });
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
             }
         });
     }
+
+
 
 </script>
