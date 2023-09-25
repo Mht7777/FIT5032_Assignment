@@ -73,8 +73,10 @@
             <!-- Step 3: Choose time -->
             <div class="booking-step" id="step-3">
                 <h3>3. Choose time</h3>
-                <!-- Your Note and Title inputs go here -->
-                <!-- ... -->
+                <div class="container ">
+                    <input type="text" id="datepicker" class="form-control" placeholder="Please pick a date">
+                </div>
+
                 <button class="btn btn-secondary prev-btn" data-prev="2">Previous</button>
                 <button class="btn btn-primary next-btn" data-next="4">Next</button>
             </div>
@@ -145,6 +147,15 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/CustomerJsCss/Appointment.js")
-
 }
+<script src="~/CustomerJsCss/Appointment.js"></script>
+<script>
+    $('#datepicker').datepicker({
+        weekStart: 1,
+        daysOfWeekHighlighted: "6,0",
+        autoclose: true,
+        todayHighlight: true,
+        startDate: new Date()
+    });
+    $('#datepicker').datepicker("setDate", new Date());
+</script>
