@@ -13,10 +13,6 @@ namespace FIT5032_Assignment.Models.Entites
         public int AppointmentId { get; set; }
 
         [Required]
-        public int PatientId { get; set; } 
-        public virtual Patient Patient { get; set; } 
-
-        [Required]
         public string ScanPart { get; set; }
 
         [MaxLength(500)]
@@ -27,6 +23,24 @@ namespace FIT5032_Assignment.Models.Entites
 
         [Required]
         public string Title { get; set; }
+
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+
+        public string LastName { get; set; }
+
+        [Required]
+        public DateTime Birthday { get; set; }
+
+        [Required]
+        public string PhoneNumber { get; set; }
+
+        [Required]
+        public string Email { get; set; }
+
+        [Required]
+        public string Gender { get; set; }
 
         [Required]
         public bool IsConfirmed { get; set; }

@@ -194,7 +194,6 @@
     <Compile Include="Controllers\FeedbackAndRatingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PatientsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -234,12 +233,15 @@
     <Compile Include="Migrations\202309251339379_intergratt_time_2_appointmnet.designer.cs">
       <DependentUpon>202309251339379_intergratt_time_2_appointmnet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202310030756121_remove-patient.cs" />
+    <Compile Include="Migrations\202310030756121_remove-patient.designer.cs">
+      <DependentUpon>202310030756121_remove-patient.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entites\Appointment.cs" />
     <Compile Include="Models\Entites\Clinic.cs" />
     <Compile Include="Models\Entites\FeedbackAndRating.cs" />
-    <Compile Include="Models\Entites\Patient.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -325,11 +327,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Patients\Create.cshtml" />
-    <Content Include="Views\Patients\Delete.cshtml" />
-    <Content Include="Views\Patients\Details.cshtml" />
-    <Content Include="Views\Patients\Edit.cshtml" />
-    <Content Include="Views\Patients\Index.cshtml" />
     <Content Include="Views\Account\Error.cshtml" />
     <Content Include="Views\FeedbackAndRatings\Create.cshtml" />
     <Content Include="Views\FeedbackAndRatings\Delete.cshtml" />
@@ -402,6 +399,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202309251339379_intergratt_time_2_appointmnet.resx">
       <DependentUpon>202309251339379_intergratt_time_2_appointmnet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310030756121_remove-patient.resx">
+      <DependentUpon>202310030756121_remove-patient.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

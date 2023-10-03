@@ -40,7 +40,7 @@
                 <div class="form-group ">
                     @Html.LabelFor(model => model.ScanPart, new { @class = "control-label col-md-2" })
                     <div class="col-md-10 ">
-                        @Html.DropDownListFor(model => model.ScanPart, (IEnumerable<SelectListItem>)ViewBag.ScanPartList, "-- Select Scan Part --", new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.ScanPart, (IEnumerable<SelectListItem>)ViewBag.ScanPartList, "-- Select Scan Part --", new { @class = "form-control", id = "scanPartDropdown" })
                         @Html.ValidationMessageFor(model => model.ScanPart, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -53,8 +53,8 @@
             <div class="booking-step" id="step-2">
                 <h3>2. Select Clinic</h3>
                 <div class="form-group">
-                    <div id="map" style="width: 100%; height: 400px;"></div>
-                    <div class="mt-3" style="display:none">
+                    <div id="map" style="width: 100%; height: 400px; "></div>
+                    <div class="mt-3" style="">
                         <h4>Clinic Addresses:</h4>
                         <ul id="clinic-address-list">
                             @foreach (var address in ViewBag.AddressList)
@@ -63,6 +63,10 @@
                             }
                         </ul>
                     </div>
+
+
+
+
 
                 </div>
                 <button class="btn btn-secondary prev-btn" data-prev="1">Previous</button>
@@ -108,6 +112,79 @@
                 <h3>4. Provide User Information</h3>
 
                 <div class="form-group">
+                    ClinicID: @ViewBag.CurrentUserID
+                    <div class="col-md-10">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    ScanPart: <span id="selectedScan"></span>
+                    @Html.ValidationMessageFor(model => model.ScanPart, "", new { @class = "text-danger" })
+                    <div class="col-md-10">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Title, (IEnumerable<SelectListItem>)ViewBag.TitleList, "-- Select Title --", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Gender, (IEnumerable<SelectListItem>)ViewBag.GenderList, "-- Select Gender --", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @*<input type="text" id="birthdayPicker" class="form-control" placeholder="Please pick a date">*@
+                        @Html.TextBoxFor(model => model.Birthday, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "birthdayPicker", placeholder = "Please pick a date" })
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
                     @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
@@ -115,48 +192,26 @@
                     </div>
                 </div>
 
-
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    Clinic Address:
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        @ViewBag.ClinicAddress
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                    Time:
+                    <div class="col-md-10" id="selectedDate">
+                        @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2",@id="startTime" })
+                        @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" , @id = "endTime" })
+
                     </div>
                 </div>
-
-
 
                 <button class="btn btn-secondary prev-btn" data-prev="3">Previous</button>
                 <input type="submit" value="Create" class="btn btn-default" id="booking-submit" />
             </div>
 
-
-
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.IsConfirmed, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        <div class="checkbox">
-                            @Html.EditorFor(model => model.IsConfirmed)
-                            @Html.ValidationMessageFor(model => model.IsConfirmed, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                </div>*@
-
-
-
-            @*<div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Create" class="btn btn-default" />
-                    </div>
-                </div>*@
         </div>
     </div>
 }
@@ -172,6 +227,12 @@
 }
 <script src="~/CustomerJsCss/Appointment.js"></script>
 <script>
+    var selectedDate;
+    $('#scanPartDropdown').change(function () {
+        var selectedValue = $(this).val();
+        $('#selectedScan').text(selectedValue);
+    });
+
     $('#datepicker').datepicker({
         weekStart: 1,
         daysOfWeekHighlighted: "6,0",
@@ -180,11 +241,36 @@
         format: 'yyyy-mm-dd',
         startDate: new Date()
     }).on('changeDate', function (e) {
-        var date = $('#datepicker').val();
-        console.log(date);
-        fetchData(date);
+        selectedDate = $('#datepicker').val();
+        console.log(selectedDate);
+        fetchData(selectedDate);
         $('#timeSlotSelection').show();
+        updateSelectedTime();
+
     });
+
+    $('#birthdayPicker').datepicker({
+
+    }).on('changeDate', function (e) {
+
+
+    });
+
+    function updateSelectedTime() {
+        $('input[name="timeSlot"]').on('click', function () {
+            // Get the text from the corresponding label (time slot)
+            var selectedTimeText = $(this).next('label').text();
+            var time = selectedDate + ' ' + selectedTimeText;
+            console.log(selectedTimeText);
+            $('#startTime').text(time);
+            $('#endTime').text(time);
+
+        });
+    }
+
+    // Call the function to initialize the event listener
+
+
     function fetchData(date) {
         $.ajax({
             url: '/Appointments/GetAppointmentTimes',
@@ -196,7 +282,6 @@
                 $.each(data, function (index, item) {
                     // Format the start and end times to match the radio button labels
                     var timeSlotText = item.StartTime + '-' + item.EndTime;
-
                     // Disable any radio buttons that match this time slot
                     $('label.btn').each(function () {
                         if ($(this).text() === timeSlotText) {

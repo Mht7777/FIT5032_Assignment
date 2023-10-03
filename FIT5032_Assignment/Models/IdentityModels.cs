@@ -60,7 +60,5 @@ namespace FIT5032_Assignment.Models
         {
             return new ApplicationDbContext();
         }
-
-        public System.Data.Entity.DbSet<FIT5032_Assignment.Models.Entites.Patient> Patients { get; set; }
     }
 }
