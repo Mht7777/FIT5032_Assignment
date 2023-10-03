@@ -25,14 +25,6 @@
 
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.PatientId, "PatientId", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("PatientId", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.PatientId, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
-
 
             <!-- Step 1: Choose Scan Part -->
             <div class="booking-step " id="step-1">
@@ -55,13 +47,24 @@
                 <div class="form-group">
                     <div id="map" style="width: 100%; height: 400px; "></div>
                     <div class="mt-3" style="">
-                        <h4>Clinic Addresses:</h4>
-                        <ul id="clinic-address-list">
-                            @foreach (var address in ViewBag.AddressList)
-                            {
-                                <li class="address">@address</li>
-                            }
-                        </ul>
+                        <h4>Choose Clinic:</h4>
+                        <div class="form-group">
+                            @Html.DropDownListFor(model => model.ClinicId,
+                                                  (SelectList)ViewBag.ClinicId,
+                                                  "-- Select Clinic --",
+                                                  new { @class = "form-control", @id = "cliniclist" })
+                            @Html.ValidationMessageFor(model => model.ClinicId)
+
+
+                                <ul id="clinic-address-list" style="display:none">
+                                    @foreach (var address in ViewBag.AddressList)
+                                    {
+                                        <li class="address">@address</li>
+                                    }
+                                </ul>
+                            <div class="col-md-10">
+                            </div>
+                        </div>
                     </div>
 
 
@@ -78,25 +81,23 @@
             <div class="booking-step" id="step-3">
                 <h3>3. Choose time</h3>
                 <div class="container ">
-                    <input type="text" id="datepicker" class="form-control" placeholder="Please pick a date">
+                    @*<input type="text" id="datepicker" class="form-control" placeholder="Please pick a date">*@
+                    @Html.TextBoxFor(model => model.AppointmentDate, new { @class = "form-control", id = "datepicker", placeholder = "Please pick a date" })
 
                     <div class="btn-group" role="group" aria-label="Time Slot Selection" id="timeSlotSelection" style="display:none">
-                        <input type="radio" class="btn-check" name="timeSlot" id="timeSlot1" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="timeSlot1">09:00-10:00</label>
 
-                        <input type="radio" class="btn-check" name="timeSlot" id="timeSlot2" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="timeSlot2">10:00-11:00</label>
+                        @Html.HiddenFor(model => model.StartTime, new { id = "hiddenStartTime" })
+                        @Html.HiddenFor(model => model.EndTime, new { id = "hiddenEndTime" })
 
-                        <input type="radio" class="btn-check" name="timeSlot" id="timeSlot3" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="timeSlot3">11:00-12:00</label>
-
+                        <label class="btn btn-outline-primary time-slot" data-start-time="09:00" data-end-time="10:00">09:00-10:00</label>
+                        <label class="btn btn-outline-primary time-slot" data-start-time="10:00" data-end-time="11:00">10:00-11:00</label>
+                        <label class="btn btn-outline-primary time-slot" data-start-time="11:00" data-end-time="12:00">11:00-12:00</label>
+                        <label class="btn btn-outline-primary time-slot" data-start-time="12:00" data-end-time="13:00">12:00-13:00</label>
                         <!-- ... additional time slots ... -->
-
-                        <input type="radio" class="btn-check" name="timeSlot" id="timeSlot4" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="timeSlot4">12:00-13:00</label>
                     </div>
 
-  
+
+
 
                     <span id="appointmentList"></span>
 
@@ -112,11 +113,21 @@
                 <h3>4. Provide User Information</h3>
 
                 <div class="form-group">
-                    ClinicID: @ViewBag.CurrentUserID
-                    <div class="col-md-10">
+                    Clinic:
+                    <div class="col-md-10" id="selectedClinic">
+
                     </div>
                 </div>
 
+                <div class="form-group">
+                    Time:
+                    <div class="col-md-10" id="selectedDate">
+
+                        <span id="displayDate"></span> <span id="displayStartTime"></span> - <span id="displayEndTime"></span>
+
+                    </div>
+                </div>
+                <hr>
                 <div class="form-group">
                     ScanPart: <span id="selectedScan"></span>
                     @Html.ValidationMessageFor(model => model.ScanPart, "", new { @class = "text-danger" })
@@ -192,21 +203,8 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    Clinic Address:
-                    <div class="col-md-10">
-                        @ViewBag.ClinicAddress
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    Time:
-                    <div class="col-md-10" id="selectedDate">
-                        @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2",@id="startTime" })
-                        @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" , @id = "endTime" })
 
-                    </div>
-                </div>
 
                 <button class="btn btn-secondary prev-btn" data-prev="3">Previous</button>
                 <input type="submit" value="Create" class="btn btn-default" id="booking-submit" />
@@ -245,33 +243,44 @@
         console.log(selectedDate);
         fetchData(selectedDate);
         $('#timeSlotSelection').show();
-        updateSelectedTime();
 
     });
 
-    $('#birthdayPicker').datepicker({
-
-    }).on('changeDate', function (e) {
-
-
+    $('#cliniclist').change(function () {
+        var selectedClinicText = $('#cliniclist option:selected').text();
+        $('#selectedClinic').text(selectedClinicText);
     });
 
-    function updateSelectedTime() {
-        $('input[name="timeSlot"]').on('click', function () {
-            // Get the text from the corresponding label (time slot)
-            var selectedTimeText = $(this).next('label').text();
-            var time = selectedDate + ' ' + selectedTimeText;
-            console.log(selectedTimeText);
-            $('#startTime').text(time);
-            $('#endTime').text(time);
+    $('.time-slot').on('click', function () {
+        var startTime = $(this).data('start-time');
+        var endTime = $(this).data('end-time');
+        var selectedDate = $('#datepicker').val();
+        var fullStartTime = selectedDate + ' ' + startTime;
+        var fullEndTime = selectedDate + ' ' + endTime;
+        $('#hiddenStartTime').val(fullStartTime);
+        $('#hiddenEndTime').val(fullEndTime);
 
-        });
-    }
+        // Update the displayed time and date
+        $('#displayDate').text(selectedDate);
+        $('#displayStartTime').text(startTime);
+        $('#displayEndTime').text(endTime);
+
+
+
+        // Highlight the selected time slot and reset others
+        $('.time-slot').removeClass('btn-primary').addClass('btn-outline-primary');
+        $(this).addClass('btn-primary').removeClass('btn-outline-primary');
+    });
+
+
 
     // Call the function to initialize the event listener
 
 
     function fetchData(date) {
+        // First, enable all time slots
+        $('label.btn').removeClass('disabled btn-outline-secondary').addClass('btn-outline-primary');
+
         $.ajax({
             url: '/Appointments/GetAppointmentTimes',
             type: 'GET',
@@ -280,16 +289,10 @@
             success: function (data) {
                 // Loop through each item in the returned data
                 $.each(data, function (index, item) {
-                    // Format the start and end times to match the radio button labels
                     var timeSlotText = item.StartTime + '-' + item.EndTime;
-                    // Disable any radio buttons that match this time slot
                     $('label.btn').each(function () {
                         if ($(this).text() === timeSlotText) {
-                            $(this).prev().prop('disabled', true);
-                            $(this).addClass('disabled');
-                            $(this).removeClass('btn-outline-primary');
-                            $(this).addClass('btn-outline-secondary');
-
+                            $(this).addClass('disabled btn-outline-secondary').removeClass('btn-outline-primary');
                         }
                     });
                 });
@@ -299,6 +302,13 @@
             }
         });
     }
+
+
+    $('#birthdayPicker').datepicker({
+        endDate: new Date() 
+    }).on('changeDate', function (e) {
+    });
+
 
 
 

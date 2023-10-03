@@ -39,6 +39,7 @@ namespace FIT5032_Assignment.Controllers
         }
 
         // GET: Appointments/Create
+        [Authorize]
         public ActionResult Create()
         {
             ViewBag.TitleList = new List<SelectListItem>
@@ -62,21 +63,24 @@ namespace FIT5032_Assignment.Controllers
             ViewBag.Time = AvailableTime();
             ViewBag.CurrentUserID = User.Identity.GetUserId();
             ViewBag.ClinicAddress = db.Clinics.Find(1).Address;
+
             return View();
         }
 
         // POST: Appointments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "AppointmentId,ScanPart,Note,ClinicId,Title,FirstName,LastName,Birthday,PhoneNumber,Email,Gender,IsConfirmed,AppointmentDate,StartTime,EndTime,UserId")] Appointment appointment)
         {
             if (ModelState.IsValid)
             {
+                appointment.UserId = User.Identity.GetUserId();
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", appointment.ClinicId);
