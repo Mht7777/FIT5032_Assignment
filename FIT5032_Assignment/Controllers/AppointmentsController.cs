@@ -38,6 +38,42 @@ namespace FIT5032_Assignment.Controllers
             return View(appointment);
         }
 
+        public ActionResult UserAppointmentDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Appointment appointment = db.Appointments.Find(id);
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(appointment);
+        }
+
+        public ActionResult UserAppointments()
+        {
+            var userId = User.Identity.GetUserId();
+            var userAppointments = db.Appointments.Where(a => a.UserId == userId).ToList();
+            return View(userAppointments);
+        }
+
+
+        public ActionResult Indiv(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Appointment appointment = db.Appointments.Find(id);
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(appointment);
+        }
+
         // GET: Appointments/Create
         [Authorize]
         public ActionResult Create()

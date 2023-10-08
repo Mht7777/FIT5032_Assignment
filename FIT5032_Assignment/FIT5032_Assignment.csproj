@@ -354,6 +354,8 @@
     <Content Include="Views\Staffs\Details.cshtml" />
     <Content Include="Views\Staffs\Edit.cshtml" />
     <Content Include="Views\Staffs\Index.cshtml" />
+    <Content Include="Views\Appointments\UserAppointments.cshtml" />
+    <Content Include="Views\Appointments\UserAppointmentDetails.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -36,22 +36,16 @@
                     <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
 
-                    @if (User.Identity.IsAuthenticated)
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Patient"))
                     {
-                        <li>@Html.ActionLink("Patient", "Index", "Patients", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Appointment", "Create", "Appointments", new { area = "" }, new { @class = "nav-link" })</li>
-                        <li>@Html.ActionLink("Feedback", "Index", "FeedbackAndRatings", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li>@Html.ActionLink("Appointment", "UserAppointments", "Appointments", new { area = "" }, new { @class = "nav-link" })</li>
 
-
-
-
-                        if (User.IsInRole("Staff"))
-                        {
-                            <li>@Html.ActionLink("Clinic", "Index", "Clinics", new { area = "" }, new { @class = "nav-link" })</li>
-                            <li>@Html.ActionLink("Schedule", "Index", "Schedules", new { area = "" }, new { @class = "nav-link" })</li>
-                        }
                     }
 
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Staff"))
+                    {
+                        <li>@Html.ActionLink("Clinic", "Index", "Clinics", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
 
 
 

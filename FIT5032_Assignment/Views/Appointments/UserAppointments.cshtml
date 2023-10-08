@@ -1,0 +1,40 @@
+﻿@model IEnumerable<FIT5032_Assignment.Models.Entites.Appointment>
+
+@{
+    ViewBag.Title = "UserAppointments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>My Appointments</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Appointment Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Clinic</th>
+            <th>Clinic Address</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <td>@appointment.AppointmentDate.ToShortDateString()</td>
+                <td>@appointment.StartTime.ToShortTimeString()</td>
+                <td>@appointment.EndTime.ToShortTimeString()</td>
+                <td>@appointment.Clinic.ClinicName</td>
+                <td>@appointment.Clinic.Address</td>
+
+                <td>
+                    @Html.ActionLink("Details", "UserAppointmentDetails", new { id = appointment.AppointmentId }) |
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
