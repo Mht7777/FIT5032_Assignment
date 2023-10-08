@@ -32,10 +32,19 @@
                 <td>@appointment.Clinic.Address</td>
 
                 <td>
-                    @Html.ActionLink("Details", "UserAppointmentDetails", new { id = appointment.AppointmentId }) |
+                    @Html.ActionLink("Details", "UserAppointmentDetails", new { id = appointment.AppointmentId })  |
                 </td>
+
                 <td>
-                <td>@Html.ActionLink("View Feedback", "Details", "FeedbackAndRatings", new { id = appointment.AppointmentId }, null)</td>
+                    @if (appointment.IsConfirmed)
+                    {
+                        @Html.ActionLink("View Feedback", "Details", "FeedbackAndRatings", new { id = appointment.AppointmentId }, null)
+
+                    }
+                    else
+                    {
+                    <p class="">Not Confirmed</p>
+                    }
                 </td>
             </tr>
         }

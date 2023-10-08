@@ -45,7 +45,8 @@ namespace FIT5032_Assignment.Controllers
         // GET: FeedbackAndRatings/Create
         public ActionResult Create()
         {
-            ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "ScanPart");
+            var confirmedAppointments = db.Appointments.Where(a => a.IsConfirmed).ToList();
+            ViewBag.AppointmentId = new SelectList(confirmedAppointments, "AppointmentId", "ScanPart");
             return View();
         }
 
@@ -56,6 +57,18 @@ namespace FIT5032_Assignment.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "AppointmentId,Rating,Comment")] FeedbackAndRating feedbackAndRating)
         {
+            var appointment = db.Appointments.Find(feedbackAndRating.AppointmentId);
+
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (!appointment.IsConfirmed)
+            {
+                ModelState.AddModelError("", "Feedback can only be given for confirmed appointments.");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Feedbacks.Add(feedbackAndRating);
@@ -63,9 +76,12 @@ namespace FIT5032_Assignment.Controllers
                 return RedirectToAction("UserAppointments", "Appointments");
             }
 
-            ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "ScanPart", feedbackAndRating.AppointmentId);
+            // If the above check failed, repopulate the dropdown and return the view with the error message.
+            var confirmedAppointments = db.Appointments.Where(a => a.IsConfirmed).ToList();
+            ViewBag.AppointmentId = new SelectList(confirmedAppointments, "AppointmentId", "ScanPart", feedbackAndRating.AppointmentId);
             return View(feedbackAndRating);
         }
+
 
         // GET: FeedbackAndRatings/Edit/5
         public ActionResult Edit(int? id)
