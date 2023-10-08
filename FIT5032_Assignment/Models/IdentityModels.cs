@@ -25,6 +25,7 @@ namespace FIT5032_Assignment.Models
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Clinic> Clinics { get; set; }
         public DbSet<FeedbackAndRating> Feedbacks { get; set; }
+        public DbSet<Staff> Staffs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -60,5 +61,6 @@ namespace FIT5032_Assignment.Models
         {
             return new ApplicationDbContext();
         }
+
     }
 }

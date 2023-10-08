@@ -10,11 +10,12 @@ namespace FIT5032_Assignment.Models.Entites
 {
     public class Clinic
     {
-
-        public Clinic() { 
-
+        public Clinic()
+        {
             Appointments = new HashSet<Appointment>();
+            StaffMembers = new HashSet<Staff>();
         }
+
         [Key]
         public int Id { get; set; }
         [Required]
@@ -25,7 +26,7 @@ namespace FIT5032_Assignment.Models.Entites
         public string Address { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; }
-
-
+        public virtual ICollection<Staff> StaffMembers { get; set; }
     }
+
 }
