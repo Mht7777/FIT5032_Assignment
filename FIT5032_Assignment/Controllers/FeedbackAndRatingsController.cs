@@ -29,13 +29,18 @@ namespace FIT5032_Assignment.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             FeedbackAndRating feedbackAndRating = db.Feedbacks.Find(id);
+
             if (feedbackAndRating == null)
             {
-                return HttpNotFound();
+                // If there's no feedback for the given appointment, redirect to Create page
+                return RedirectToAction("Create", new { appointmentId = id });
             }
+
             return View(feedbackAndRating);
         }
+
 
         // GET: FeedbackAndRatings/Create
         public ActionResult Create()
@@ -55,7 +60,7 @@ namespace FIT5032_Assignment.Controllers
             {
                 db.Feedbacks.Add(feedbackAndRating);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("UserAppointments", "Appointments");
             }
 
             ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "ScanPart", feedbackAndRating.AppointmentId);
