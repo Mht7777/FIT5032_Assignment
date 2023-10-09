@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using FIT5032_Assignment.Models;
 using FIT5032_Assignment.Models.Entites;
+using Microsoft.AspNet.Identity;
 
 namespace FIT5032_Assignment.Controllers
 {
@@ -18,8 +19,33 @@ namespace FIT5032_Assignment.Controllers
         // GET: Clinics
         public ActionResult Index()
         {
-            return View(db.Clinics.ToList());
+            var userId = User.Identity.GetUserId();
+
+            // Getting the staff record for the logged-in user.
+            var staff = db.Staffs.FirstOrDefault(s => s.UserId == userId);
+
+            if (staff != null)
+            {
+                // Get the Clinic associated with the staff.
+                var clinic = db.Clinics.Find(staff.ClinicId);
+
+                if (clinic != null)
+                {
+                    return View(clinic);
+                }
+                else
+                {
+                    // Handle the case where the clinic doesn't exist.
+                    return RedirectToAction("ErrorClinicNotFound");  
+                }
+            }
+            else
+            {
+                return RedirectToAction("ErrorStaffNotFound");  
+            }
         }
+
+
 
         // GET: Clinics/Details/5
         public ActionResult Details(int? id)
