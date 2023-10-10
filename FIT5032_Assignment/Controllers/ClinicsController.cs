@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using FIT5032_Assignment.Models;
 using FIT5032_Assignment.Models.Entites;
+using FIT5032_Assignment.Utils;
 using Microsoft.AspNet.Identity;
 
 namespace FIT5032_Assignment.Controllers
@@ -35,14 +36,52 @@ namespace FIT5032_Assignment.Controllers
                 }
                 else
                 {
-                    // Handle the case where the clinic doesn't exist.
-                    return RedirectToAction("ErrorClinicNotFound");  
+                    return RedirectToAction("ErrorClinicNotFound"); 
                 }
             }
             else
             {
                 return RedirectToAction("ErrorStaffNotFound");  
             }
+        }
+
+        [HttpPost]
+        public ActionResult SendEmail(EmailViewModel model) {
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    HttpPostedFileBase file = model.Attachment;
+                    EmailSender es = new EmailSender();
+                    es.Send(model.Email, model.Subject, model.Contents, file);
+                    TempData["SuccessMessage"] = "Email has been sent.";
+                    ModelState.Clear();
+                    return RedirectToAction("Index");
+                }
+                catch
+
+                {
+                    TempData["ErrorMessage"] = "Email has not been sent.";
+                    return RedirectToAction("Index");
+                }
+            }
+            TempData["ErrorMessage"] = "Email has not been sent.";
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult PatientAppointmentDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Appointment appointment = db.Appointments.Find(id);
+            if (appointment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(appointment);
         }
 
 

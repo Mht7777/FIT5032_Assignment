@@ -222,8 +222,9 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-}
 <script src="~/CustomerJsCss/Appointment.js"></script>
+}
+
 <script>
     var selectedDate;
     $('#scanPartDropdown').change(function () {
@@ -241,7 +242,7 @@
     }).on('changeDate', function (e) {
         selectedDate = $('#datepicker').val();
         console.log(selectedDate);
-        fetchData(selectedDate);
+        //fetchData(selectedDate);
         $('#timeSlotSelection').show();
 
     });

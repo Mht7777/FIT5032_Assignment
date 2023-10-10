@@ -4,6 +4,20 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
 
 <div>
     <h1>@Model.ClinicName</h1>
@@ -22,8 +36,8 @@
             <th>Email</th>
             <th>Gender</th>
             <th>Birthday</th>
-            <th>Note</th>
             <th>IsConfirmed</th>
+            <th>Note</th>
 
 
         </tr>
@@ -40,11 +54,12 @@
                 <td>@appointment.PhoneNumber</td>
                 <td>@appointment.Email</td>
                 <td>@appointment.Gender</td>
-                <td>@appointment.Birthday</td>
-                <td>@appointment.Note</td>
+                <td>@appointment.Birthday.ToShortDateString()</td>
                 <td>@(appointment.IsConfirmed ? "Yes" : "No")</td>
+
+                <td>@appointment.Note</td>
                 <td>
-                    @Html.ActionLink("Details", "UserAppointmentDetails", "Appointments", new { id = appointment.AppointmentId }, null)
+                    @Html.ActionLink("Details", "PatientAppointmentDetails", new { id = appointment.AppointmentId }, new { @class = "btn btn-primary" })
                 </td>
 
 
@@ -52,3 +67,4 @@
         }
     </tbody>
 </table>
+

@@ -115,15 +115,175 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
+    <Content Include="scripts\tinymce\icons\default\icons.js" />
+    <Content Include="scripts\tinymce\icons\default\icons.min.js" />
+    <Content Include="scripts\tinymce\license.txt" />
+    <Content Include="scripts\tinymce\models\dom\model.js" />
+    <Content Include="scripts\tinymce\models\dom\model.min.js" />
+    <Content Include="scripts\tinymce\plugins\accordion\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\accordion\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\advlist\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\advlist\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\anchor\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\anchor\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\autolink\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\autolink\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\autoresize\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\autoresize\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\autosave\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\autosave\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\charmap\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\charmap\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\codesample\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\codesample\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\code\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\code\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\directionality\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\directionality\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\emoticons\js\emojiimages.js" />
+    <Content Include="scripts\tinymce\plugins\emoticons\js\emojiimages.min.js" />
+    <Content Include="scripts\tinymce\plugins\emoticons\js\emojis.js" />
+    <Content Include="scripts\tinymce\plugins\emoticons\js\emojis.min.js" />
+    <Content Include="scripts\tinymce\plugins\emoticons\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\emoticons\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\fullscreen\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\fullscreen\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\ar.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\bg_BG.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\ca.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\cs.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\da.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\de.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\el.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\en.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\es.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\eu.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\fa.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\fi.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\fr_FR.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\he_IL.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\hi.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\hr.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\hu_HU.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\id.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\it.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\ja.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\kk.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\ko_KR.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\ms.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\nb_NO.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\nl.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\pl.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\pt_BR.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\pt_PT.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\ro.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\ru.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\sk.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\sl_SI.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\sv_SE.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\th_TH.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\tr.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\uk.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\vi.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\zh_CN.js" />
+    <Content Include="scripts\tinymce\plugins\help\js\i18n\keynav\zh_TW.js" />
+    <Content Include="scripts\tinymce\plugins\help\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\help\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\image\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\image\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\importcss\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\importcss\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\insertdatetime\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\insertdatetime\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\link\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\link\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\lists\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\lists\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\media\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\media\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\nonbreaking\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\nonbreaking\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\pagebreak\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\pagebreak\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\preview\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\preview\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\quickbars\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\quickbars\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\save\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\save\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\searchreplace\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\searchreplace\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\table\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\table\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\template\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\template\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\visualblocks\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\visualblocks\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\visualchars\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\visualchars\plugin.min.js" />
+    <Content Include="scripts\tinymce\plugins\wordcount\plugin.js" />
+    <Content Include="scripts\tinymce\plugins\wordcount\plugin.min.js" />
+    <Content Include="scripts\tinymce\skins\content\dark\content.css" />
+    <Content Include="scripts\tinymce\skins\content\dark\content.min.css" />
+    <Content Include="scripts\tinymce\skins\content\default\content.css" />
+    <Content Include="scripts\tinymce\skins\content\default\content.min.css" />
+    <Content Include="scripts\tinymce\skins\content\document\content.css" />
+    <Content Include="scripts\tinymce\skins\content\document\content.min.css" />
+    <Content Include="scripts\tinymce\skins\content\tinymce-5-dark\content.css" />
+    <Content Include="scripts\tinymce\skins\content\tinymce-5-dark\content.min.css" />
+    <Content Include="scripts\tinymce\skins\content\tinymce-5\content.css" />
+    <Content Include="scripts\tinymce\skins\content\tinymce-5\content.min.css" />
+    <Content Include="scripts\tinymce\skins\content\writer\content.css" />
+    <Content Include="scripts\tinymce\skins\content\writer\content.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide-dark\content.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide-dark\content.inline.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide-dark\content.inline.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide-dark\content.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide-dark\skin.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide-dark\skin.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide-dark\skin.shadowdom.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide-dark\skin.shadowdom.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide\content.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide\content.inline.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide\content.inline.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide\content.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide\skin.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide\skin.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide\skin.shadowdom.css" />
+    <Content Include="scripts\tinymce\skins\ui\oxide\skin.shadowdom.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5-dark\content.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5-dark\content.inline.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5-dark\content.inline.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5-dark\content.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5-dark\skin.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5-dark\skin.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5-dark\skin.shadowdom.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5-dark\skin.shadowdom.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5\content.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5\content.inline.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5\content.inline.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5\content.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5\skin.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5\skin.min.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5\skin.shadowdom.css" />
+    <Content Include="scripts\tinymce\skins\ui\tinymce-5\skin.shadowdom.min.css" />
+    <Content Include="scripts\tinymce\themes\silver\theme.js" />
+    <Content Include="scripts\tinymce\themes\silver\theme.min.js" />
+    <Content Include="scripts\tinymce\tinymce.js" />
+    <Content Include="scripts\tinymce\tinymce.min.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="scripts\tinymce\langs\README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FIT5032_Assignment\FIT5032_Assignment.csproj">
       <Project>{2613F6C0-076F-48D8-9B55-0196CAFCA805}</Project>
       <Name>FIT5032_Assignment</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="scripts\tinymce\tinymce.d.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -132,8 +292,10 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props'))" />
     <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets'))" />
+    <Error Condition="!Exists('..\packages\TinyMCE.6.7.0\build\TinyMCE.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\TinyMCE.6.7.0\build\TinyMCE.targets'))" />
   </Target>
   <Import Project="..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" />
+  <Import Project="..\packages\TinyMCE.6.7.0\build\TinyMCE.targets" Condition="Exists('..\packages\TinyMCE.6.7.0\build\TinyMCE.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

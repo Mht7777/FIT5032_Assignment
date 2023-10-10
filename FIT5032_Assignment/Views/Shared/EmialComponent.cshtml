@@ -1,0 +1,60 @@
+﻿@model FIT5032_Assignment.Models.EmailViewModel
+
+
+<div>
+    <hr>
+    <h1>Email send</h1>
+    @using (Html.BeginForm("SendEmail", "Clinics", FormMethod.Post, new { id = "emailForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+
+        if (@ViewBag.Result != null)
+        {
+            <div class="alert alert-info">@ViewBag.Result</div>
+        }
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @id = "Useremail" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <br>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Attachment, new { type = "file" })
+            </div>
+        </div>
+        <br>
+
+        @*<div class="form-group">
+                @Html.TextAreaFor(model => model.Contents, new { @id = "emailBody", @class = "form-control", @placeholder = "Email Body" })
+                @Html.ValidationMessageFor(model => model.Contents, "", new { @class = "text-danger" })
+            </div>*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Contents, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <textarea id="emailBody" name="Contents" class="form-control">@Model.Contents</textarea>
+                @Html.ValidationMessageFor(model => model.Contents, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <br>
+        <input type="submit" value="Send Email" class="btn btn-success" />
+    }
+</div>
+
+

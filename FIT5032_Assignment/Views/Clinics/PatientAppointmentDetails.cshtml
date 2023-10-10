@@ -1,0 +1,182 @@
+﻿@model FIT5032_Assignment.Models.Entites.Appointment
+
+@{
+    ViewBag.Title = "UserAppointmentDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Appointment Details</h2>
+
+<div>
+    <h4>Appointment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Clinic.ClinicName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Clinic.ClinicName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Clinic.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Clinic.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Feedback.Comment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Feedback.Comment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ScanPart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScanPart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Birthday)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Birthday)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd id="em">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsConfirmed)
+        </dt>
+
+        <dd>
+            @(Model.IsConfirmed ? "Yes" : "No")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AppointmentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AppointmentDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <button class="send-email btn btn-primary">Click me to show email area</button>  |
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<div style="display:none" id="email-area">
+    @Html.Partial("EmialComponent", new FIT5032_Assignment.Models.EmailViewModel())
+
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script>
+        $('.send-email').on('click', function () {
+            $('#email-area').show();
+        });
+        var email = $("#em").text().trim();
+        $("#Useremail").val(email);
+        $('#Useremail').on('change', function () {
+            var a = $("#Useremail").val();
+            console.log(a);
+        });
+        tinymce.init({
+            selector: '#emailBody',
+            toolbar: 'undo redo | styles | fontfamily |bold italic forecolor | link image emoticons | align | mergetags inserttemplate | spellcheckdialog a11ycheck | code removeformat',
+            menubar: false,
+            images_file_types: "jpeg,jpg,png,gif",
+            style_formats: [
+                { title: 'Paragraph', format: 'p' },
+                { title: 'Heading 1', format: 'h1' },
+                { title: 'Heading 2', format: 'h2' },
+                { title: 'Large text', format: 'largetext' },
+                { title: 'Button styles' },
+                { title: 'Call-to-action', format: 'calltoaction' },
+            ],
+        });
+    </script>
+}
