@@ -69,7 +69,7 @@ namespace FIT5032_Assignment.Controllers
                 catch (Exception ex)
 
                 {
-                    TempData["ErrorMessage"] = "Email has not been sent. Error: 2222" + ex.Message;
+                    TempData["ErrorMessage"] = "Email has not been sent. Error: " + ex.Message;
                     return RedirectToAction("Index");
                 }
             }
@@ -78,7 +78,7 @@ namespace FIT5032_Assignment.Controllers
             {
                 Console.WriteLine(error.ErrorMessage);
             }
-            TempData["ErrorMessage"] += "Email has not been sent. 11111";
+            TempData["ErrorMessage"] += "Email has not been sent.";
             return RedirectToAction("Index");
         }
 

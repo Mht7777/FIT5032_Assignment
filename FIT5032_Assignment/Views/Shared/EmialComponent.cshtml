@@ -8,14 +8,9 @@
     {
         @Html.AntiForgeryToken()
 
-
-        if (@ViewBag.Result != null)
-        {
-            <div class="alert alert-info">@ViewBag.Result</div>
-        }
         <div class="form-group">
-            @Html.LabelFor(model => model.Emails, htmlAttributes: new { @class = "col-md-2" })
-            <div class="col-md-10">
+            @Html.LabelFor(model => model.Emails, htmlAttributes: new { @class = "" })
+            <div class="">
                 @Html.TextBoxFor(model => model.Emails, new { @class = "form-control", @style = "width: 800px;", @id = "Useremail" })
                 @Html.ValidationMessageFor(model => model.Emails, "", new { @class = "text-danger" })
             </div>
@@ -36,7 +31,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Attachment, new { type = "file" })
+                @Html.TextBoxFor(model => model.Attachment, new { type = "file", accept = ".pdf,.jpg,.png,.jpeg" })
+                @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })
             </div>
         </div>
         <br>
