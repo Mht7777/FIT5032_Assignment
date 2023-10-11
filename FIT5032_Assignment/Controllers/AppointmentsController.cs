@@ -78,20 +78,8 @@ namespace FIT5032_Assignment.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            ViewBag.TitleList = new List<SelectListItem>
-                {
-                    new SelectListItem { Text = "Mr.", Value = "Mr." },
-                    new SelectListItem { Text = "Mrs.", Value = "Mrs." },
-                    new SelectListItem { Text = "Miss", Value = "Miss" },
-                };
-            ViewBag.GenderList = new List<SelectListItem>
-                {
-                    new SelectListItem { Text = "Male", Value = "Male" },
-                    new SelectListItem { Text = "Female", Value = "Female" },
-                    new SelectListItem { Text = "Other", Value = "Other" },
-                };
-
-
+            ViewBag.TitleList = GetTitleList();
+            ViewBag.GenderList = GetGenderList();
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName");
             ViewBag.AppointmentId = new SelectList(db.Feedbacks, "AppointmentId", "Comment");
             ViewBag.ScanPartList = new SelectList(GetScanParts());
@@ -116,7 +104,7 @@ namespace FIT5032_Assignment.Controllers
                 appointment.UserId = User.Identity.GetUserId();
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("UserAppointments");
             }
 
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", appointment.ClinicId);
@@ -136,6 +124,9 @@ namespace FIT5032_Assignment.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.TitleList = GetTitleList();
+            ViewBag.GenderList = GetGenderList();
+            ViewBag.ScanPartList = new SelectList(GetScanParts());
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", appointment.ClinicId);
             ViewBag.AppointmentId = new SelectList(db.Feedbacks, "AppointmentId", "Comment", appointment.AppointmentId);
             return View(appointment);
@@ -152,7 +143,7 @@ namespace FIT5032_Assignment.Controllers
             {
                 db.Entry(appointment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Clinics");
             }
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", appointment.ClinicId);
             ViewBag.AppointmentId = new SelectList(db.Feedbacks, "AppointmentId", "Comment", appointment.AppointmentId);
@@ -206,6 +197,28 @@ namespace FIT5032_Assignment.Controllers
             };
             return scanParts;
 
+        }
+
+        public static IEnumerable<SelectListItem> GetTitleList()
+        {
+            var titleList = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Mr.", Value = "Mr." },
+                new SelectListItem { Text = "Mrs.", Value = "Mrs." },
+                new SelectListItem { Text = "Miss", Value = "Miss" }
+            };
+            return titleList;
+        }
+
+        public static IEnumerable<SelectListItem> GetGenderList()
+        {
+            var genderList = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Male", Value = "Male" },
+                new SelectListItem { Text = "Female", Value = "Female" },
+                new SelectListItem { Text = "Other", Value = "Other" }
+            };
+            return genderList;
         }
 
 

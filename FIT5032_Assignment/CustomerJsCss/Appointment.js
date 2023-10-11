@@ -2,7 +2,7 @@
 
     var addresses = $('#clinic-address-list .address');
 
-    mapboxgl.accessToken = "pk.eyJ1IjoidG1oOTk5IiwiYSI6ImNsbXFldjU0NjAycGkydW5oODNoN3Q2cTcifQ.wMGs3hNb_VoMdMVFNN6ECw"; // Replace with your Mapbox token
+    mapboxgl.accessToken = "pk.eyJ1IjoidG1oOTk5IiwiYSI6ImNsbXFldjU0NjAycGkydW5oODNoN3Q2cTcifQ.wMGs3hNb_VoMdMVFNN6ECw"; 
 
     // Initialize the map
     var map = new mapboxgl.Map({
@@ -101,14 +101,10 @@
 
     $('.next-btn').click(function (event) {
         event.preventDefault(); // prevent form submission
-
-        // rest of your code...
     });
 
     $('.prev-btn').click(function (event) {
         event.preventDefault(); // prevent form submission
-
-        // rest of your code...
     });
 
 

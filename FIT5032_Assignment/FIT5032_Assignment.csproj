@@ -243,12 +243,21 @@
     <Compile Include="Migrations\202310081143434_add_staff.designer.cs">
       <DependentUpon>202310081143434_add_staff.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202310111336110_add_image.cs" />
+    <Compile Include="Migrations\202310111336110_add_image.designer.cs">
+      <DependentUpon>202310111336110_add_image.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202310111344511_img.cs" />
+    <Compile Include="Migrations\202310111344511_img.designer.cs">
+      <DependentUpon>202310111344511_img.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entites\EmialViewModel.cs" />
     <Compile Include="Models\Entites\Appointment.cs" />
     <Compile Include="Models\Entites\Clinic.cs" />
     <Compile Include="Models\Entites\FeedbackAndRating.cs" />
+    <Compile Include="Models\Entites\Images.cs" />
     <Compile Include="Models\Entites\Staff.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -499,11 +508,6 @@
     <Content Include="Views\FeedbackAndRatings\Details.cshtml" />
     <Content Include="Views\FeedbackAndRatings\Edit.cshtml" />
     <Content Include="Views\FeedbackAndRatings\Index.cshtml" />
-    <Content Include="Views\Appointments\Delete.cshtml" />
-    <Content Include="Views\Appointments\Details.cshtml" />
-    <Content Include="Views\Appointments\Edit.cshtml" />
-    <Content Include="Views\Appointments\Index.cshtml" />
-    <Content Include="Views\Appointments\Create.cshtml" />
     <Content Include="Views\Clinics\Create.cshtml" />
     <Content Include="Views\Clinics\Delete.cshtml" />
     <Content Include="Views\Clinics\Details.cshtml" />
@@ -514,11 +518,16 @@
     <Content Include="Views\Staffs\Details.cshtml" />
     <Content Include="Views\Staffs\Edit.cshtml" />
     <Content Include="Views\Staffs\Index.cshtml" />
-    <Content Include="Views\Appointments\UserAppointments.cshtml" />
-    <Content Include="Views\Appointments\UserAppointmentDetails.cshtml" />
     <Content Include="Views\Clinics\PatientAppointmentDetails.cshtml" />
     <Content Include="Scripts\tinymce\langs\README.md" />
     <Content Include="Views\Shared\EmialComponent.cshtml" />
+    <Content Include="Views\Appointments\Create.cshtml" />
+    <Content Include="Views\Appointments\Delete.cshtml" />
+    <Content Include="Views\Appointments\Details.cshtml" />
+    <Content Include="Views\Appointments\Edit.cshtml" />
+    <Content Include="Views\Appointments\Index.cshtml" />
+    <Content Include="Views\Appointments\UserAppointmentDetails.cshtml" />
+    <Content Include="Views\Appointments\UserAppointments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\tinymce\tinymce.d.ts" />
@@ -583,6 +592,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202310081143434_add_staff.resx">
       <DependentUpon>202310081143434_add_staff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310111336110_add_image.resx">
+      <DependentUpon>202310111336110_add_image.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310111344511_img.resx">
+      <DependentUpon>202310111344511_img.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

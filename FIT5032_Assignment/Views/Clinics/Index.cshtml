@@ -51,7 +51,7 @@
         {
             <tr>
                 <td style="display:none" class="eachemail">
-                    <input type="checkbox" name="selectedEmails" value="@appointment.Email"  class="emailCheckbox" />
+                    <input type="checkbox" name="selectedEmails" value="@appointment.Email" class="emailCheckbox" />
                 </td>
                 <td>@appointment.AppointmentDate.ToShortDateString()</td>
                 <td>@appointment.StartTime.ToShortTimeString()</td>
@@ -67,6 +67,9 @@
                 <td>@appointment.Note</td>
                 <td>
                     @Html.ActionLink("Details", "PatientAppointmentDetails", new { id = appointment.AppointmentId }, new { @class = "btn btn-primary" })
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit","Appointments", new { id = appointment.AppointmentId }, new { @class = "btn btn-primary" })
                 </td>
 
 

@@ -31,6 +31,8 @@ namespace FIT5032_Assignment.Models.Entites
         public string LastName { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Birthday { get; set; }
 
         [Required]
@@ -62,8 +64,10 @@ namespace FIT5032_Assignment.Models.Entites
         public DateTime EndTime { get; set; }
 
 
-        public string UserId { get; set; }  
 
+
+        public string UserId { get; set; }  
+        public Images Image { get; set; }
         public virtual Clinic Clinic { get; set; }
         public virtual FeedbackAndRating Feedback { get; set; }
     }
