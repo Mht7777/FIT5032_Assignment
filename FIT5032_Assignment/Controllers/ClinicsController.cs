@@ -47,7 +47,8 @@ namespace FIT5032_Assignment.Controllers
 
         [HttpPost]
         public ActionResult SendEmail(EmailViewModel model) {
-
+            TempData["SuccessMessage"] = null;
+            TempData["ErrorMessage"] = null;
             if (ModelState.IsValid)
             {
                 try
