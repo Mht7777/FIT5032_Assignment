@@ -90,10 +90,18 @@ namespace FIT5032_Assignment.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Appointment appointment = db.Appointments.Find(id);
+
             if (appointment == null)
             {
                 return HttpNotFound();
             }
+            var image = db.Images.FirstOrDefault(i => i.AppointmentId == id);
+            if (image != null)
+            {
+                ViewBag.ImagePath = image.Path;
+                ViewBag.ImageName = image.Name;
+            }
+
             return View(appointment);
         }
 

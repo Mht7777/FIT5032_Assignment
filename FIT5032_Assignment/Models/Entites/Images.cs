@@ -16,6 +16,10 @@ namespace FIT5032_Assignment.Models.Entites
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "File Name")]
         public string Name { get; set; }
+        public int AppointmentId { get; set; }
+
+
     }
 }

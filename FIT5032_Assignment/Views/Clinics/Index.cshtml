@@ -66,10 +66,13 @@
 
                 <td>@appointment.Note</td>
                 <td>
-                    @Html.ActionLink("Details", "PatientAppointmentDetails", new { id = appointment.AppointmentId }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Details", "PatientAppointmentDetails", new { id = appointment.AppointmentId }, new { @class = "" })
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit","Appointments", new { id = appointment.AppointmentId }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Edit", "Edit", "Appointments", new { id = appointment.AppointmentId }, new { @class = "" })
+                </td>
+                <td>
+                    @Html.ActionLink("Upload File", "Create", "Images", new { id = appointment.AppointmentId }, null)
                 </td>
 
 

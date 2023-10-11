@@ -63,11 +63,8 @@ namespace FIT5032_Assignment.Models.Entites
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:HH:mm}")]
         public DateTime EndTime { get; set; }
 
-
-
-
         public string UserId { get; set; }  
-        public Images Image { get; set; }
+        public virtual Images Image { get; set; }
         public virtual Clinic Clinic { get; set; }
         public virtual FeedbackAndRating Feedback { get; set; }
     }

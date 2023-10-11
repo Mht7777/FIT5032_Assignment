@@ -194,6 +194,7 @@
     <Compile Include="Controllers\ClinicsController.cs" />
     <Compile Include="Controllers\FeedbackAndRatingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StaffsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -250,6 +251,26 @@
     <Compile Include="Migrations\202310111344511_img.cs" />
     <Compile Include="Migrations\202310111344511_img.designer.cs">
       <DependentUpon>202310111344511_img.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202310111544334_img2.cs" />
+    <Compile Include="Migrations\202310111544334_img2.designer.cs">
+      <DependentUpon>202310111544334_img2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202310111556074_img3.cs" />
+    <Compile Include="Migrations\202310111556074_img3.designer.cs">
+      <DependentUpon>202310111556074_img3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202310111633218_img4.cs" />
+    <Compile Include="Migrations\202310111633218_img4.designer.cs">
+      <DependentUpon>202310111633218_img4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202310111722477_image1.cs" />
+    <Compile Include="Migrations\202310111722477_image1.designer.cs">
+      <DependentUpon>202310111722477_image1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202310111748261_imgggg.cs" />
+    <Compile Include="Migrations\202310111748261_imgggg.designer.cs">
+      <DependentUpon>202310111748261_imgggg.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -528,6 +549,11 @@
     <Content Include="Views\Appointments\Index.cshtml" />
     <Content Include="Views\Appointments\UserAppointmentDetails.cshtml" />
     <Content Include="Views\Appointments\UserAppointments.cshtml" />
+    <Content Include="Views\Images\Create.cshtml" />
+    <Content Include="Views\Images\Delete.cshtml" />
+    <Content Include="Views\Images\Details.cshtml" />
+    <Content Include="Views\Images\Edit.cshtml" />
+    <Content Include="Views\Images\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\tinymce\tinymce.d.ts" />
@@ -599,9 +625,27 @@
     <EmbeddedResource Include="Migrations\202310111344511_img.resx">
       <DependentUpon>202310111344511_img.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310111544334_img2.resx">
+      <DependentUpon>202310111544334_img2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310111556074_img3.resx">
+      <DependentUpon>202310111556074_img3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310111633218_img4.resx">
+      <DependentUpon>202310111633218_img4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310111722477_image1.resx">
+      <DependentUpon>202310111722477_image1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310111748261_imgggg.resx">
+      <DependentUpon>202310111748261_imgggg.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Uploads\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
