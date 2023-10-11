@@ -86,53 +86,47 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
     <script>
-        var selectedEmails = [];
-
         //select emial start 
-            function updateEmailTextbox() {
-                $('.emailCheckbox:checked').each(function () {
-                    selectedEmails.push($(this).val());
-                });
+        function updateEmailTextbox() {
+            var selectedEmails = [];
 
-                var uniqueEmailsSet = new Set();
-                selectedEmails.forEach(function (email) {
-                    uniqueEmailsSet.add(email);
-                });
+            $('.emailCheckbox:checked').each(function () {
+                selectedEmails.push($(this).val());
+            });
 
-                var uniqueEmailsArray = Array.from(uniqueEmailsSet);
-                $('#Useremail').val(uniqueEmailsArray.join(';'));
+            var uniqueEmailsSet = new Set(selectedEmails);
 
+            var uniqueEmailsArray = Array.from(uniqueEmailsSet);
+            $('#Useremail').val(uniqueEmailsArray.join(';'));
+        }
 
+        $('#selectAll').on('change', function () {
+            var isChecked = $(this).is(':checked');
+            $('.emailCheckbox').prop('checked', isChecked);
+            updateEmailTextbox();
+        });
+
+        $('.emailCheckbox').on('change', function () {
+            if (!$(this).is(':checked') && $('#selectAll').is(':checked')) {
+                $('#selectAll').prop('checked', false);
             }
-
-
-            $('#selectAll').on('change', function () {
-                var isChecked = $(this).is(':checked');
-                $('.emailCheckbox').prop('checked', isChecked);
-                updateEmailTextbox();
-            });
-
-            $('.emailCheckbox').on('change', function () {
-                if (!$(this).is(':checked')) {
-                    $('#selectAll').prop('checked', false);
-                }
-                updateEmailTextbox();
-            });
-
+            updateEmailTextbox();
+        });
 
         $('.send-email').on('click', function () {
             $('#email-area').show();
             $('#selectAllArea').show();
             $('.eachemail').show();
 
+            var selectedEmails = [];
+
             $('.emailCheckbox:checked').each(function () {
                 selectedEmails.push($(this).val());
-                updateEmailTextbox();
-
             });
-            $('#Useremail').val(selectedEmails.join('; '));
 
+            $('#Useremail').val(selectedEmails.join('; '));
         });
+
         //select emial end
 
 
