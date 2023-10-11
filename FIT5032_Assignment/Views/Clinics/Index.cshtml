@@ -27,6 +27,10 @@
 <table class="table">
     <thead>
         <tr>
+            <th style="display:none" id="selectAllArea" >
+                All Email
+                <input type="checkbox"  id="selectAll" />
+            </th>
             <th>Appointment Date</th>
             <th>Start Time</th>
             <th>Title</th>
@@ -46,6 +50,9 @@
         @foreach (var appointment in Model.Appointments)
         {
             <tr>
+                <td style="display:none" class="eachemail">
+                    <input type="checkbox" name="selectedEmails" value="@appointment.Email"  class="emailCheckbox" />
+                </td>
                 <td>@appointment.AppointmentDate.ToShortDateString()</td>
                 <td>@appointment.StartTime.ToShortTimeString()</td>
                 <td>@appointment.Title</td>
@@ -68,3 +75,82 @@
     </tbody>
 </table>
 
+<hr>
+<button class="send-email btn btn-primary">Send Email</button>
+
+<div style="display:none" id="email-area">
+    @Html.Partial("EmialComponent", new FIT5032_Assignment.Models.EmailViewModel())
+
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script>
+        var selectedEmails = [];
+        //select emial start 
+            function updateEmailTextbox() {
+                $('.emailCheckbox:checked').each(function () {
+                    selectedEmails.push($(this).val());
+                });
+
+                var uniqueEmailsSet = new Set();
+                selectedEmails.forEach(function (email) {
+                    uniqueEmailsSet.add(email);
+                });
+
+                var uniqueEmailsArray = Array.from(uniqueEmailsSet);
+                $('#Useremail').val(uniqueEmailsArray.join(';'));
+
+
+            }
+
+
+            $('#selectAll').on('change', function () {
+                var isChecked = $(this).is(':checked');
+                $('.emailCheckbox').prop('checked', isChecked);
+                updateEmailTextbox();
+            });
+
+            $('.emailCheckbox').on('change', function () {
+                if (!$(this).is(':checked')) {
+                    $('#selectAll').prop('checked', false);
+                }
+                updateEmailTextbox();
+            });
+
+
+        $('.send-email').on('click', function () {
+            $('#email-area').show();
+            $('#selectAllArea').show();
+            $('.eachemail').show();
+
+            $('.emailCheckbox:checked').each(function () {
+                selectedEmails.push($(this).val());
+                updateEmailTextbox();
+
+            });
+            $('#Useremail').val(selectedEmails.join('; '));
+
+        });
+        //select emial end
+
+
+        //rich text start
+        tinymce.init({
+            selector: '#emailBody',
+            toolbar: 'undo redo | styles | fontfamily |bold italic forecolor | link image emoticons | align | mergetags inserttemplate | spellcheckdialog a11ycheck | code removeformat',
+            menubar: false,
+            images_file_types: "jpeg,jpg,png,gif",
+            style_formats: [
+                { title: 'Paragraph', format: 'p' },
+                { title: 'Heading 1', format: 'h1' },
+                { title: 'Heading 2', format: 'h2' },
+                { title: 'Large text', format: 'largetext' },
+                { title: 'Button styles' },
+                { title: 'Call-to-action', format: 'calltoaction' },
+            ],
+        });
+        //rich text end
+
+    </script>
+}

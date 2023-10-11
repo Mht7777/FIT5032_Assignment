@@ -245,7 +245,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\EmialViewModel.cs" />
+    <Compile Include="Models\Entites\EmialViewModel.cs" />
     <Compile Include="Models\Entites\Appointment.cs" />
     <Compile Include="Models\Entites\Clinic.cs" />
     <Compile Include="Models\Entites\FeedbackAndRating.cs" />

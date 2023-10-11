@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.IO;
-using System.Net.Mail;
-using System.Runtime.InteropServices.ComTypes;
+
 
 namespace FIT5032_Assignment.Utils
 {
@@ -14,15 +13,23 @@ namespace FIT5032_Assignment.Utils
     {
         private const String API_KEY = "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";
 
-        public void Send(String toEmail, String subject, String contents, HttpPostedFileBase attachment)
+        public void Send(List<string> toEmails, string subject, string contents, HttpPostedFileBase attachment)
         {
-
             var client = new SendGridClient(API_KEY);
             var from = new EmailAddress("miusi960829@gmail.com", "FIT5032 Example Email User");
-            var to = new EmailAddress(toEmail, "");
             var plainTextContent = contents;
             var htmlContent = "<p>" + contents + "</p>";
-            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+
+
+            var tos = toEmails.Select(email => new EmailAddress(email,"")).ToList();
+            var showAllRecipients = false;
+            var msg = MailHelper.CreateSingleEmailToMultipleRecipients(from,
+                                                           tos,
+                                                           subject,
+                                                           plainTextContent,
+                                                           htmlContent,
+                                                           showAllRecipients
+                                                           );
 
             if (attachment != null)
             {
@@ -34,6 +41,8 @@ namespace FIT5032_Assignment.Utils
                     msg.AddAttachment(attachment.FileName, file);
                 }
             }
+
+
             var response = client.SendEmailAsync(msg);
         }
     }

@@ -46,30 +46,42 @@ namespace FIT5032_Assignment.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendEmail(EmailViewModel model) {
+        public ActionResult SendEmail(EmailViewModel model)
+        {
             TempData["SuccessMessage"] = null;
             TempData["ErrorMessage"] = null;
+
+
+
             if (ModelState.IsValid)
             {
                 try
                 {
                     HttpPostedFileBase file = model.Attachment;
                     EmailSender es = new EmailSender();
-                    es.Send(model.Email, model.Subject, model.Contents, file);
+                    var recipientEmails = model.Emails.Split(';').Select(email => email.Trim()).ToList();
+
+                    es.Send(recipientEmails, model.Subject, model.Contents, file); 
                     TempData["SuccessMessage"] = "Email has been sent.";
                     ModelState.Clear();
                     return RedirectToAction("Index");
                 }
-                catch
+                catch (Exception ex)
 
                 {
-                    TempData["ErrorMessage"] = "Email has not been sent.";
+                    TempData["ErrorMessage"] = "Email has not been sent. Error: 2222" + ex.Message;
                     return RedirectToAction("Index");
                 }
             }
-            TempData["ErrorMessage"] = "Email has not been sent.";
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (var error in errors)
+            {
+                Console.WriteLine(error.ErrorMessage);
+            }
+            TempData["ErrorMessage"] += "Email has not been sent. 11111";
             return RedirectToAction("Index");
         }
+
 
         public ActionResult PatientAppointmentDetails(int? id)
         {
