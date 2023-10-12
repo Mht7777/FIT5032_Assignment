@@ -7,11 +7,90 @@
 
     .star:hover,
     .star:hover ~ .star {
-        color: #ffc107; /* Bootstrap yellow color */
+        color: #ffc107;
     }
 
 
+.gradient-custom {
+    background: #63c7a6; /* Soft green */
+    background: -webkit-linear-gradient(to right, rgba(96, 203, 255, 1), rgba(99, 199, 166, 1)); /* Soft blue to soft green */
+    background: linear-gradient(to right, rgba(96, 203, 255, 1), rgba(99, 199, 166, 1)); /* Soft blue to soft green */
+}
+
+.deep-font-color {
+    color: #ffffff !important;
+}
+
+#hero {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(60, 60, 60, 0.8);
+    overflow: hidden;
+    position: relative;
+}
+
+.image-container {
+    position: relative;
+}
 
 
+.overlay-text {
+    position: absolute;
+    top: 70%;
+    left: 20%;
+    right: 20%;
+    bottom: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffffe7;
+    color: black;
+    text-align: center;
+    padding: 10px;
+}
+
+    .overlay-text h1, .overlay-text p {
+        margin: 5px;
+        padding: 5px;
+        line-height: 1.2;
+    }
+
+.bookappointment {
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10%;
+    background-color: #33b6a6;
+    color: azure;
+}
+
+.custom-button {
+    background-color: #33b6a6;
+    border-radius: 25px;
+    border: 2px solid white;
+    color: white;
+    padding: 10px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+    .custom-button:hover {
+        background-color: #ffffffe7;
+        color: #33b6a6;
+    }
 
 
+.aboutas h3,p,h1 {
+ text-align:center;
+ align-items: center;
+
+}
+.centeredImageContainer {
+    display: grid;
+    place-items: center; /* This centers content both horizontally and vertically */
+}

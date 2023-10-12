@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using FIT5032_Assignment.Models;
 using FIT5032_Assignment.Models.Entites;
+using FIT5032_Assignment.Utils;
 using Microsoft.AspNet.Identity;
 
 namespace FIT5032_Assignment.Controllers
@@ -40,6 +43,12 @@ namespace FIT5032_Assignment.Controllers
             return View(appointment);
         }
 
+        public ActionResult BookSuccessed() {
+        
+
+            return View();
+        }
+
         [Authorize(Roles = "Patient")]
         public ActionResult UserAppointmentDetails(int? id)
         {
@@ -66,7 +75,7 @@ namespace FIT5032_Assignment.Controllers
         public ActionResult UserAppointments()
         {
             var userId = User.Identity.GetUserId();
-            var userAppointments = db.Appointments.Where(a => a.UserId == userId).ToList();
+            var userAppointments = db.Appointments.Include(a => a.Clinic).Include(a => a.Feedback);
             return View(userAppointments);
         }
 
@@ -86,7 +95,7 @@ namespace FIT5032_Assignment.Controllers
         }
 
         // GET: Appointments/Create
-        [Authorize(Roles = "Patient")]
+        [Authorize]
         public ActionResult Create()
         {
             ViewBag.TitleList = GetTitleList();
@@ -115,13 +124,51 @@ namespace FIT5032_Assignment.Controllers
                 appointment.UserId = User.Identity.GetUserId();
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
-                return RedirectToAction("UserAppointments");
+                SendAppointmentConfirmation(appointment);
+                return RedirectToAction("BookSuccessed");
             }
 
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", appointment.ClinicId);
             ViewBag.AppointmentId = new SelectList(db.Feedbacks, "AppointmentId", "Comment", appointment.AppointmentId);
             return View(appointment);
         }
+
+        private void SendAppointmentConfirmation(Appointment appointment)
+        {
+            var email = appointment.Email;
+            var subject = "Appointment has Booked";
+            var content = GenerateAppointmentEmailContent(appointment);
+
+                EmailSender es = new EmailSender();
+                es.Send(email, subject, content);
+            
+ 
+        }
+
+        public string GenerateAppointmentEmailContent(Appointment appointment)
+        {
+            var content = new StringBuilder();
+
+            content.AppendLine($"Hi {appointment.Title} {appointment.FirstName} {appointment.LastName},<br/>");
+            content.AppendLine("<br/>"); // Add a new line for spacing
+            content.AppendLine("Thank you for scheduling an appointment with us. Here are the details of your appointment:<br/>");
+            content.AppendLine($"Clinic: {db.Clinics.FirstOrDefault(c => c.Id == appointment.ClinicId)?.ClinicName}<br/>");
+            content.AppendLine($"Date: {appointment.AppointmentDate.ToShortDateString()}<br/>");
+            content.AppendLine($"Time: {appointment.StartTime.ToString("hh:mm tt")} - {appointment.EndTime.ToString("hh:mm tt")}<br/>");
+            content.AppendLine($"Scan Part: {appointment.ScanPart}<br/>");
+            content.AppendLine($"Note: {appointment.Note}<br/>");
+            content.AppendLine("<br/>");
+            content.AppendLine("If you have any questions or need to reschedule, please contact us.<br/>");
+            content.AppendLine("<br/>");
+            content.AppendLine("Thank you,<br/>");
+            content.AppendLine("UltraSound");
+
+            return content.ToString();
+        }
+
+
+
+
 
         // GET: Appointments/Edit/5
         [Authorize(Roles = "Staff")]
@@ -184,7 +231,33 @@ namespace FIT5032_Assignment.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Appointment appointment = db.Appointments.Find(id);
+            FeedbackAndRating feedback = db.Feedbacks.Find(id);
             db.Appointments.Remove(appointment);
+            if (feedback != null)
+            {
+                db.Feedbacks.Remove(feedback);
+            }
+            Images image = db.Images.FirstOrDefault(i => i.AppointmentId == id);
+            if (image != null)
+            {
+                string serverPath = Server.MapPath("~/Uploads/");
+                string fullPath = serverPath + image.Path;
+                if (System.IO.File.Exists(fullPath))
+                {
+                    try
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log the exception and handle the error (redirect or show an error view).
+                        return View("Error", new { message = "Failed to delete the file from the server. " + ex.Message });
+                    }
+                }
+
+            }
+            db.Images.Remove(image);
+
             db.SaveChanges();
             return RedirectToAction("Index","Clinics");
         }

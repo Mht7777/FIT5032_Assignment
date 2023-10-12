@@ -45,5 +45,17 @@ namespace FIT5032_Assignment.Utils
 
             var response = client.SendEmailAsync(msg);
         }
+
+        public void Send(String toEmail, String subject, String contents)
+        {
+            var client = new SendGridClient(API_KEY);
+            var from = new EmailAddress("miusi960829@gmail.com", "Appointment has Booked");
+            var to = new EmailAddress(toEmail, "");
+            var plainTextContent = contents;
+            var htmlContent = "<div>" + contents + "</div>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+
+            var response = client.SendEmailAsync(msg);
+        }
     }
 }

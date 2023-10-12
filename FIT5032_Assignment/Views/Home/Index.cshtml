@@ -3,31 +3,51 @@
 }
 
 <main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
-
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
+    <!-- Image div -->
+    <div class="image-container">
+        <div style="background-image: url('@Url.Content("~/Content/img/slide-1.jpg")'); background-size: cover; background-position: center;" class="vh-100 wh-100 m-0 p-0">
+            <!-- Text div overlay at the bottom with a semi-transparent gray background -->
+            <div class="overlay-text">
+                <h1>Ultra Scan</h1>
+                <p>Revolutionizing the way you see the world, one scan at a time.</p>
+            </div>
+        </div>
     </div>
+
+    <div class="bookappointment wh-100">
+        <h1>Book Now</h1>
+        <p>Take the first step towards clarity and precision. Secure your slot today.</p>
+        @Html.ActionLink("Make an Appointment", "Create", "Appointments", new { area = "" }, new { @class = "custom-button" })
+    </div>
+
+    <div class="aboutas m-0 p-0 pt-2 mt-2">
+        <h3>About Us</h3>
+        <p>
+            At Ultra Scan, we pride ourselves on being industry leaders in advanced scanning technology. With years of expertise, a team of dedicated professionals, and cutting-edge equipment, we offer solutions tailored to your unique needs. Whether it's medical imaging, architectural surveys, or specialized industrial applications, trust us to deliver precision and clarity every time.
+        </p>
+        <div class="container ">
+            <div class="row">
+                <div class="col m-0 p-0 align-center justify-content-center centeredImageContainer">
+                    <img src="@Url.Content("~/Content/img/about.jpg")" alt="About Us Image">
+                </div>
+                <div class="col">
+                    <p><strong>Our Commitment:</strong> From day one, our commitment to excellence has set us apart. It's not just about having advanced equipment or skilled technicians—though we have both. It's about a promise we make to each of our clients: a promise of impeccable quality, reliability, and unmatched precision.</p>
+
+                    <p><strong>A Trusted Choice:</strong> This dedication has cemented our reputation as a top-tier provider in scanning solutions. Thousands of clients, ranging from healthcare professionals to industry experts, have placed their trust in Ultra Scan. Their testimonials and continued partnership serve as a testament to the consistent value we bring.</p>
+
+                    <p><strong>Forward-Thinking:</strong> In a world where technology is ever-evolving, we don’t believe in resting on our laurels. We continuously seek out the latest advancements, ensuring that our services are not only up-to-date but also future-ready. Training workshops, global conferences, research partnerships—every avenue is explored to keep us at the forefront of innovation.</p>
+
+                    <p><em>"Innovation, Precision, Trust - These aren’t just words; they are the pillars that uphold Ultra Scan."</em></p>
+
+                    <p>As we embark on new challenges and explore uncharted territories, our core mission remains unwavering: to deliver scanning solutions that don’t just meet but consistently exceed your expectations.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 </main>
