@@ -16,6 +16,7 @@ namespace FIT5032_Assignment.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: FeedbackAndRatings
+        [Authorize(Roles = "Staff")]
         public ActionResult Index()
         {
             var feedbacks = db.Feedbacks.Include(f => f.Appointment);
@@ -23,6 +24,7 @@ namespace FIT5032_Assignment.Controllers
         }
 
         // GET: FeedbackAndRatings/Details/5
+        [Authorize(Roles = "Patient")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -43,6 +45,7 @@ namespace FIT5032_Assignment.Controllers
 
 
         // GET: FeedbackAndRatings/Create
+        [Authorize(Roles = "Patient")]
         public ActionResult Create()
         {
             var confirmedAppointments = db.Appointments.Where(a => a.IsConfirmed).ToList();
@@ -84,6 +87,7 @@ namespace FIT5032_Assignment.Controllers
 
 
         // GET: FeedbackAndRatings/Edit/5
+        [Authorize(Roles = "Staff")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -117,6 +121,7 @@ namespace FIT5032_Assignment.Controllers
         }
 
         // GET: FeedbackAndRatings/Delete/5
+        [Authorize(Roles = "Staff")]
         public ActionResult Delete(int? id)
         {
             if (id == null)

@@ -1,0 +1,18 @@
+﻿.details-container {
+    padding: 10px;
+}
+
+.detail-item {
+    margin-bottom: 15px;
+}
+
+.detail-label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.detail-value {
+
+    padding-left: 10px;
+}

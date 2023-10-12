@@ -74,6 +74,9 @@
                 <td>
                     @Html.ActionLink("Upload File", "Create", "Images", new { id = appointment.AppointmentId }, null)
                 </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", "Appointments", new { id = appointment.AppointmentId }, null)
+                </td>
 
 
             </tr>

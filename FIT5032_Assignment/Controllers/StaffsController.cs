@@ -11,6 +11,7 @@ using FIT5032_Assignment.Models.Entites;
 
 namespace FIT5032_Assignment.Controllers
 {
+    [Authorize(Roles = "Staff")]
     public class StaffsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

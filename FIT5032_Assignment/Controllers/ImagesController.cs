@@ -12,6 +12,7 @@ using FIT5032_Assignment.Models.Entites;
 
 namespace FIT5032_Assignment.Controllers
 {
+    [Authorize(Roles = "Staff")]
     public class ImagesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

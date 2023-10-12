@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using FIT5032_Assignment.Models;
 using FIT5032_Assignment.Models.Entites;
 using Microsoft.AspNet.Identity;
@@ -17,12 +18,13 @@ namespace FIT5032_Assignment.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Appointments
+        [Authorize(Roles = "Patient")]
         public ActionResult Index()
         {
             var appointments = db.Appointments.Include(a => a.Clinic).Include(a => a.Feedback);
             return View(appointments.ToList());
         }
-
+        [Authorize]
         // GET: Appointments/Details/5
         public ActionResult Details(int? id)
         {
@@ -38,6 +40,7 @@ namespace FIT5032_Assignment.Controllers
             return View(appointment);
         }
 
+        [Authorize(Roles = "Patient")]
         public ActionResult UserAppointmentDetails(int? id)
         {
             if (id == null)
@@ -49,9 +52,17 @@ namespace FIT5032_Assignment.Controllers
             {
                 return HttpNotFound();
             }
+            var image = db.Images.FirstOrDefault(i => i.AppointmentId == id);
+            if (image != null)
+            {
+                ViewBag.ImagePath = image.Path;
+                ViewBag.ImageName = image.Name;
+            }
+
             return View(appointment);
         }
 
+        [Authorize(Roles = "Patient")]
         public ActionResult UserAppointments()
         {
             var userId = User.Identity.GetUserId();
@@ -75,7 +86,7 @@ namespace FIT5032_Assignment.Controllers
         }
 
         // GET: Appointments/Create
-        [Authorize]
+        [Authorize(Roles = "Patient")]
         public ActionResult Create()
         {
             ViewBag.TitleList = GetTitleList();
@@ -113,6 +124,7 @@ namespace FIT5032_Assignment.Controllers
         }
 
         // GET: Appointments/Edit/5
+        [Authorize(Roles = "Staff")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -151,6 +163,7 @@ namespace FIT5032_Assignment.Controllers
         }
 
         // GET: Appointments/Delete/5
+        [Authorize(Roles = "Staff")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -173,7 +186,7 @@ namespace FIT5032_Assignment.Controllers
             Appointment appointment = db.Appointments.Find(id);
             db.Appointments.Remove(appointment);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Clinics");
         }
 
         protected override void Dispose(bool disposing)

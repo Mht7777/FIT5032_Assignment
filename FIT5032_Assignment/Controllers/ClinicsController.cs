@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace FIT5032_Assignment.Controllers
 {
+    [Authorize(Roles = "Staff")]
     public class ClinicsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -81,7 +82,6 @@ namespace FIT5032_Assignment.Controllers
             TempData["ErrorMessage"] += "Email has not been sent.";
             return RedirectToAction("Index");
         }
-
 
         public ActionResult PatientAppointmentDetails(int? id)
         {

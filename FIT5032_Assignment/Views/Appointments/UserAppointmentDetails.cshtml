@@ -131,6 +131,20 @@
             @Html.DisplayFor(model => model.EndTime)
         </dd>
         <dt>
+            @Html.DisplayName("Image")
+        </dt>
+
+        <dd>
+            @if (ViewBag.ImagePath != null && !string.IsNullOrWhiteSpace(ViewBag.ImagePath.ToString()))
+            {
+                <img class="img-thumbnail" src="@Url.Content("~/Uploads/" + ViewBag.ImagePath)" alt="@ViewBag.ImageName" />
+            }
+            else
+            {
+                <text>No image available</text>
+            }
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Note)
         </dt>
 

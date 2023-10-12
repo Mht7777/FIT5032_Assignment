@@ -8,156 +8,121 @@
 <h2>Appointment Details</h2>
 
 <div>
-    <h4>Appointment</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Clinic.ClinicName)
-        </dt>
+    <div>
+        <h4>Appointment</h4>
+        <hr />
+        <div class="details-container">
 
-        <dd>
-            @Html.DisplayFor(model => model.Clinic.ClinicName)
-        </dd>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(model => model.Clinic.ClinicName)</span>
+                <span class="detail-value">@Html.DisplayFor(model => model.Clinic.ClinicName)</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Clinic.Address)
-        </dt>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(model => model.Clinic.Address)</span>
+                <span class="detail-value">@Html.DisplayFor(model => model.Clinic.Address)</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Clinic.Address)
-        </dd>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(model => model.ScanPart)</span>
+                <span class="detail-value">@Html.DisplayFor(model => model.ScanPart)</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Feedback.Comment)
-        </dt>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(model => model.Title)</span>
+                <span class="detail-value">@Html.DisplayFor(model => model.Title)</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Feedback.Comment)
-        </dd>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(model => model.FirstName)</span>
+                <span class="detail-value">@Html.DisplayFor(model => model.FirstName)</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ScanPart)
-        </dt>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(model => model.LastName)</span>
+                <span class="detail-value">@Html.DisplayFor(model => model.LastName)</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.ScanPart)
-        </dd>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(model => model.Birthday)</span>
+                <span class="detail-value">@Html.DisplayFor(model => model.Birthday)</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(model => model.PhoneNumber)</span>
+                <span class="detail-value">@Html.DisplayFor(model => model.PhoneNumber)</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(model => model.Email)</span>
+                <span class="detail-value">@Html.DisplayFor(model => model.Email)</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(model => model.IsConfirmed)</span>
+                <span class="detail-value">
+                    @(Model.IsConfirmed ? "Yes" : "No")
+                </span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(model => model.AppointmentDate)</span>
+                <span class="detail-value">@Html.DisplayFor(model => model.AppointmentDate)</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(model => model.StartTime)</span>
+                <span class="detail-value">@Html.DisplayFor(model => model.StartTime)</span>
+            </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayNameFor(model => model.EndTime)</span>
+                <span class="detail-value">@Html.DisplayFor(model => model.EndTime)</span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Birthday)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Birthday)
-        </dd>
+            <div class="detail-item">
+                <span class="detail-label">@Html.DisplayName("Image")</span>
+                <span class="detail-value">
+                    @if (!string.IsNullOrWhiteSpace(Convert.ToString(ViewBag.ImagePath)))
+                    {
+                        <img class="img-thumbnail" src="@Url.Content("~/Uploads/" + ViewBag.ImagePath)" alt="@ViewBag.ImageName" />
+                    }
+                    else
+                    {
+                        <text>No image available</text>
+                    }
+                </span>
+            </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
+            <hr />
+            <h1>Feedback</h1>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd id="em">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsConfirmed)
-        </dt>
-
-        <dd>
-            @(Model.IsConfirmed ? "Yes" : "No")
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AppointmentDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AppointmentDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StartTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayName("Image")
-        </dt>
-
-        <dd>
-            @if (ViewBag.ImagePath != null && !string.IsNullOrWhiteSpace(ViewBag.ImagePath.ToString()))
+            @if (Model.Feedback != null && (Model.Feedback.Rating > 0 || Model.Feedback.Comment != null))
             {
-                <img class="img-thumbnail" src="@Url.Content("~/Uploads/" + ViewBag.ImagePath)" alt="@ViewBag.ImageName" />
+                <div class="detail-item">
+                    <span class="detail-label">@Html.DisplayNameFor(model => model.Feedback.Rating)</span>
+                    <span class="detail-value">@Html.DisplayFor(model => model.Feedback.Rating)</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">@Html.DisplayNameFor(model => model.Feedback.Comment)</span>
+                    <span class="detail-value">@Html.DisplayFor(model => model.Feedback.Comment)</span>
+                </div>
             }
             else
             {
-                <text>No image available</text>
+                <div class="detail-item">
+                    <span class="detail-value">No Feedback</span>
+                </div>
             }
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Note)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Note)
-        </dd>
-
-    </dl>
+        </div>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Back to List", "Index")
 </p>
+<link href="~/Content/PatientStyle.css" rel="stylesheet" type="text/css" />
 
 
 

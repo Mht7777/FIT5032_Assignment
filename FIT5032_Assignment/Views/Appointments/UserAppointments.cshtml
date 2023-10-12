@@ -16,8 +16,13 @@
             <th>Appointment Date</th>
             <th>Start Time</th>
             <th>End Time</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone Number</th>
+            <th>Email</th>
             <th>Clinic</th>
             <th>Clinic Address</th>
+
 
         </tr>
     </thead>
@@ -28,6 +33,10 @@
                 <td>@appointment.AppointmentDate.ToShortDateString()</td>
                 <td>@appointment.StartTime.ToShortTimeString()</td>
                 <td>@appointment.EndTime.ToShortTimeString()</td>
+                <td>@appointment.FirstName</td>
+                <td>@appointment.LastName</td>
+                <td>@appointment.PhoneNumber</td>
+                <td>@appointment.Email</td>
                 <td>@appointment.Clinic.ClinicName</td>
                 <td>@appointment.Clinic.Address</td>
 
