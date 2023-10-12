@@ -56,12 +56,12 @@
                             @Html.ValidationMessageFor(model => model.ClinicId)
 
 
-                                <ul id="clinic-address-list" style="display:none">
-                                    @foreach (var address in ViewBag.AddressList)
-                                    {
-                                        <li class="address">@address</li>
-                                    }
-                                </ul>
+                            <ul id="clinic-address-list" style="display:none">
+                                @foreach (var address in ViewBag.AddressList)
+                                {
+                                    <li class="address">@address</li>
+                                }
+                            </ul>
                             <div class="col-md-10">
                             </div>
                         </div>
@@ -207,7 +207,7 @@
 
 
                 <button class="btn btn-secondary prev-btn" data-prev="3">Previous</button>
-                <input type="submit" value="Create" class="btn btn-default" id="booking-submit" />
+                <input type="submit" value="Create" class="btn btn-primary" id="booking-submit" />
             </div>
 
         </div>
@@ -222,7 +222,9 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-<script src="~/CustomerJsCss/Appointment.js"></script>
+    <script src="~/CustomerJsCss/Appointment.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp6y2XwKXUYOC56UVR7AtoCN0iTWvuJs0&callback=initMap"></script>
+
 }
 
 <script>
@@ -306,11 +308,56 @@
 
 
     $('#birthdayPicker').datepicker({
-        endDate: new Date() 
+        endDate: new Date()
     }).on('changeDate', function (e) {
     });
 
+    function initMap() {
+        var melbourne = { lat: -37.8136, lng: 144.9631 };
+        var clayton = { lat: -37.9255, lng: 145.1199 };
 
+        var map = new google.maps.Map($('#map')[0], {
+            zoom: 10, // Reduced zoom to ensure both markers are visible
+            center: melbourne
+        });
 
+        var infoWindowMelbourne = new google.maps.InfoWindow({
+            content: '<h4>100 Swanston St, Melbourne</h4><p>Melbourne VIC 3000, Australia</p>'
+        });
+
+        var markerMelbourne = new google.maps.Marker({
+            position: melbourne,
+            map: map,
+            title: '100 Swanston St, Melbourne VIC 3000, Australia'
+        });
+
+        $(markerMelbourne).click(function () {
+            map.setZoom(15); // Set zoom level to 15
+            map.setCenter(markerMelbourne.getPosition()); // Set center to marker's position
+            infoWindowMelbourne.open(map, markerMelbourne);
+        });
+
+        var infoWindowClayton = new google.maps.InfoWindow({
+            content: '<h4>246 Clayton Rd, Clayton</h4><p>Clayton VIC 3168</p>'
+        });
+
+        var markerClayton = new google.maps.Marker({
+            position: clayton,
+            map: map,
+            title: '246 Clayton Rd, Clayton VIC 3168'
+        });
+        markerMelbourne.addListener('click', function () {
+            map.setZoom(15); // Set zoom level to 15
+            map.setCenter(markerMelbourne.getPosition()); // Set center to marker's position
+            infoWindowMelbourne.open(map, markerMelbourne);
+        });
+
+        markerClayton.addListener('click', function () {
+            map.setZoom(15); // Set zoom level to 15
+            map.setCenter(markerClayton.getPosition()); // Set center to marker's position
+            infoWindowClayton.open(map, markerClayton);
+        });
+    }
 
 </script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp6y2XwKXUYOC56UVR7AtoCN0iTWvuJs0&callback=initMap"></script>

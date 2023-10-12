@@ -1,69 +1,10 @@
 ﻿$(document).ready(function () {
 
-    var addresses = $('#clinic-address-list .address');
-
-    mapboxgl.accessToken = "pk.eyJ1IjoidG1oOTk5IiwiYSI6ImNsbXFldjU0NjAycGkydW5oODNoN3Q2cTcifQ.wMGs3hNb_VoMdMVFNN6ECw"; 
-
-    // Initialize the map
-    var map = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v10',
-        center: [144.9631, -37.8136], // Melbourne default coordinates
-        zoom: 10
-    });
-
-    // Loop through each address
-    addresses.each(function () {
-        // Get the address text
-        var addressText = $(this).text();
-
-        // Display the address on the map
-        geocodeAndDisplayMarker(addressText);
-
-    });
+    //map start
 
 
 
-    function geocodeAndDisplayMarker(address) {
-        var geocodingApi = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?access_token=${mapboxgl.accessToken}`;
-
-        $.get(geocodingApi, function (data) {
-            if (data.features && data.features.length > 0) {
-                var coordinates = data.features[0].center;
-
-                // Set marker at the coordinates of the address
-                var marker = new mapboxgl.Marker()
-                    .setLngLat(coordinates)
-                    .addTo(map);
-
-                marker.getElement().addEventListener('click', function () {
-
-                    new mapboxgl.Popup()
-                        .setLngLat(coordinates)
-                        .setHTML(address)
-                        .addTo(map);
-                    displaySelectedAddress(address);
-
-                    // Zoom in when the marker is clicked
-                    map.flyTo({
-                        center: coordinates,
-                        zoom: 15  // Adjust this value as needed
-                    });
-
-                });
-
-
-
-            } else {
-                console.log(`Address ${address} not found!`);
-            }
-        });
-    }
-    function displaySelectedAddress(address) {
-        $('#selected-clinic-address').text(address);
-    }
-
-
+    //map end
 
 
 
