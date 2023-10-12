@@ -223,141 +223,144 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/CustomerJsCss/Appointment.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" />
+    <!-- Bootstrap Datepicker JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp6y2XwKXUYOC56UVR7AtoCN0iTWvuJs0&callback=initMap"></script>
+    <script>
+        function initMap() {
+            var melbourne = { lat: -37.8136, lng: 144.9631 };
+            var clayton = { lat: -37.9255, lng: 145.1199 };
+
+            var map = new google.maps.Map($('#map')[0], {
+                zoom: 10, // Reduced zoom to ensure both markers are visible
+                center: melbourne
+            });
+
+            var infoWindowMelbourne = new google.maps.InfoWindow({
+                content: '<h4>100 Swanston St, Melbourne</h4><p>Melbourne VIC 3000, Australia</p>'
+            });
+
+            var markerMelbourne = new google.maps.Marker({
+                position: melbourne,
+                map: map,
+                title: '100 Swanston St, Melbourne VIC 3000, Australia'
+            });
+
+            $(markerMelbourne).click(function () {
+                map.setZoom(15); // Set zoom level to 15
+                map.setCenter(markerMelbourne.getPosition()); // Set center to marker's position
+                infoWindowMelbourne.open(map, markerMelbourne);
+            });
+
+            var infoWindowClayton = new google.maps.InfoWindow({
+                content: '<h4>246 Clayton Rd, Clayton</h4><p>Clayton VIC 3168</p>'
+            });
+
+            var markerClayton = new google.maps.Marker({
+                position: clayton,
+                map: map,
+                title: '246 Clayton Rd, Clayton VIC 3168'
+            });
+            markerMelbourne.addListener('click', function () {
+                map.setZoom(15); // Set zoom level to 15
+                map.setCenter(markerMelbourne.getPosition()); // Set center to marker's position
+                infoWindowMelbourne.open(map, markerMelbourne);
+            });
+
+            markerClayton.addListener('click', function () {
+                map.setZoom(15); // Set zoom level to 15
+                map.setCenter(markerClayton.getPosition()); // Set center to marker's position
+                infoWindowClayton.open(map, markerClayton);
+            });
+        }
+
+        var selectedDate;
+        $('#scanPartDropdown').change(function () {
+            var selectedValue = $(this).val();
+            $('#selectedScan').text(selectedValue);
+        });
+
+        $('#datepicker').datepicker({
+            weekStart: 1,
+            daysOfWeekHighlighted: "6,0",
+            autoclose: true,
+            todayHighlight: true,
+            format: 'yyyy-mm-dd',
+            startDate: new Date()
+        }).on('changeDate', function (e) {
+            selectedDate = $('#datepicker').val();
+            console.log(selectedDate);
+            fetchData(selectedDate);
+            $('#timeSlotSelection').show();
+
+        });
+
+        $('#cliniclist').change(function () {
+            var selectedClinicText = $('#cliniclist option:selected').text();
+            $('#selectedClinic').text(selectedClinicText);
+        });
+
+        $('.time-slot').on('click', function () {
+            var startTime = $(this).data('start-time');
+            var endTime = $(this).data('end-time');
+            var selectedDate = $('#datepicker').val();
+            var fullStartTime = selectedDate + ' ' + startTime;
+            var fullEndTime = selectedDate + ' ' + endTime;
+            $('#hiddenStartTime').val(fullStartTime);
+            $('#hiddenEndTime').val(fullEndTime);
+
+            // Update the displayed time and date
+            $('#displayDate').text(selectedDate);
+            $('#displayStartTime').text(startTime);
+            $('#displayEndTime').text(endTime);
+
+
+
+            // Highlight the selected time slot and reset others
+            $('.time-slot').removeClass('btn-primary').addClass('btn-outline-primary');
+            $(this).addClass('btn-primary').removeClass('btn-outline-primary');
+        });
+
+
+
+        // Call the function to initialize the event listener
+
+
+        function fetchData(date) {
+            // First, enable all time slots
+            $('label.btn').removeClass('disabled btn-outline-secondary').addClass('btn-outline-primary');
+
+            $.ajax({
+                url: '/Appointments/GetAppointmentTimes',
+                type: 'GET',
+                data: { date: date },
+                dataType: 'json',
+                success: function (data) {
+                    // Loop through each item in the returned data
+                    $.each(data, function (index, item) {
+                        var timeSlotText = item.StartTime + '-' + item.EndTime;
+                        $('label.btn').each(function () {
+                            if ($(this).text() === timeSlotText) {
+                                $(this).addClass('disabled btn-outline-secondary').removeClass('btn-outline-primary');
+                            }
+                        });
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+
+        $('#birthdayPicker').datepicker({
+            endDate: new Date()
+        }).on('changeDate', function (e) {
+        });
+    </script>
+
+
 
 }
 
-<script>
-    var selectedDate;
-    $('#scanPartDropdown').change(function () {
-        var selectedValue = $(this).val();
-        $('#selectedScan').text(selectedValue);
-    });
-
-    $('#datepicker').datepicker({
-        weekStart: 1,
-        daysOfWeekHighlighted: "6,0",
-        autoclose: true,
-        todayHighlight: true,
-        format: 'yyyy-mm-dd',
-        startDate: new Date()
-    }).on('changeDate', function (e) {
-        selectedDate = $('#datepicker').val();
-        console.log(selectedDate);
-        fetchData(selectedDate);
-        $('#timeSlotSelection').show();
-
-    });
-
-    $('#cliniclist').change(function () {
-        var selectedClinicText = $('#cliniclist option:selected').text();
-        $('#selectedClinic').text(selectedClinicText);
-    });
-
-    $('.time-slot').on('click', function () {
-        var startTime = $(this).data('start-time');
-        var endTime = $(this).data('end-time');
-        var selectedDate = $('#datepicker').val();
-        var fullStartTime = selectedDate + ' ' + startTime;
-        var fullEndTime = selectedDate + ' ' + endTime;
-        $('#hiddenStartTime').val(fullStartTime);
-        $('#hiddenEndTime').val(fullEndTime);
-
-        // Update the displayed time and date
-        $('#displayDate').text(selectedDate);
-        $('#displayStartTime').text(startTime);
-        $('#displayEndTime').text(endTime);
-
-
-
-        // Highlight the selected time slot and reset others
-        $('.time-slot').removeClass('btn-primary').addClass('btn-outline-primary');
-        $(this).addClass('btn-primary').removeClass('btn-outline-primary');
-    });
-
-
-
-    // Call the function to initialize the event listener
-
-
-    function fetchData(date) {
-        // First, enable all time slots
-        $('label.btn').removeClass('disabled btn-outline-secondary').addClass('btn-outline-primary');
-
-        $.ajax({
-            url: '/Appointments/GetAppointmentTimes',
-            type: 'GET',
-            data: { date: date },
-            dataType: 'json',
-            success: function (data) {
-                // Loop through each item in the returned data
-                $.each(data, function (index, item) {
-                    var timeSlotText = item.StartTime + '-' + item.EndTime;
-                    $('label.btn').each(function () {
-                        if ($(this).text() === timeSlotText) {
-                            $(this).addClass('disabled btn-outline-secondary').removeClass('btn-outline-primary');
-                        }
-                    });
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
-    }
-
-
-    $('#birthdayPicker').datepicker({
-        endDate: new Date()
-    }).on('changeDate', function (e) {
-    });
-
-    function initMap() {
-        var melbourne = { lat: -37.8136, lng: 144.9631 };
-        var clayton = { lat: -37.9255, lng: 145.1199 };
-
-        var map = new google.maps.Map($('#map')[0], {
-            zoom: 10, // Reduced zoom to ensure both markers are visible
-            center: melbourne
-        });
-
-        var infoWindowMelbourne = new google.maps.InfoWindow({
-            content: '<h4>100 Swanston St, Melbourne</h4><p>Melbourne VIC 3000, Australia</p>'
-        });
-
-        var markerMelbourne = new google.maps.Marker({
-            position: melbourne,
-            map: map,
-            title: '100 Swanston St, Melbourne VIC 3000, Australia'
-        });
-
-        $(markerMelbourne).click(function () {
-            map.setZoom(15); // Set zoom level to 15
-            map.setCenter(markerMelbourne.getPosition()); // Set center to marker's position
-            infoWindowMelbourne.open(map, markerMelbourne);
-        });
-
-        var infoWindowClayton = new google.maps.InfoWindow({
-            content: '<h4>246 Clayton Rd, Clayton</h4><p>Clayton VIC 3168</p>'
-        });
-
-        var markerClayton = new google.maps.Marker({
-            position: clayton,
-            map: map,
-            title: '246 Clayton Rd, Clayton VIC 3168'
-        });
-        markerMelbourne.addListener('click', function () {
-            map.setZoom(15); // Set zoom level to 15
-            map.setCenter(markerMelbourne.getPosition()); // Set center to marker's position
-            infoWindowMelbourne.open(map, markerMelbourne);
-        });
-
-        markerClayton.addListener('click', function () {
-            map.setZoom(15); // Set zoom level to 15
-            map.setCenter(markerClayton.getPosition()); // Set center to marker's position
-            infoWindowClayton.open(map, markerClayton);
-        });
-    }
-
-</script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp6y2XwKXUYOC56UVR7AtoCN0iTWvuJs0&callback=initMap"></script>
