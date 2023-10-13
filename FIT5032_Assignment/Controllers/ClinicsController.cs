@@ -2,15 +2,22 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using FIT5032_Assignment.Models;
 using FIT5032_Assignment.Models.Entites;
 using FIT5032_Assignment.Utils;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
+using iTextSharp.tool.xml;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
+using System.Globalization;
+
 
 namespace FIT5032_Assignment.Controllers
 {
@@ -69,6 +76,137 @@ namespace FIT5032_Assignment.Controllers
 
             return dataPoints;
         }
+
+
+        public ActionResult ExportAppointmentsToCSV()
+        {
+            TempData["SuccessExport"] = null;
+            TempData["FiledExport"] = null;
+
+            var userId = User.Identity.GetUserId();
+
+            // Getting the staff record for the logged-in user.
+            var staff = db.Staffs.FirstOrDefault(s => s.UserId == userId);
+            if (staff != null)
+            {
+                var clinic = db.Clinics.Find(staff.ClinicId);
+                if (clinic != null)
+                {
+                    var dataPoints = FetchCurrentMonthAppointment(clinic);
+
+                    var csvData = new StringBuilder();
+
+                    string currentYear = DateTime.Now.ToString("yyyy");
+                    string currentMonth = DateTime.Now.ToString("MMM", CultureInfo.InvariantCulture);
+
+                    csvData.AppendLine($"{currentMonth}.{currentYear}");
+                    csvData.AppendLine("Date,Count"); // CSV header
+                        
+                    foreach (var point in dataPoints)
+                    {
+                        csvData.AppendLine($"{point.X},{point.Y}");
+                    }
+
+                    // Save CSV to a folder
+                    var folderPath = Server.MapPath("~/ExportData/");
+
+                    // Ensure directory exists
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+                    DateTime now = DateTime.Now;
+                    string timestamp = now.ToString("yyyyMMdd_HHmmss");
+                    string filename = $"{timestamp}.csv";
+                    var filePath = Path.Combine(folderPath, filename);
+                    System.IO.File.WriteAllText(filePath, csvData.ToString());
+                    TempData["SuccessExport"] = "Export Successed!";
+                    // Return a success message or redirect to another action.
+                    return RedirectToAction("Index");
+                }
+            }
+            TempData["FiledExport"] = "Export Failed!";
+
+            return View();
+        }
+
+        public ActionResult ExportAppointmentsToPDF()
+        {
+            TempData["SuccessExport"] = null;
+            TempData["FiledExport"] = null;
+            var userId = User.Identity.GetUserId();
+
+            // Getting the staff record for the logged-in user.
+            var staff = db.Staffs.FirstOrDefault(s => s.UserId == userId);
+            if (staff != null)
+            {
+                var clinic = db.Clinics.Find(staff.ClinicId);
+                if (clinic != null)
+                {
+                    var dataPoints = FetchCurrentMonthAppointment(clinic);
+                    var pdfData = new StringBuilder();
+
+                    string currentYear = DateTime.Now.ToString("yyyy");
+                    string currentMonth = DateTime.Now.ToString("MM");
+
+
+                    pdfData.Append("<table border='1' cellpadding='5' cellspacing='0' style='border: 1px solid #ccc;font-family: Arial; font-size: 10pt;'>");
+                    pdfData.Append("<tr>");
+                    pdfData.Append($"<th style='background-color: #B8DBFD;border: 1px solid #ccc'>{currentYear}.{currentMonth}</th>");
+                    pdfData.Append("</tr>");
+
+                    pdfData.Append("<tr>");
+                    pdfData.Append("<th style='background-color: #B8DBFD;border: 1px solid #ccc'>Date</th>");
+                    pdfData.Append("<th style='background-color: #B8DBFD;border: 1px solid #ccc'>Number of Appointment</th>");
+                    pdfData.Append("</tr>");
+
+                    // Building the Data rows.
+                    for (int i = 0; i < dataPoints.Count; i++)
+                    {
+                        var dataPoint = dataPoints[i];
+                        pdfData.Append("<tr>");
+                        pdfData.Append($"<td style='border: 1px solid #ccc'>{dataPoint.X}</td>"); // Date
+                        pdfData.Append($"<td style='border: 1px solid #ccc'>{dataPoint.Y}</td>"); // Count
+                        pdfData.Append("</tr>");
+                    }
+                    pdfData.Append("</table>");
+
+                    using (MemoryStream stream = new MemoryStream())
+                    {
+                        StringReader sr = new StringReader(pdfData.ToString());
+                        Document pdfDoc = new Document(PageSize.A4, 10f, 10f, 100f, 0f);
+                        PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                        pdfDoc.Open();
+                        pdfDoc.NewPage();
+                        XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, sr);
+                        pdfDoc.Close();
+
+                        // Save to a folder
+                        var folderPath = Server.MapPath("~/ExportData/");
+
+                        // Ensure directory exists
+                        if (!Directory.Exists(folderPath))
+                        {
+                            Directory.CreateDirectory(folderPath);
+                        }
+                        DateTime now = DateTime.Now;
+                        string timestamp = now.ToString("yyyyMMdd_HHmmss");
+                        string filename = $"{timestamp}.pdf";
+
+                        var filePath = Path.Combine(folderPath, filename);
+                        System.IO.File.WriteAllBytes(filePath, stream.ToArray());
+                        TempData["SuccessExport"] = "Export Successed!";
+                        // Return a success message or redirect to another action.
+                        return RedirectToAction("Index", new { message = "Data exported successfully!" });
+                    }
+                }
+            }
+            TempData["FiledExport"] = "Export Failed!";
+            return View();
+        }
+
+
+
 
 
         [HttpPost]

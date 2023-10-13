@@ -83,7 +83,12 @@
     </tbody>
 </table>
 
-
+@if (TempData["SuccessExport"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessExport"]
+    </div>
+}
 <div class="tab">
     <button class="tablinks fw-bold" data-city="London" id="defaultOpen">Send Email</button>
     <button class="tablinks fw-bold" data-city="Paris">Chart</button>
@@ -95,9 +100,18 @@
     @Html.Partial("EmialComponent", new FIT5032_Assignment.Models.EmailViewModel())
 </div>
 
-<div id="Paris" class="tabcontent">
-    <span class="close-tab">x</span>
-    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+<div id="Paris" class="tabcontent container">
+    <span class="close-tab row">x</span>
+    <div class="row">
+        <div id="chartContainer" class="col-8" style="height: 370px;width:50%"></div>
+        <div class="col-4">
+            @Html.ActionLink("Export to CSV", "ExportAppointmentsToCSV", null, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Export to PDF", "ExportAppointmentsToPDF", null, new { @class = "btn btn-primary" })
+        </div>
+
+    </div>
+
+
 </div>
 
 
@@ -235,6 +249,7 @@
             border: 1px solid #ccc;
             background-color: #f1f1f1;
         }
+
             .tab::after {
                 content: "";
                 display: table;
@@ -264,12 +279,14 @@
                 .tab button.active {
                     background-color: #ccc;
                 }
+
         .tabcontent span {
             position: absolute;
             top: 10px;
             right: 10px;
             cursor: pointer;
         }
+
         #chartContainer {
             min-height: 450px;
             overflow-y: auto;
@@ -282,7 +299,6 @@
             padding: 20px 20px;
             border: 1px solid #ccc;
             border-top: none;
-
         }
 
         #patient-appointment-table {
