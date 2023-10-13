@@ -4,7 +4,7 @@
 }
 <h2>Chat Hub</h2>
 <div class="container">
-    
+
     <div class="row">
         <div class="col">
             <form onsubmit="return false">
@@ -40,6 +40,8 @@
     <script src="~/signalr/hubs"></script>
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
     <!--SignalR script to update the chat page and send messages.-->
     <script>
 
@@ -49,10 +51,10 @@
             // Create a function that the hub can call back to display messages.
             toDo.client.addNewMessageToPage = function (name, message) {
                 message = message.replace(/<p>/g, '').replace(/<\/p>/g, '\n');
-
+                var time = moment().format('DD-MMM-YYYY HH:mm');
                 // Add the message to the page without htmlEncode on the message.
                 $('#discussion').append("<li class='list-group-item'><strong>" + htmlEncode(name)
-                    + '</strong>: ' + message + '</li>');
+                    + '</strong>' + "(" + time+"): " + message + '</li>');
             };
 
             // Start the connection.
