@@ -3,12 +3,6 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>*@
-
-    <link rel="stylesheet" href="../CustomerJsCss/css.css" />
-
     <title>@ViewBag.Title - Ultra Scan</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -29,16 +23,21 @@
                     <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link deep-font-color" })</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link deep-font-color" })</li>
 
-                    @if (User.Identity.IsAuthenticated && User.IsInRole("Patient"))
+                    @if (User.Identity.IsAuthenticated)
                     {
-                        <li>@Html.ActionLink("Appointment", "UserAppointments", "Appointments", new { area = "" }, new { @class = "nav-link deep-font-color" })</li>
+                        <li>@Html.ActionLink("ChatHub", "Chat", "Home", new { area = "" }, new { @class = "nav-link deep-font-color" })</li>
 
+                        if (User.IsInRole("Patient"))
+                        {
+                            <li>@Html.ActionLink("Appointment", "UserAppointments", "Appointments", new { area = "" }, new { @class = "nav-link deep-font-color" })</li>
+                        }
+
+                        if (User.IsInRole("Staff"))
+                        {
+                            <li>@Html.ActionLink("Clinic", "Index", "Clinics", new { area = "" }, new { @class = "nav-link deep-font-color" })</li>
+                        }
                     }
 
-                    @if (User.Identity.IsAuthenticated && User.IsInRole("Staff"))
-                    {
-                        <li>@Html.ActionLink("Clinic", "Index", "Clinics", new { area = "" }, new { @class = "nav-link deep-font-color" })</li>
-                    }
 
 
 

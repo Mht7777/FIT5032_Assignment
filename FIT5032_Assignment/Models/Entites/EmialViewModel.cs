@@ -24,7 +24,7 @@ namespace FIT5032_Assignment.Models
         [AllowHtml]
         public string Contents { get; set; }
 
-        [FileExtensions(Extensions = "pdf,jpg,png,jpeg", ErrorMessage = "Invalid Extensions.")]
+       // [FileExtensions(Extensions = "pdf,jpg,png,jpeg", ErrorMessage = "Invalid Extensions.")]
         public HttpPostedFileBase Attachment { get; set; }
     }
 

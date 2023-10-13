@@ -215,7 +215,21 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "UserAppointments")
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("Patient"))
+        {
+            @Html.ActionLink("Back to List", "UserAppointments")
+
+        }
+        else
+        {
+            @Html.ActionLink("Back to List", "Index", "Clinics")
+        }
+
+
+    }
 
 
 </div>

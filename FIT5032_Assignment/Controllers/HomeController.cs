@@ -27,5 +27,10 @@ namespace FIT5032_Assignment.Controllers
 
             return View();
         }
+        [Authorize]
+        public ActionResult Chat()
+        {
+            return View();
+        }
     }
 }

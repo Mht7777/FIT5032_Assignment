@@ -8,7 +8,7 @@
 <h2>My Appointments</h2>
 
 <p>
-    @Html.ActionLink("Book New Appointment", "Create")
+    @Html.ActionLink("Book New Appointment", "Create", new { id= "booked-button" })
 </p>
 <table class="table">
     <thead>
@@ -40,9 +40,11 @@
                 <td>@appointment.Clinic.ClinicName</td>
                 <td>@appointment.Clinic.Address</td>
 
-
                 <td>
-                    @Html.ActionLink("Details", "UserAppointmentDetails", new { id = appointment.AppointmentId })  |
+                    @Html.ActionLink("Details", "UserAppointmentDetails", new { id = appointment.AppointmentId }) 
+                </td>
+                <td>|</td>
+                <td>
                     @if (appointment.IsConfirmed)
                     {
                         @Html.ActionLink("View Feedback", "Details", "FeedbackAndRatings", new { id = appointment.AppointmentId }, null)
@@ -50,10 +52,12 @@
                     }
                     else
                     {
-                        <p class="">Not Confirmed</p>
+                        @(appointment.IsConfirmed ? "Confirmed" : "Not Confirmed")
+
                     }
                 </td>
             </tr>
         }
     </tbody>
 </table>
+

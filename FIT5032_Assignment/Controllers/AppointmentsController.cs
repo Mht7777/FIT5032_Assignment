@@ -42,10 +42,8 @@ namespace FIT5032_Assignment.Controllers
             }
             return View(appointment);
         }
-
+        [Authorize]
         public ActionResult BookSuccessed() {
-        
-
             return View();
         }
 
