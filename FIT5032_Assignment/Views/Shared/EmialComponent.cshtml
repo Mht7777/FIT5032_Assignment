@@ -2,8 +2,6 @@
 
 
 <div>
-    <hr>
-    <h1>Email send</h1>
     @using (Html.BeginForm("SendEmail", "Clinics", FormMethod.Post, new { id = "emailForm", enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()

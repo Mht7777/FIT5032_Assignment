@@ -24,12 +24,12 @@
     <p>Address: @Model.Address</p>
 </div>
 <hr>
-<table class="table">
+<table class="table w-100" id="patient-appointment-table">
     <thead>
         <tr>
-            <th style="display:none" id="selectAllArea" >
+            <th id="selectAllArea">
                 All Email
-                <input type="checkbox"  id="selectAll" />
+                <input type="checkbox" id="selectAll" />
             </th>
             <th>Appointment Date</th>
             <th>Start Time</th>
@@ -42,15 +42,14 @@
             <th>Birthday</th>
             <th>IsConfirmed</th>
             <th>Note</th>
-
-
         </tr>
     </thead>
+
     <tbody>
         @foreach (var appointment in Model.Appointments)
         {
-            <tr>
-                <td style="display:none" class="eachemail">
+            <tr class="border-1 border shadow-sm border-end border-start-0 border-bottom border-top">
+                <td class="eachemail">
                     <input type="checkbox" name="selectedEmails" value="@appointment.Email" class="emailCheckbox" />
                 </td>
                 <td>@appointment.AppointmentDate.ToShortDateString()</td>
@@ -84,18 +83,68 @@
     </tbody>
 </table>
 
-<hr>
-<button class="send-email btn btn-primary">Send Email</button>
 
-<div style="display:none" id="email-area">
-    @Html.Partial("EmialComponent", new FIT5032_Assignment.Models.EmailViewModel())
-
+<div class="tab">
+    <button class="tablinks fw-bold" data-city="London" id="defaultOpen">Send Email</button>
+    <button class="tablinks fw-bold" data-city="Paris">Chart</button>
 </div>
+
+<!-- Tab content -->
+<div id="London" class="tabcontent">
+    <span class="close-tab">x</span>
+    @Html.Partial("EmialComponent", new FIT5032_Assignment.Models.EmailViewModel())
+</div>
+
+<div id="Paris" class="tabcontent">
+    <span class="close-tab">x</span>
+    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+</div>
+
+
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <script>
-        //select emial start 
+        //chart start
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                theme: "light2",
+                animationEnabled: true,
+                title: {
+                    text: "Appointments in the Current Month"
+                },
+                axisX: {
+                    title: "Days of the Current Month",
+                    interval: 1,
+                    valueFormatString: "#", // Format as integer
+                    labelFormatter: function (e) {
+                        return e.value;  // Returns the day number directly
+                    }
+                },
+                axisY: {
+                    title: "Number of Appointments",
+                    interval: 1
+                },
+				data: [
+				{
+					type: "column", //change type to bar, line, area, pie, etc
+                                        //Uncomment below line to add data coming from the controller.
+					dataPoints: @Html.Raw(ViewBag.DataPoints),
+				}
+				]
+            }
+            );
+            chart.render();
+        };
+
+
+
+
+        //chart end
+        //select emial start
         function updateEmailTextbox() {
             var selectedEmails = [];
 
@@ -156,5 +205,90 @@
         });
         //rich text end
 
+        //tabs start
+        $("#defaultOpen").click();
+
+        $(".tablinks").click(function (evt) {
+            // Hide all elements with class="tabcontent"
+            $(".tabcontent").hide();
+
+            // Remove "active" class from all elements with class="tablinks"
+            $(".tablinks").removeClass("active");
+
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            var cityName = $(this).attr("data-city");
+            $("#" + cityName).show();
+            $(this).addClass("active");
+        });
+        $(".close-tab").click(function () {
+            $(this).parent().hide();
+        });
+
+        //tabs end
+
     </script>
+    <style>
+
+        /* Style the tab */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+            .tab::after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+
+
+
+            /* Style the buttons that are used to open the tab content */
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                transition: 0.3s;
+                width: 50%;
+            }
+
+                /* Change background color of buttons on hover */
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                /* Create an active/current tablink class */
+                .tab button.active {
+                    background-color: #ccc;
+                }
+        .tabcontent span {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+        #chartContainer {
+            min-height: 450px;
+            overflow-y: auto;
+        }
+
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 20px 20px;
+            border: 1px solid #ccc;
+            border-top: none;
+
+        }
+
+        #patient-appointment-table {
+            max-height: 600px;
+            overflow-y: auto;
+            display: block;
+        }
+    </style>
 }

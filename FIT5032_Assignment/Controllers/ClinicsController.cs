@@ -10,6 +10,7 @@ using FIT5032_Assignment.Models;
 using FIT5032_Assignment.Models.Entites;
 using FIT5032_Assignment.Utils;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json;
 
 namespace FIT5032_Assignment.Controllers
 {
@@ -18,7 +19,6 @@ namespace FIT5032_Assignment.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Clinics
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
@@ -28,23 +28,48 @@ namespace FIT5032_Assignment.Controllers
 
             if (staff != null)
             {
-                // Get the Clinic associated with the staff.
                 var clinic = db.Clinics.Find(staff.ClinicId);
 
                 if (clinic != null)
                 {
+                    List<DataPoint> dataPoints = FetchCurrentMonthAppointment(clinic);
+                    ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
+
                     return View(clinic);
                 }
                 else
                 {
-                    return RedirectToAction("ErrorClinicNotFound"); 
+                    return RedirectToAction("ErrorClinicNotFound");
                 }
             }
             else
             {
-                return RedirectToAction("ErrorStaffNotFound");  
+                return RedirectToAction("ErrorStaffNotFound");
             }
         }
+        private List<DataPoint> FetchCurrentMonthAppointment(Clinic clinic)
+        {
+            DateTime startOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
+
+            var currentMonthAppointments = db.Appointments.Where(a => a.ClinicId == clinic.Id &&
+                                          a.AppointmentDate >= startOfMonth &&
+                                          a.AppointmentDate <= endOfMonth).ToList();
+
+            // Group by AppointmentDate and count the number of appointments for each day
+            var groupedAppointments = currentMonthAppointments
+                .GroupBy(a => a.AppointmentDate.Date)
+                .Select(g => new { Date = g.Key, Count = g.Count() })
+                .ToList();
+
+            // Convert the grouped data into a format suitable for the chart
+            List<DataPoint> dataPoints = groupedAppointments
+                .Select(g => new DataPoint((double)g.Date.Day, g.Count))
+                .ToList();
+
+            return dataPoints;
+        }
+
 
         [HttpPost]
         public ActionResult SendEmail(EmailViewModel model)
