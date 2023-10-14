@@ -8,56 +8,81 @@
 <h2>My Appointments</h2>
 
 <p>
-    @Html.ActionLink("Book New Appointment", "Create", new { id= "booked-button" })
+    @Html.ActionLink("Book New Appointment", "Create", new { id = "booked-button" }, new { @class = " btn btn-block w-25 border m-2 p-2 custom-button" })
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Appointment Date</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Phone Number</th>
-            <th>Email</th>
-            <th>Clinic</th>
-            <th>Clinic Address</th>
 
-
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var appointment in Model)
-        {
+<div class="table-container">
+    <table class="table w-100 " id="patient-appointment-table">
+        <thead>
             <tr>
-                <td>@appointment.AppointmentDate.ToShortDateString()</td>
-                <td>@appointment.StartTime.ToShortTimeString()</td>
-                <td>@appointment.EndTime.ToShortTimeString()</td>
-                <td>@appointment.FirstName</td>
-                <td>@appointment.LastName</td>
-                <td>@appointment.PhoneNumber</td>
-                <td>@appointment.Email</td>
-                <td>@appointment.Clinic.ClinicName</td>
-                <td>@appointment.Clinic.Address</td>
-
-                <td>
-                    @Html.ActionLink("Details", "UserAppointmentDetails", new { id = appointment.AppointmentId }) 
-                </td>
-                <td>|</td>
-                <td>
-                    @if (appointment.IsConfirmed)
-                    {
-                        @Html.ActionLink("View Feedback", "Details", "FeedbackAndRatings", new { id = appointment.AppointmentId }, null)
-
-                    }
-                    else
-                    {
-                        @(appointment.IsConfirmed ? "Confirmed" : "Not Confirmed")
-
-                    }
-                </td>
+                <th>Appointment Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Clinic</th>
+                <th>Clinic Address</th>
+                <th>Details</th>
+                <th>Feedback</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var appointment in Model)
+            {
+                <tr class="border-1 border shadow-sm border-end border-start-0 border-bottom border-top">
+                    <td>@appointment.AppointmentDate.ToShortDateString()</td>
+                    <td>@appointment.StartTime.ToShortTimeString()</td>
+                    <td>@appointment.EndTime.ToShortTimeString()</td>
+                    <td>@appointment.FirstName</td>
+                    <td>@appointment.LastName</td>
+                    <td>@appointment.PhoneNumber</td>
+                    <td>@appointment.Email</td>
+                    <td>@appointment.Clinic.ClinicName</td>
+                    <td>@appointment.Clinic.Address</td>
+                    <td>@Html.ActionLink("Details", "UserAppointmentDetails", new { id = appointment.AppointmentId })</td>
+                    <td>
+                        @if (appointment.IsConfirmed)
+                        {
+                            @Html.ActionLink("View Feedback", "Details", "FeedbackAndRatings", new { id = appointment.AppointmentId }, null)
+                        }
+                        else
+                        {
+                            @(appointment.IsConfirmed ? "Confirmed" : "Not Confirmed")
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script>
+        $('#patient-appointment-table').DataTable({
+            responsive: true,
+            pageLength: 10,
+            lengthChange: false,
+            columnDefs: [
+                { orderable: false, targets: [9, 10] }
+            ]
+        });
+    </script>
+
+    <style>
+        .table-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .table {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+}
