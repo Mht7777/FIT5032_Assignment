@@ -10,7 +10,9 @@
             <form onsubmit="return false">
                 <div class="form-group">
                     <label>Display Name:</label>
-                    <input type="text" class="form-control" id="displayname" required />
+                    <div>@ViewBag.User</div>
+                    <br>
+                    <input type="text" class="form-control" id="displayname" value="@ViewBag.User" style="display:none" required  />
                 </div>
                 <div class="form-group">
                     <label>Add to do</label>
@@ -27,7 +29,6 @@
             <ul id="discussion" class="list-group"></ul>
         </div>
     </div>
-
 
 
 </div>
@@ -61,15 +62,13 @@
             $.connection.hub.start().done(function () {
                 $('#sendmessage').click(function () {
                     var displayname = $('#displayname').val();
-                    console.log("DisplayName:", displayname); // Log displayname
 
                     var message = tinymce.get('chatbody').getContent();
-                    console.log("Message:", message); // Log message
 
                     if (displayname.length == 0 || message.length == 0)
                         return;
-                    // Call the Send method on the hub.
-                    toDo.server.send($('#displayname').val(), message); // Using the variable directly here
+                    toDo.server.send(displayname, message);
+                    toDo.server.getChatGptResponse(message);
                     // Clear the TinyMCE editor after sending the message.
                     tinymce.get('chatbody').setContent('');
                 });

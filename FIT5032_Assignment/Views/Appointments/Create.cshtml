@@ -242,23 +242,52 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp6y2XwKXUYOC56UVR7AtoCN0iTWvuJs0&callback=initMap"></script>
     <script>
+        // --------------- map start ---------------
         function initMap() {
-            var melbourne = { lat: -37.8136, lng: 144.9631 };
-            var clayton = { lat: -37.9255, lng: 145.1199 };
+            var clt_address = "1 Tarella Road, Clayton Victoria 3168";
+            var mel_address = "68 LONSDALE STREET, Melbourne Victoria 3000"
+            var api = "AIzaSyAp6y2XwKXUYOC56UVR7AtoCN0iTWvuJs0";
+            
+
+            var clayton = { lat: -37.919890, lng: 145.126160 };
+            var  melbourne = { lat: -37.809820, lng: 144.969830 };
 
             var map = new google.maps.Map($('#map')[0], {
                 zoom: 10, // Reduced zoom to ensure both markers are visible
                 center: melbourne
             });
 
+            var currentPositionMarker;
+
+            // Try to get the current location of the user
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var currentPosition = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    currentPositionMarker = new google.maps.Marker({
+                        position: currentPosition,
+                        map: map,
+                        title: 'Your',
+                        icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+
+                    });
+
+                    map.setCenter(currentPosition);
+                });
+            }
+
+
             var infoWindowMelbourne = new google.maps.InfoWindow({
-                content: '<h4>100 Swanston St, Melbourne</h4><p>Melbourne VIC 3000, Australia</p>'
+                content: '<h4>68 LONSDALE STREET</h4><p>Melbourne Victoria 3000, Australia</p>'
             });
 
             var markerMelbourne = new google.maps.Marker({
                 position: melbourne,
                 map: map,
-                title: '100 Swanston St, Melbourne VIC 3000, Australia'
+                title: '68 LONSDALE STREET, Melbourne Victoria 3000'
             });
 
             $(markerMelbourne).click(function () {
@@ -268,26 +297,51 @@
             });
 
             var infoWindowClayton = new google.maps.InfoWindow({
-                content: '<h4>246 Clayton Rd, Clayton</h4><p>Clayton VIC 3168</p>'
+                content: '<h4>1 Tarella Road, Clayton</h4><p>VIC 3168</p>'
             });
 
             var markerClayton = new google.maps.Marker({
                 position: clayton,
                 map: map,
-                title: '246 Clayton Rd, Clayton VIC 3168'
+                title: '1 Tarella Road, Clayton Victoria 3168'
             });
             markerMelbourne.addListener('click', function () {
+                if (currentPositionMarker) {
+                    var distance = haversine_distance(currentPositionMarker, markerMelbourne);
+                    alert("Distance from current location: " + distance.toFixed(2) + " miles");
+                }
                 map.setZoom(15); // Set zoom level to 15
                 map.setCenter(markerMelbourne.getPosition()); // Set center to marker's position
                 infoWindowMelbourne.open(map, markerMelbourne);
             });
 
             markerClayton.addListener('click', function () {
+                if (currentPositionMarker) {
+                    var distance = haversine_distance(currentPositionMarker, markerClayton);
+                    alert("Distance from current location: " + distance.toFixed(2) + " miles");
+                }
                 map.setZoom(15); // Set zoom level to 15
                 map.setCenter(markerClayton.getPosition()); // Set center to marker's position
                 infoWindowClayton.open(map, markerClayton);
             });
+
         }
+        function haversine_distance(mk1, mk2) {
+            var R = 3958.8; // Radius of the Earth in miles
+            var rlat1 = mk1.position.lat() * (Math.PI / 180); // Convert degrees to radians
+            var rlat2 = mk2.position.lat() * (Math.PI / 180); // Convert degrees to radians
+            var difflat = rlat2 - rlat1; // Radian difference (latitudes)
+            var difflon = (mk2.position.lng() - mk1.position.lng()) * (Math.PI / 180); // Radian difference (longitudes)
+
+            var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat / 2) * Math.sin(difflat / 2) + Math.cos(rlat1) * Math.cos(rlat2) * Math.sin(difflon / 2) * Math.sin(difflon / 2)));
+            return d;
+        }
+
+
+        // --------------- map end ---------------
+
+
+        // --------------- datepicker start ---------------
 
         var selectedDate;
         $('#scanPartDropdown').change(function () {
@@ -372,6 +426,8 @@
             endDate: new Date()
         }).on('changeDate', function (e) {
         });
+        // --------------- datepicker end ---------------
+
     </script>
 
 
