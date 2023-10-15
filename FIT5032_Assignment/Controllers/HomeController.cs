@@ -34,5 +34,11 @@ namespace FIT5032_Assignment.Controllers
             ViewBag.User = User.Identity.GetUserName(); 
             return View();
         }
+        public ActionResult Pop()
+        {
+            ViewBag.User = User.Identity.GetUserName();
+            return View();
+        }
+
     }
 }
