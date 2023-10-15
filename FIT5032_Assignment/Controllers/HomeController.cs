@@ -28,17 +28,7 @@ namespace FIT5032_Assignment.Controllers
 
             return View();
         }
-        [Authorize]
-        public ActionResult Chat()
-        {
-            ViewBag.User = User.Identity.GetUserName(); 
-            return View();
-        }
-        public ActionResult Pop()
-        {
-            ViewBag.User = User.Identity.GetUserName();
-            return View();
-        }
+
 
     }
 }
