@@ -323,15 +323,12 @@ namespace FIT5032_Assignment.Controllers
         {
             if (!string.IsNullOrEmpty(selectedDate))
             {
-                // The selected date has been passed to the controller
-                // You can use it as needed
-                // Optionally, you can return a response
+
                 return Json(new { success = true, message = "Date received successfully" });
             }
             else
             {
-                // The selected date was not received
-                // Handle the case where no date is provided
+
                 return Json(new { success = false, message = "Date not received" });
             }
         }

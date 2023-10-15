@@ -126,12 +126,29 @@
 
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
-    <script async src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+    <script src="~/Scripts/tinymce/tinymce.js"></script>
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
-    <script async src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script>
+        $(document).ready(function () {
+            $('#email-Contents').css('visibility', 'visible');
+            tinymce.init({
+                selector: '#email-Contents',
+                toolbar: 'undo redo | styles | fontfamily |bold italic forecolor | link image emoticons | align | mergetags inserttemplate | spellcheckdialog a11ycheck | code removeformat',
+                menubar: false,
+                images_file_types: "jpeg,jpg,png,gif",
+                style_formats: [
+                    { title: 'Paragraph', format: 'p' },
+                    { title: 'Heading 1', format: 'h1' },
+                    { title: 'Heading 2', format: 'h2' },
+                    { title: 'Large text', format: 'largetext' },
+                    { title: 'Button styles' },
+                    { title: 'Call-to-action', format: 'calltoaction' },
+                ],
+            });
+        });
+
         //chart start
         window.onload = function () {
             var chart = new CanvasJS.Chart("chartContainer", {
@@ -154,8 +171,7 @@
                 },
 				data: [
 				{
-					type: "column", //change type to bar, line, area, pie, etc
-                                        //Uncomment below line to add data coming from the controller.
+					type: "column",
 					dataPoints: @Html.Raw(ViewBag.DataPoints),
 				}
 				]
@@ -210,20 +226,7 @@
 
 
         //rich text start
-        tinymce.init({
-            selector: '#emailBody',
-            toolbar: 'undo redo | styles | fontfamily |bold italic forecolor | link image emoticons | align | mergetags inserttemplate | spellcheckdialog a11ycheck | code removeformat',
-            menubar: false,
-            images_file_types: "jpeg,jpg,png,gif",
-            style_formats: [
-                { title: 'Paragraph', format: 'p' },
-                { title: 'Heading 1', format: 'h1' },
-                { title: 'Heading 2', format: 'h2' },
-                { title: 'Large text', format: 'largetext' },
-                { title: 'Button styles' },
-                { title: 'Call-to-action', format: 'calltoaction' },
-            ],
-        });
+
         //rich text end
 
         //tabs start
@@ -325,10 +328,10 @@
             justify-content: center;
             align-items: center;
         }
-            .table {
-                margin-left: auto;
-                margin-right: auto;
-            }
 
+        .table {
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 }

@@ -56,7 +56,26 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/CustomerJsCss/feedback.js")
     @Styles.Render("~/CustomerJsCss/css.css")
+<script>
+    const $stars = $("#rating-star .star");
+
+    $stars.click(function () {
+        let rating = $(this).data("rating");
+        $("#ratingValue").val(rating);
+        $("#ratingDisplay").text("Selected Rating: " + rating); // Displaying the selected rating
+        updateStars(rating);
+    });
+
+    function updateStars(rating) {
+        $stars.each(function () {
+            if ($(this).data("rating") <= rating) {
+                $(this).text('\u2605'); // Filled star
+            } else {
+                $(this).text('\u2606'); // Empty star
+            }
+        });
+    }
+    </script>
 
 }

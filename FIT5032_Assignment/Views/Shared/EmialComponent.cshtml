@@ -8,8 +8,8 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Emails, htmlAttributes: new { @class = "" })
-            <div class="">
-                @Html.TextBoxFor(model => model.Emails, new { @class = "form-control", @style = "width: 800px;", @id = "Useremail" })
+            <div class="w-100">
+                @Html.TextBoxFor(model => model.Emails, new { @class = "form-control", @id = "Useremail" })
                 @Html.ValidationMessageFor(model => model.Emails, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -18,7 +18,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control", @style = "width: 800px;" } })
+                @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" ,@id="email-subject" } })
                 @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -38,7 +38,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Contents, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <textarea id="emailBody" name="Contents" class="form-control">@Model.Contents</textarea>
+                <textarea id="email-Contents" name="Contents" placeholder="Enter Contents..." class="form-control">@Model.Contents</textarea>
                 @Html.ValidationMessageFor(model => model.Contents, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -57,5 +57,9 @@
 
     .custom-input {
         width: 350px;
+    }
+    #Useremail, #email-subject {
+        width: 1000px;
+        max-width: 100%;
     }
     </style>

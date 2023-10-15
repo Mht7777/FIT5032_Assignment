@@ -103,7 +103,8 @@
             {
                 <div class="detail-item">
                     <span class="detail-label">@Html.DisplayNameFor(model => model.Feedback.Rating)</span>
-                    <span class="detail-value">@Html.DisplayFor(model => model.Feedback.Rating)</span>
+                    <span class="detail-value" id="start-area"></span>
+                    <input id="rating-val" style="display:none" value="@Model.Feedback.Rating" />
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">@Html.DisplayNameFor(model => model.Feedback.Comment)</span>
@@ -123,7 +124,25 @@
     @Html.ActionLink("Back to List", "Index")
 </p>
 <link href="~/Content/PatientStyle.css" rel="stylesheet" type="text/css" />
+@section Scripts {
+
+    <script>
+        var starImg = '@Url.Content("~/Content/img/star.png")';
+
+        var star = $("#rating-val").val();
+        for (let i = 0; i < star; i++) {
+            $('#start-area').append('<img src="' + starImg + '" class="starts" />');
+        }
 
 
+
+    </script>
+    <style>
+        .starts {
+            width:40px;
+            height:40px;
+        }
+        </style>
+}
 
 

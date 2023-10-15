@@ -23,8 +23,7 @@
             @Html.DisplayNameFor(model => model.Rating)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Rating)
+        <dd id="start-area">
         </dd>
 
         <dt>
@@ -40,3 +39,24 @@
 <p>
     @Html.ActionLink("Back to List", "UserAppointments", "Appointments")
 </p>
+
+@section Scripts {
+
+    <script>
+        var starImg = '@Url.Content("~/Content/img/star.png")';
+
+        var star = @Model.Rating;
+        for (let i = 0; i < star; i++) {
+            $('#start-area').append('<img src="' + starImg + '" class="starts" />');
+        }
+
+
+
+    </script>
+    <style>
+        .starts {
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+}

@@ -378,10 +378,9 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\css.css" />
     <Content Include="Content\img\about.jpg" />
+    <Content Include="Content\img\star.png" />
     <Content Include="Content\PatientStyle.css" />
     <Content Include="Content\img\slide-1.jpg" />
-    <Content Include="CustomerJsCss\Appointment.js" />
-    <Content Include="CustomerJsCss\feedback.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />

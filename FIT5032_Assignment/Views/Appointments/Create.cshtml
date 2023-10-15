@@ -81,7 +81,6 @@
             <div class="booking-step" id="step-3">
                 <h3>3. Choose time</h3>
                 <div class="container ">
-                    @*<input type="text" id="datepicker" class="form-control" placeholder="Please pick a date">*@
                     @Html.TextBoxFor(model => model.AppointmentDate, new { @class = "form-control", id = "datepicker", placeholder = "Please pick a date" })
 
                     <div class="btn-group" role="group" aria-label="Time Slot Selection" id="timeSlotSelection" style="display:none">
@@ -93,7 +92,6 @@
                         <label class="btn btn-outline-primary time-slot" data-start-time="10:00" data-end-time="11:00">10:00-11:00</label>
                         <label class="btn btn-outline-primary time-slot" data-start-time="11:00" data-end-time="12:00">11:00-12:00</label>
                         <label class="btn btn-outline-primary time-slot" data-start-time="12:00" data-end-time="13:00">12:00-13:00</label>
-                        <!-- ... additional time slots ... -->
                     </div>
 
 
@@ -113,15 +111,20 @@
                 <h3>4. Provide User Information</h3>
 
                 <div class="form-group">
-                    Clinic:
+                    <strong>
+                        Clinic:
+                    </strong>
                     <div class="col-md-10" id="selectedClinic">
 
                     </div>
                 </div>
 
                 <div class="form-group">
-                    Time:
-                    <div class="col-md-10" id="selectedDate">
+                    <strong>
+                        Time:
+                    </strong>
+
+                    <div class="col-md-10 " id="selectedDate">
 
                         <span id="displayDate"></span> <span id="displayStartTime"></span> - <span id="displayEndTime"></span>
 
@@ -129,14 +132,14 @@
                 </div>
                 <hr>
                 <div class="form-group">
-                    ScanPart: <span id="selectedScan"></span>
+                    <strong>ScanPart:</strong> <span id="selectedScan"></span>
                     @Html.ValidationMessageFor(model => model.ScanPart, "", new { @class = "text-danger" })
                     <div class="col-md-10">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
                     <div class="col-md-10">
                         @Html.DropDownListFor(model => model.Title, (IEnumerable<SelectListItem>)ViewBag.TitleList, "-- Select Title --", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
@@ -145,7 +148,7 @@
 
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
@@ -153,7 +156,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
@@ -161,7 +164,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
                     <div class="col-md-10">
                         @Html.DropDownListFor(model => model.Gender, (IEnumerable<SelectListItem>)ViewBag.GenderList, "-- Select Gender --", new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
@@ -170,7 +173,7 @@
 
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
                     <div class="col-md-10">
                         @Html.TextBoxFor(model => model.Birthday, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "birthdayPicker", placeholder = "Please pick a date" })
                         @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
@@ -179,7 +182,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
@@ -187,7 +190,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
@@ -196,7 +199,7 @@
 
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2 fw-bold" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
@@ -239,7 +242,7 @@
     <script src="~/CustomerJsCss/Appointment.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" />
     <!-- Bootstrap Datepicker JS -->
-    <script async src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp6y2XwKXUYOC56UVR7AtoCN0iTWvuJs0&callback=initMap"></script>
     <script>
         // --------------- map start ---------------
@@ -430,7 +433,53 @@
 
     </script>
 
+    <script>
+        $(document).ready(function () {
 
+
+            let currentStep = 1;
+            // Show only the first step initially
+            $('.booking-step').hide();
+            $('#step-1').show();
+
+            $('.next-btn').click(function () {
+                let nextStep = $(this).data('next');
+                $('#step-' + currentStep).hide();
+                $('#step-' + nextStep).show();
+                currentStep = nextStep;
+                updateProgressBar(currentStep);
+            });
+
+            $('.prev-btn').click(function () {
+                let prevStep = $(this).data('prev');
+                $('#step-' + currentStep).hide();
+                $('#step-' + prevStep).show();
+                currentStep = prevStep;
+                updateProgressBar(currentStep);
+            });
+
+
+            function updateProgressBar(stepNumber) {
+                let percentage = (stepNumber / 4) * 100;
+                $('.progress-bar')
+                    .css('width', percentage + '%')
+                    .attr('aria-valuenow', percentage)
+                    .attr('aria-label', 'Booking progress: Step ' + stepNumber + ' of 4')  // Update this line for the aria-label
+                    .text('Step ' + stepNumber);
+            }
+
+            $('.next-btn').click(function (event) {
+                event.preventDefault(); // prevent form submission
+            });
+
+            $('.prev-btn').click(function (event) {
+                event.preventDefault(); // prevent form submission
+            });
+
+
+
+        });
+        </script>
 
 }
 
