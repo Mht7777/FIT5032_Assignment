@@ -377,10 +377,9 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\css.css" />
+    <Content Include="Content\img\about.jpg" />
     <Content Include="Content\PatientStyle.css" />
     <Content Include="Content\img\slide-1.jpg" />
-    <Content Include="Content\img\slide-2.jpg" />
-    <Content Include="Content\img\slide-3.jpg" />
     <Content Include="CustomerJsCss\Appointment.js" />
     <Content Include="CustomerJsCss\feedback.js" />
     <Content Include="favicon.ico" />
@@ -392,6 +391,7 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\fit5032-tmh - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
