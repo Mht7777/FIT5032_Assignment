@@ -12,6 +12,8 @@
             </div>
             <div class="row mb-2 m-0 ">
                 <form onsubmit="return false" class="m-0 p-0" style="width:100%">
+                    @Html.AntiForgeryToken()
+
                     <div class="form-group">
                         <textarea id="chatbody" name="Contents" class="" placeholder="Input to talk with bot"></textarea>
 
