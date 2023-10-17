@@ -45,7 +45,16 @@
                     <td>
                         @if (appointment.IsConfirmed)
                         {
-                            @Html.ActionLink("View Feedback", "Details", "FeedbackAndRatings", new { id = appointment.AppointmentId }, null)
+                            if (appointment.Feedback == null)
+                            {
+                                @Html.ActionLink("Create Feedback", "Create", "FeedbackAndRatings", new { id = appointment.AppointmentId }, null)
+
+                            }
+                            else
+                            {
+                                @Html.ActionLink("View Feedback", "Details", "FeedbackAndRatings", new { id = appointment.AppointmentId }, null)
+
+                            }
                         }
                         else
                         {

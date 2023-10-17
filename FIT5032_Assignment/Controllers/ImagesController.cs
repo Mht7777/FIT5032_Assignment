@@ -52,12 +52,32 @@ namespace FIT5032_Assignment.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,AppointmentId")] Images image, HttpPostedFileBase postedFile)
         {
+            TempData["SuccessUpolad"] = null;
+            TempData["FiledUpolad"] = null;
+
+            // Check if an image already exists for the appointment
+            var existingImage = db.Images.FirstOrDefault(i => i.AppointmentId == image.AppointmentId);
+            if (existingImage != null)
+            {
+                var oldPath = Server.MapPath("~/Uploads/" + existingImage.Path);
+                if (System.IO.File.Exists(oldPath))
+                {
+                    System.IO.File.Delete(oldPath);
+                }
+
+                // Remove old image record from the database
+                db.Images.Remove(existingImage);
+                db.SaveChanges();
+            }
+
+
             ModelState.Clear();
             var myUniqueFileName = string.Format(@"{0}", Guid.NewGuid());
             image.Path = myUniqueFileName;
             TryValidateModel(image);
             if (ModelState.IsValid)
             {
+
                 string serverPath = Server.MapPath("~/Uploads/");
                 string fileExtension = Path.GetExtension(postedFile.FileName);
                 string filePath = image.Path + fileExtension;
@@ -65,8 +85,11 @@ namespace FIT5032_Assignment.Controllers
                 postedFile.SaveAs(serverPath + image.Path);
                 db.Images.Add(image);
                 db.SaveChanges();
+                TempData["SuccessUpolad"] = "Success Upload!";
+
                 return RedirectToAction("Index","Clinics");
             }
+            TempData["FiledUpolad"] = "Failed Upload!";
 
             return View(image);
         }

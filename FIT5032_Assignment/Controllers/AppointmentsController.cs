@@ -73,7 +73,7 @@ namespace FIT5032_Assignment.Controllers
         public ActionResult UserAppointments()
         {
             var userId = User.Identity.GetUserId();
-            var userAppointments = db.Appointments.Include(a => a.Clinic).Include(a => a.Feedback);
+            var userAppointments = db.Appointments.Include(a => a.Clinic).Include(a => a.Feedback).Include(a =>a.Image);
             return View(userAppointments);
         }
 

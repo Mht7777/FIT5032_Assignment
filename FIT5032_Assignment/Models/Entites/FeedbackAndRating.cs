@@ -12,6 +12,7 @@ namespace FIT5032_Assignment.Models.Entites
         [Key, ForeignKey("Appointment")]
         public int AppointmentId { get; set; }
         [Range(1, 5)]
+        [Required]
         public int Rating { get; set; }
         [Required]
         [StringLength(500, ErrorMessage = "Comment cannot be longer than 500 characters.")]

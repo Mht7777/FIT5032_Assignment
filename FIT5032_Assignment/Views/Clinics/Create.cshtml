@@ -6,12 +6,17 @@
 }
 
 <h2>Create</h2>
+@if (TempData["FiledUpolad"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["FiledUpolad"]
+    </div>
+}
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Clinic</h4>
         <hr />
