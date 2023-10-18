@@ -46,12 +46,21 @@ namespace FIT5032_Assignment.Controllers
 
         // GET: FeedbackAndRatings/Create
         [Authorize(Roles = "Patient")]
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
-            var confirmedAppointments = db.Appointments.Where(a => a.IsConfirmed).ToList();
-            ViewBag.AppointmentId = new SelectList(confirmedAppointments, "AppointmentId", "ScanPart");
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            FeedbackAndRating newfeedback = new FeedbackAndRating
+            {
+                AppointmentId = id.Value
+            };
+
+            return View(newfeedback); // Pass the newfeedback instance to the view
         }
+
 
         // POST: FeedbackAndRatings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
