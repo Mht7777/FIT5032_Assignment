@@ -39,8 +39,15 @@ namespace FIT5032_Assignment.Controllers
 
                 if (clinic != null)
                 {
-                    List<DataPoint> dataPoints = FetchCurrentMonthAppointment(clinic);
-                    ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
+                    List<DataPoint> monthdataPoints = FetchCurrentMonthAppointment(clinic);
+                    ViewBag.MonthDataPoints = JsonConvert.SerializeObject(monthdataPoints);
+
+                    List<DataPoint> weekdataPoints = FetchCurrentWeekAppointment(clinic);
+                    ViewBag.WeekDataPoints = JsonConvert.SerializeObject(weekdataPoints);
+
+                    List<DataPoint> todaydataPoints = FetchTodayAppointment(clinic);
+                    ViewBag.TodayDataPoints = JsonConvert.SerializeObject(todaydataPoints);
+
 
                     return View(clinic);
                 }
@@ -65,6 +72,56 @@ namespace FIT5032_Assignment.Controllers
 
             // Group by AppointmentDate and count the number of appointments for each day
             var groupedAppointments = currentMonthAppointments
+                .GroupBy(a => a.AppointmentDate.Date)
+                .Select(g => new { Date = g.Key, Count = g.Count() })
+                .ToList();
+
+            // Convert the grouped data into a format suitable for the chart
+            List<DataPoint> dataPoints = groupedAppointments
+                .Select(g => new DataPoint((double)g.Date.Day, g.Count))
+                .ToList();
+
+            return dataPoints;
+        }
+
+        private List<DataPoint> FetchTodayAppointment(Clinic clinic)
+        {
+            DateTime today = DateTime.Now.Date;
+
+            var todayAppointments = db.Appointments.Where(a => a.ClinicId == clinic.Id &&
+                                              a.AppointmentDate == today).ToList();
+
+            // Group by AppointmentDate and count the number of appointments for each day
+            var groupedAppointments = todayAppointments
+                .GroupBy(a => a.AppointmentDate.Date)
+                .Select(g => new { Date = g.Key, Count = g.Count() })
+                .ToList();
+
+            // Convert the grouped data into a format suitable for the chart
+            List<DataPoint> dataPoints = groupedAppointments
+                .Select(g => new DataPoint((double)g.Date.Day, g.Count))
+                .ToList();
+
+            return dataPoints;
+        }
+
+        private List<DataPoint> FetchCurrentWeekAppointment(Clinic clinic)
+        {
+
+            DateTime today = DateTime.Now.Date;
+            int daysFromMonday = (int)today.DayOfWeek - (int)DayOfWeek.Monday;
+            DateTime startOfWeek = today.AddDays(-daysFromMonday);
+
+            // The end of the week would be the start of the week plus 6 days (since we count the start day).
+            DateTime endOfWeek = startOfWeek.AddDays(6);
+
+
+            var currentWeekAppointments = db.Appointments.Where(a => a.ClinicId == clinic.Id &&
+                                          a.AppointmentDate >= startOfWeek &&
+                                          a.AppointmentDate <= endOfWeek).ToList();
+
+            // Group by AppointmentDate and count the number of appointments for each day
+            var groupedAppointments = currentWeekAppointments
                 .GroupBy(a => a.AppointmentDate.Date)
                 .Select(g => new { Date = g.Key, Count = g.Count() })
                 .ToList();
@@ -120,12 +177,12 @@ namespace FIT5032_Assignment.Controllers
                     string filename = $"{timestamp}.csv";
                     var filePath = Path.Combine(folderPath, filename);
                     System.IO.File.WriteAllText(filePath, csvData.ToString());
-                    TempData["SuccessExport"] = "Export Successed!";
+                    TempData["SuccessExport"] = "Export CSV Successed!";
                     // Return a success message or redirect to another action.
                     return RedirectToAction("Index");
                 }
             }
-            TempData["FiledExport"] = "Export Failed!";
+            TempData["FiledExport"] = "Export CSV Failed!";
 
             return View();
         }
@@ -195,15 +252,68 @@ namespace FIT5032_Assignment.Controllers
 
                         var filePath = Path.Combine(folderPath, filename);
                         System.IO.File.WriteAllBytes(filePath, stream.ToArray());
-                        TempData["SuccessExport"] = "Export Successed!";
+                        TempData["SuccessExport"] = "Export PDF Successed!";
                         // Return a success message or redirect to another action.
                         return RedirectToAction("Index", new { message = "Data exported successfully!" });
                     }
                 }
             }
-            TempData["FiledExport"] = "Export Failed!";
+            TempData["FiledExport"] = "Export PDF Failed!";
             return View();
         }
+
+        public ActionResult ExportAppointmentsToTXT()
+        {
+            TempData["SuccessExport"] = null;
+            TempData["FailedExport"] = null;
+
+            var userId = User.Identity.GetUserId();
+
+            // Getting the staff record for the logged-in user.
+            var staff = db.Staffs.FirstOrDefault(s => s.UserId == userId);
+            if (staff != null)
+            {
+                var clinic = db.Clinics.Find(staff.ClinicId);
+                if (clinic != null)
+                {
+                    var dataPoints = FetchCurrentMonthAppointment(clinic);
+
+                    var txtData = new StringBuilder();
+
+                    string currentYear = DateTime.Now.ToString("yyyy");
+                    string currentMonth = DateTime.Now.ToString("MMM", CultureInfo.InvariantCulture);
+
+                    txtData.AppendLine($"{currentMonth}.{currentYear}");
+                    txtData.AppendLine("Date\tCount"); // TXT header with tab-separated values
+
+                    foreach (var point in dataPoints)
+                    {
+                        txtData.AppendLine($"{point.X}\t{point.Y}");
+                    }
+
+                    // Save TXT to a folder
+                    var folderPath = Server.MapPath("~/ExportData/");
+
+                    // Ensure directory exists
+                    if (!Directory.Exists(folderPath))
+                    {
+                        Directory.CreateDirectory(folderPath);
+                    }
+                    DateTime now = DateTime.Now;
+                    string timestamp = now.ToString("yyyyMMdd_HHmmss");
+                    string filename = $"{timestamp}.txt";
+                    var filePath = Path.Combine(folderPath, filename);
+                    System.IO.File.WriteAllText(filePath, txtData.ToString());
+                    TempData["SuccessExport"] = "Export TXT Succeeded!";
+                    // Return a success message or redirect to another action.
+                    return RedirectToAction("Index");
+                }
+            }
+            TempData["FailedExport"] = "Export TXT Failed!";
+            return View();
+        }
+
+
 
 
 

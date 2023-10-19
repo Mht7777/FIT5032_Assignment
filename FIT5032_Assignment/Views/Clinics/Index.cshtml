@@ -120,9 +120,25 @@
     <span class="close-tab row">x</span>
     <div class="row">
         <div id="chartContainer" class="col-8" style="height: 370px;width:50%"></div>
-        <div class="col-4">
-            @Html.ActionLink("Export to CSV", "ExportAppointmentsToCSV", null, new { @class = "btn btn-primary" })
-            @Html.ActionLink("Export to PDF", "ExportAppointmentsToPDF", null, new { @class = "btn btn-primary" })
+        <div class="col-2">
+            <div class="row">
+                <button class="btn border border-dark  mb-3 chart-button" id="chart-today">Today</button>
+            </div>
+            <div class="row">
+                <button class="btn border border-dark  mb-3 chart-button" id="chart-week" >This Week</button>
+            </div>
+            <div class="row">
+                <button class="btn border border-dark  mb-3 chart-button" id="chart-month" >This Month</button>
+            </div>
+
+
+
+        </div>
+        <div class="col-2">
+            @Html.ActionLink("Export to CSV", "ExportAppointmentsToCSV", null, new { @class = "btn btn-primary mb-3" })
+            @Html.ActionLink("Export to PDF", "ExportAppointmentsToPDF", null, new { @class = "btn btn-primary mb-3" })
+            @Html.ActionLink("Export to TXT", "ExportAppointmentsToTXT", null, new { @class = "btn btn-primary" })
+
         </div>
 
     </div>
@@ -140,6 +156,7 @@
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script>
         $(document).ready(function () {
+            $("#chart-month").trigger("click");
             $('#email-Contents').css('visibility', 'visible');
             tinymce.init({
                 selector: '#email-Contents',
@@ -158,12 +175,12 @@
         });
 
         //chart start
-        window.onload = function () {
+        function setChartData (title, dataPoints) {
             var chart = new CanvasJS.Chart("chartContainer", {
                 theme: "light2",
                 animationEnabled: true,
                 title: {
-                    text: "Appointments in the Current Month"
+                    text: title
                 },
                 axisX: {
                     title: "Days of the Current Month",
@@ -180,13 +197,28 @@
 				data: [
 				{
 					type: "column",
-					dataPoints: @Html.Raw(ViewBag.DataPoints),
+					dataPoints: dataPoints,
 				}
 				]
             }
             );
             chart.render();
         };
+
+         $("#chart-today").click(function() {
+            var dataPoints = @Html.Raw(ViewBag.TodayDataPoints);
+            setChartData("Appointments Today", dataPoints);
+        });
+
+        $("#chart-week").click(function() {
+            var dataPoints = @Html.Raw(ViewBag.WeekDataPoints);
+            setChartData("Appointments This Week", dataPoints);
+        });
+
+        $("#chart-month").click(function() {
+            var dataPoints = @Html.Raw(ViewBag.MonthDataPoints);
+            setChartData("Appointments This Month", dataPoints);
+        }); 
 
 
 
@@ -232,10 +264,6 @@
 
         //select emial end
 
-
-        //rich text start
-
-        //rich text end
 
         //tabs start
         $("#defaultOpen").click();
@@ -340,6 +368,11 @@
         .table {
             margin-left: auto;
             margin-right: auto;
+        }
+        .chart-button:hover {
+        
+            background-color:black;
+            color:white;
         }
     </style>
 }
