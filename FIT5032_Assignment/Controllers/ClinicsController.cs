@@ -112,7 +112,7 @@ namespace FIT5032_Assignment.Controllers
             int daysFromMonday = (int)today.DayOfWeek - (int)DayOfWeek.Monday;
             DateTime startOfWeek = today.AddDays(-daysFromMonday);
 
-            // The end of the week would be the start of the week plus 6 days (since we count the start day).
+            // The end of the week would be the start of the week plus 6 days.
             DateTime endOfWeek = startOfWeek.AddDays(6);
 
 
