@@ -16,6 +16,7 @@ namespace FIT5032_Assignment.Models.Entites
         public int Rating { get; set; }
         [Required]
         [StringLength(500, ErrorMessage = "Comment cannot be longer than 500 characters.")]
+        [RegularExpression(@"^[^<>.,?;:'()!~%\-_@#/*""\s]+$", ErrorMessage = "Invalid Comment")]
         public string Comment { get; set; }
         public virtual Appointment Appointment { get; set; }
 

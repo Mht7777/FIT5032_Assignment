@@ -16,6 +16,7 @@ namespace FIT5032_Assignment.Models.Entites
         public string ScanPart { get; set; }
 
         [MaxLength(500)]
+        [RegularExpression(@"^[^<>.,?;:'()!~%\-_@#/*""\s]+$")]
         public string Note { get; set; }
 
         [ForeignKey("Clinic")]
@@ -25,9 +26,10 @@ namespace FIT5032_Assignment.Models.Entites
         public string Title { get; set; }
 
         [Required]
+        [RegularExpression(@"^[^<>.,?;:'()!~%\-_@#/*""\s]+$", ErrorMessage = "Invalid FirstName")]
         public string FirstName { get; set; }
         [Required]
-
+        [RegularExpression(@"^[^<>.,?;:'()!~%\-_@#/*""\s]+$", ErrorMessage = "Invalid LastName")]
         public string LastName { get; set; }
 
         [Required]
@@ -36,9 +38,11 @@ namespace FIT5032_Assignment.Models.Entites
         public DateTime Birthday { get; set; }
 
         [Required]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "Invalid phone number")]
         public string PhoneNumber { get; set; }
 
         [Required]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
 
         [Required]
