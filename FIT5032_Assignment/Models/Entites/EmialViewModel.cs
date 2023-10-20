@@ -17,11 +17,14 @@ namespace FIT5032_Assignment.Models
         [EmailList(ErrorMessage = "Invalid Email")]
         public string Emails { get; set; }
 
-        [Required(ErrorMessage = "Please input subject")] 
+        [Required(ErrorMessage = "Please input subject")]
+        [RegularExpression(@"^[a-zA-Z0-9\s]+$", ErrorMessage = "Invalid subject format. Only letters, numbers, and spaces are allowed.")]
         public string Subject { get; set; }
 
         [Required(ErrorMessage = "Please input contents")] 
         [AllowHtml]
+        [RegularExpression(@"^[a-zA-Z0-9\s\.\,\!\?\(\)\-\_\+\=\@\#\$\%\^\&\*\<\>\:\;\'\""\[\]\{\}\\\/]*$",
+        ErrorMessage = "Invalid contents format. Only letters, numbers, and common punctuation are allowed.")]
         public string Contents { get; set; }
 
         public HttpPostedFileBase Attachment { get; set; }
