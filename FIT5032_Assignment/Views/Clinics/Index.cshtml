@@ -119,20 +119,14 @@
 <div id="Paris" class="tabcontent container">
     <span class="close-tab row">x</span>
     <div class="row">
-        <div id="chartContainer" class="col-8" style="height: 370px;width:50%"></div>
-        <div class="col-2">
+        <div class="col-8">
             <div class="row">
-                <button class="btn border border-dark  mb-3 chart-button" id="chart-today">Today</button>
-            </div>
-            <div class="row">
-                <button class="btn border border-dark  mb-3 chart-button" id="chart-week" >This Week</button>
-            </div>
-            <div class="row">
-                <button class="btn border border-dark  mb-3 chart-button" id="chart-month" >This Month</button>
-            </div>
+                <div id="chartContainer" class="" style="height: 370px;width:90%"></div>
+                <button class="btn border border-dark  mb-3 chart-button" id="chart-today" style="width:20%">Today</button>
+                <button class="btn border border-dark  mb-3 chart-button" id="chart-week" style="width:20%">This Week</button>
+                <button class="btn border border-dark  mb-3 chart-button" id="chart-month" style="width:20%">This Month</button>
 
-
-
+            </div>
         </div>
         <div class="col-2">
             @Html.ActionLink("Export to CSV", "ExportAppointmentsToCSV", null, new { @class = "btn btn-primary mb-3" })
