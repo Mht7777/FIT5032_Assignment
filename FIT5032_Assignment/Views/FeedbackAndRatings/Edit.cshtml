@@ -11,7 +11,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>FeedbackAndRating</h4>
         <hr />
@@ -20,8 +20,14 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Rating, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Rating, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="col-md-10" id="rating-star">
+                <span class="star" data-rating="1">&#9734;</span>
+                <span class="star" data-rating="2">&#9734;</span>
+                <span class="star" data-rating="3">&#9734;</span>
+                <span class="star" data-rating="4">&#9734;</span>
+                <span class="star" data-rating="5">&#9734;</span>
+                @Html.HiddenFor(model => model.Rating, new { id = "ratingValue" })
+                <span id="ratingDisplay" class="ml-2"></span>
                 @Html.ValidationMessageFor(model => model.Rating, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -36,16 +42,44 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default border border-dark m-3" id="save" />
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "UserAppointments", "Appointments")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/CustomerJsCss/css.css")
+    <script>
+        const $stars = $("#rating-star .star");
+
+        $stars.click(function () {
+            let rating = $(this).data("rating");
+            $("#ratingValue").val(rating);
+            $("#ratingDisplay").text("Selected Rating: " + rating); // Displaying the selected rating
+            updateStars(rating);
+        });
+
+        function updateStars(rating) {
+            $stars.each(function () {
+                if ($(this).data("rating") <= rating) {
+                    $(this).text('\u2605'); // Filled star
+                } else {
+                    $(this).text('\u2606'); // Empty star
+                }
+            });
+        }
+    </script>
+    <style>
+        #save:hover {
+            background-color: black;
+            color: white;
+        }
+    </style>
 }

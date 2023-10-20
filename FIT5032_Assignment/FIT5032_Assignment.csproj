@@ -255,6 +255,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\AppointmentsController.cs" />
     <Compile Include="Controllers\ClinicsController.cs" />
     <Compile Include="Controllers\FeedbackAndRatingsController.cs" />
@@ -338,9 +339,22 @@
     <Compile Include="Migrations\202310111748261_imgggg.designer.cs">
       <DependentUpon>202310111748261_imgggg.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202310200455194_add_admin.cs" />
+    <Compile Include="Migrations\202310200455194_add_admin.designer.cs">
+      <DependentUpon>202310200455194_add_admin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202310200456454_admin.cs" />
+    <Compile Include="Migrations\202310200456454_admin.designer.cs">
+      <DependentUpon>202310200456454_admin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202310200532156_admin1.cs" />
+    <Compile Include="Migrations\202310200532156_admin1.designer.cs">
+      <DependentUpon>202310200532156_admin1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DataPoint.cs" />
+    <Compile Include="Models\Entites\Admin.cs" />
     <Compile Include="Models\Entites\EmialViewModel.cs" />
     <Compile Include="Models\Entites\Appointment.cs" />
     <Compile Include="Models\Entites\Clinic.cs" />
@@ -628,6 +642,11 @@
     <Content Include="Views\Images\Index.cshtml" />
     <Content Include="Views\Appointments\BookSuccessed.cshtml" />
     <Content Include="Views\Home\ChatHub.cshtml" />
+    <Content Include="Views\Admins\Create.cshtml" />
+    <Content Include="Views\Admins\Delete.cshtml" />
+    <Content Include="Views\Admins\Details.cshtml" />
+    <Content Include="Views\Admins\Edit.cshtml" />
+    <Content Include="Views\Admins\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\tinymce\tinymce.d.ts" />
@@ -713,6 +732,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202310111748261_imgggg.resx">
       <DependentUpon>202310111748261_imgggg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310200455194_add_admin.resx">
+      <DependentUpon>202310200455194_add_admin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310200456454_admin.resx">
+      <DependentUpon>202310200456454_admin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310200532156_admin1.resx">
+      <DependentUpon>202310200532156_admin1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

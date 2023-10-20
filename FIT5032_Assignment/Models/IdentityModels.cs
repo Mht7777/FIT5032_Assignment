@@ -27,6 +27,8 @@ namespace FIT5032_Assignment.Models
         public DbSet<FeedbackAndRating> Feedbacks { get; set; }
         public DbSet<Staff> Staffs { get; set; }
         public DbSet<Images> Images { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

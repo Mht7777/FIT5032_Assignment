@@ -96,7 +96,7 @@ namespace FIT5032_Assignment.Controllers
 
 
         // GET: FeedbackAndRatings/Edit/5
-        [Authorize(Roles = "Staff")]
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -123,7 +123,7 @@ namespace FIT5032_Assignment.Controllers
             {
                 db.Entry(feedbackAndRating).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("UserAppointments", "Appointments");
             }
             ViewBag.AppointmentId = new SelectList(db.Appointments, "AppointmentId", "ScanPart", feedbackAndRating.AppointmentId);
             return View(feedbackAndRating);

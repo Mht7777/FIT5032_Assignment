@@ -36,6 +36,11 @@
                         {
                             <li>@Html.ActionLink("Clinic", "Index", "Clinics", new { area = "" }, new { @class = "nav-link deep-font-color" })</li>
                         }
+
+                        if (User.IsInRole("Admin"))
+                        {
+                            <li>@Html.ActionLink("Admin", "Index", "Admins", new { area = "" }, new { @class = "nav-link deep-font-color" })</li>
+                        }
                     }
 
 
