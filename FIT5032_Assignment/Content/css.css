@@ -93,5 +93,5 @@
 }
 .centeredImageContainer {
     display: grid;
-    place-items: center; /* This centers content both horizontally and vertically */
+    place-items: center; 
 }

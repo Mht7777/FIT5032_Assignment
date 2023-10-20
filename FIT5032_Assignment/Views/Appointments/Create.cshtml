@@ -45,7 +45,9 @@
             <div class="booking-step" id="step-2">
                 <h3>2. Select Clinic</h3>
                 <div class="form-group">
+                    <input type="text" id="searchBox" class="form-control mb-2" placeholder="Search a clinic..." oninput="checkAddressMatch()">
                     <div id="map" style="width: 100%; height: 400px; "></div>
+
                     <div class="mt-3" style="">
                         <h4>Choose Clinic:</h4>
                         <div class="form-group">
@@ -239,26 +241,26 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/CustomerJsCss/Appointment.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css" />
     <!-- Bootstrap Datepicker JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp6y2XwKXUYOC56UVR7AtoCN0iTWvuJs0&callback=initMap"></script>
     <script>
         // --------------- map start ---------------
+
         function initMap() {
             var clt_address = "1 Tarella Road, Clayton Victoria 3168";
-            var mel_address = "68 LONSDALE STREET, Melbourne Victoria 3000"
-            var api = "AIzaSyAp6y2XwKXUYOC56UVR7AtoCN0iTWvuJs0";
-            
+            var mel_address = "68 LONSDALE STREET, Melbourne Victoria 3000";
 
             var clayton = { lat: -37.919890, lng: 145.126160 };
-            var  melbourne = { lat: -37.809820, lng: 144.969830 };
+            var melbourne = { lat: -37.809820, lng: 144.969830 };
 
             var map = new google.maps.Map($('#map')[0], {
                 zoom: 10, // Reduced zoom to ensure both markers are visible
                 center: melbourne
             });
+
+
 
             var currentPositionMarker;
 
@@ -273,49 +275,42 @@
                     currentPositionMarker = new google.maps.Marker({
                         position: currentPosition,
                         map: map,
-                        title: 'Your',
+                        title: 'Your Location',
                         icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-
                     });
 
                     map.setCenter(currentPosition);
                 });
             }
 
-
             var infoWindowMelbourne = new google.maps.InfoWindow({
-                content: '<h4>68 LONSDALE STREET</h4><p>Melbourne Victoria 3000, Australia</p>'
+                content: '<h4>' + mel_address.split(',')[0] + '</h4><p>' + mel_address.split(',').slice(1).join(',') + '</p>'
             });
 
             var markerMelbourne = new google.maps.Marker({
                 position: melbourne,
                 map: map,
-                title: '68 LONSDALE STREET, Melbourne Victoria 3000'
+                title: mel_address
             });
 
-            $(markerMelbourne).click(function () {
-                map.setZoom(15); // Set zoom level to 15
-                map.setCenter(markerMelbourne.getPosition()); // Set center to marker's position
-                infoWindowMelbourne.open(map, markerMelbourne);
-            });
-
-            var infoWindowClayton = new google.maps.InfoWindow({
-                content: '<h4>1 Tarella Road, Clayton</h4><p>VIC 3168</p>'
-            });
-
-            var markerClayton = new google.maps.Marker({
-                position: clayton,
-                map: map,
-                title: '1 Tarella Road, Clayton Victoria 3168'
-            });
             markerMelbourne.addListener('click', function () {
                 if (currentPositionMarker) {
                     var distance = haversine_distance(currentPositionMarker, markerMelbourne);
                     alert("Distance from current location: " + distance.toFixed(2) + " miles");
                 }
-                map.setZoom(15); // Set zoom level to 15
-                map.setCenter(markerMelbourne.getPosition()); // Set center to marker's position
+                map.setZoom(15);
+                map.setCenter(markerMelbourne.getPosition());
                 infoWindowMelbourne.open(map, markerMelbourne);
+            });
+
+            var infoWindowClayton = new google.maps.InfoWindow({
+                content: '<h4>' + clt_address.split(',')[0] + '</h4><p>' + clt_address.split(',').slice(1).join(',') + '</p>'
+            });
+
+            var markerClayton = new google.maps.Marker({
+                position: clayton,
+                map: map,
+                title: clt_address
             });
 
             markerClayton.addListener('click', function () {
@@ -323,18 +318,42 @@
                     var distance = haversine_distance(currentPositionMarker, markerClayton);
                     alert("Distance from current location: " + distance.toFixed(2) + " miles");
                 }
-                map.setZoom(15); // Set zoom level to 15
-                map.setCenter(markerClayton.getPosition()); // Set center to marker's position
+                map.setZoom(15);
+                map.setCenter(markerClayton.getPosition());
                 infoWindowClayton.open(map, markerClayton);
             });
 
+
+            window.checkAddressMatch = function () {
+                var inputAddress = $('#searchBox').val().trim().toLowerCase();
+
+
+                if (clt_address.toLowerCase().includes(inputAddress)) {
+                    map.setZoom(15);
+                    map.setCenter(clayton);
+                    infoWindowClayton.open(map, markerClayton);
+
+                } else if (mel_address.toLowerCase().includes(inputAddress)) {
+                    map.setZoom(15);
+                    map.setCenter(melbourne);
+                    infoWindowMelbourne.open(map, markerMelbourne);
+
+                } else {
+                    alert('Address not found.');
+                }
+            }
+
+
         }
+
+
+
         function haversine_distance(mk1, mk2) {
             var R = 3958.8; // Radius of the Earth in miles
-            var rlat1 = mk1.position.lat() * (Math.PI / 180); // Convert degrees to radians
-            var rlat2 = mk2.position.lat() * (Math.PI / 180); // Convert degrees to radians
-            var difflat = rlat2 - rlat1; // Radian difference (latitudes)
-            var difflon = (mk2.position.lng() - mk1.position.lng()) * (Math.PI / 180); // Radian difference (longitudes)
+            var rlat1 = mk1.position.lat() * (Math.PI / 180);
+            var rlat2 = mk2.position.lat() * (Math.PI / 180);
+            var difflat = rlat2 - rlat1;
+            var difflon = (mk2.position.lng() - mk1.position.lng()) * (Math.PI / 180);
 
             var d = 2 * R * Math.asin(Math.sqrt(Math.sin(difflat / 2) * Math.sin(difflat / 2) + Math.cos(rlat1) * Math.cos(rlat2) * Math.sin(difflon / 2) * Math.sin(difflon / 2)));
             return d;
@@ -342,6 +361,7 @@
 
 
         // --------------- map end ---------------
+
 
 
         // --------------- datepicker start ---------------
@@ -475,6 +495,7 @@
             $('.prev-btn').click(function (event) {
                 event.preventDefault(); // prevent form submission
             });
+
 
 
 

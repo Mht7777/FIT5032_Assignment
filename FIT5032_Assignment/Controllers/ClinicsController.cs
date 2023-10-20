@@ -17,7 +17,8 @@ using iTextSharp.tool.xml;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using System.Globalization;
-
+using OfficeOpenXml;
+using OfficeOpenXml.Table;
 
 namespace FIT5032_Assignment.Controllers
 {
@@ -207,14 +208,14 @@ namespace FIT5032_Assignment.Controllers
                     string currentMonth = DateTime.Now.ToString("MM");
 
 
-                    pdfData.Append("<table border='1' cellpadding='5' cellspacing='0' style='border: 1px solid #ccc;font-family: Arial; font-size: 10pt;'>");
+                    pdfData.Append("<table style='border: 1px solid black;'>");
                     pdfData.Append("<tr>");
-                    pdfData.Append($"<th style='background-color: #B8DBFD;border: 1px solid #ccc'>{currentYear}.{currentMonth}</th>");
+                    pdfData.Append($"<th style='border: 1px solid black'>{currentYear}.{currentMonth}</th>");
                     pdfData.Append("</tr>");
 
                     pdfData.Append("<tr>");
-                    pdfData.Append("<th style='background-color: #B8DBFD;border: 1px solid #ccc'>Date</th>");
-                    pdfData.Append("<th style='background-color: #B8DBFD;border: 1px solid #ccc'>Number of Appointment</th>");
+                    pdfData.Append("<th style='border: 1px solid black'>Date</th>");
+                    pdfData.Append("<th style='border: 1px solid black'>Number of Appointment</th>");
                     pdfData.Append("</tr>");
 
                     // Building the Data rows.
@@ -222,11 +223,12 @@ namespace FIT5032_Assignment.Controllers
                     {
                         var dataPoint = dataPoints[i];
                         pdfData.Append("<tr>");
-                        pdfData.Append($"<td style='border: 1px solid #ccc'>{dataPoint.X}</td>"); // Date
-                        pdfData.Append($"<td style='border: 1px solid #ccc'>{dataPoint.Y}</td>"); // Count
+                        pdfData.Append($"<td style='border: 1px solid black'>{dataPoint.X}</td>"); // Date
+                        pdfData.Append($"<td style='border: 1px solid black'>{dataPoint.Y}</td>"); // Count
                         pdfData.Append("</tr>");
                     }
                     pdfData.Append("</table>");
+
 
                     using (MemoryStream stream = new MemoryStream())
                     {
@@ -262,7 +264,7 @@ namespace FIT5032_Assignment.Controllers
             return View();
         }
 
-        public ActionResult ExportAppointmentsToTXT()
+        public ActionResult ExportAppointmentsToExcel()
         {
             TempData["SuccessExport"] = null;
             TempData["FailedExport"] = null;
@@ -278,38 +280,45 @@ namespace FIT5032_Assignment.Controllers
                 {
                     var dataPoints = FetchCurrentMonthAppointment(clinic);
 
-                    var txtData = new StringBuilder();
-
                     string currentYear = DateTime.Now.ToString("yyyy");
                     string currentMonth = DateTime.Now.ToString("MMM", CultureInfo.InvariantCulture);
 
-                    txtData.AppendLine($"{currentMonth}.{currentYear}");
-                    txtData.AppendLine("Date\tCount"); // TXT header with tab-separated values
+                    DataTable Dt = new DataTable();
+                    Dt.Columns.Add("Date", typeof(string));
+                    Dt.Columns.Add("Count", typeof(string));
 
-                    foreach (var point in dataPoints)
+                    foreach (var data in dataPoints)
                     {
-                        txtData.AppendLine($"{point.X}\t{point.Y}");
+                        DataRow row = Dt.NewRow();
+                        row[0] = data.X.ToString();
+                        row[1] = data.Y.ToString();
+                        Dt.Rows.Add(row);
+                    }
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+                    using (var package = new ExcelPackage())
+                    {
+                        var ws = package.Workbook.Worksheets.Add("Appointments");
+                        ws.Cells["A1"].LoadFromDataTable(Dt, true);
+
+                        var folderPath = Server.MapPath("~/ExportData/");
+
+
+
+                        DateTime now = DateTime.Now;
+                        string timestamp = now.ToString("yyyyMMdd_HHmmss");
+                        string filename = $"{timestamp}.xlsx";
+                        var filePath = Path.Combine(folderPath, filename);
+
+                        package.SaveAs(new FileInfo(filePath));
                     }
 
-                    // Save TXT to a folder
-                    var folderPath = Server.MapPath("~/ExportData/");
-
-                    // Ensure directory exists
-                    if (!Directory.Exists(folderPath))
-                    {
-                        Directory.CreateDirectory(folderPath);
-                    }
-                    DateTime now = DateTime.Now;
-                    string timestamp = now.ToString("yyyyMMdd_HHmmss");
-                    string filename = $"{timestamp}.txt";
-                    var filePath = Path.Combine(folderPath, filename);
-                    System.IO.File.WriteAllText(filePath, txtData.ToString());
-                    TempData["SuccessExport"] = "Export TXT Succeeded!";
-                    // Return a success message or redirect to another action.
+                    TempData["SuccessExport"] = "Export Excel Succeeded!";
                     return RedirectToAction("Index");
                 }
             }
-            TempData["FailedExport"] = "Export TXT Failed!";
+
+            TempData["FailedExport"] = "Export Excel Failed!";
             return View();
         }
 
