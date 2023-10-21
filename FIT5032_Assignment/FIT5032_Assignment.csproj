@@ -365,6 +365,26 @@
     <Compile Include="Migrations\202310200532156_admin1.designer.cs">
       <DependentUpon>202310200532156_admin1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202310210304191_add_forum.cs" />
+    <Compile Include="Migrations\202310210304191_add_forum.designer.cs">
+      <DependentUpon>202310210304191_add_forum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202310210305409_fourm.cs" />
+    <Compile Include="Migrations\202310210305409_fourm.designer.cs">
+      <DependentUpon>202310210305409_fourm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202310210308395_123ad.cs" />
+    <Compile Include="Migrations\202310210308395_123ad.designer.cs">
+      <DependentUpon>202310210308395_123ad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202310210329070_zcz.cs" />
+    <Compile Include="Migrations\202310210329070_zcz.designer.cs">
+      <DependentUpon>202310210329070_zcz.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202310210329483_fhj.cs" />
+    <Compile Include="Migrations\202310210329483_fhj.designer.cs">
+      <DependentUpon>202310210329483_fhj.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DataPoint.cs" />
@@ -755,6 +775,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202310200532156_admin1.resx">
       <DependentUpon>202310200532156_admin1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310210304191_add_forum.resx">
+      <DependentUpon>202310210304191_add_forum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310210305409_fourm.resx">
+      <DependentUpon>202310210305409_fourm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310210308395_123ad.resx">
+      <DependentUpon>202310210308395_123ad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310210329070_zcz.resx">
+      <DependentUpon>202310210329070_zcz.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202310210329483_fhj.resx">
+      <DependentUpon>202310210329483_fhj.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

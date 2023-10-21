@@ -11,17 +11,19 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Collections.Concurrent;
+using FIT5032_Assignment.Models.Entites;
 
 namespace FIT5032_Assignment.Hubs
 {
     public class ChatHub : Hub
     {
-        private static readonly ConcurrentDictionary<string, string> ConnectedUsers = new ConcurrentDictionary<string, string>();
 
         public void Send(string name, string message)
         {
             Clients.All.addNewMessageToPage(name, message);
         }
+
+
 
 
     }
