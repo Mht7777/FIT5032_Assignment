@@ -59,7 +59,9 @@ namespace FIT5032_Assignment.Controllers
             var existingImage = db.Images.FirstOrDefault(i => i.AppointmentId == image.AppointmentId);
             if (existingImage != null)
             {
+                // If an existing image is found, construct its server path
                 var oldPath = Server.MapPath("~/Uploads/" + existingImage.Path);
+                // If the image file exists on the server, delete it
                 if (System.IO.File.Exists(oldPath))
                 {
                     System.IO.File.Delete(oldPath);
@@ -72,17 +74,27 @@ namespace FIT5032_Assignment.Controllers
 
 
             ModelState.Clear();
+            // Generate a unique file name using a GUID
             var myUniqueFileName = string.Format(@"{0}", Guid.NewGuid());
+            // Set the image path to this unique name (the extension will be added later)
             image.Path = myUniqueFileName;
             TryValidateModel(image);
             if (ModelState.IsValid)
             {
-
+                // Determine the server directory where images are stored
                 string serverPath = Server.MapPath("~/Uploads/");
+                // Get the extension of the uploaded file
                 string fileExtension = Path.GetExtension(postedFile.FileName);
+                // Combine the unique file name with its extension
                 string filePath = image.Path + fileExtension;
+
+                // Update the image model's path to include the extension
                 image.Path = filePath;
+
+                // Save the uploaded file to the server directory
                 postedFile.SaveAs(serverPath + image.Path);
+
+                // Add the new image record to the database and save changes
                 db.Images.Add(image);
                 db.SaveChanges();
                 TempData["SuccessUpolad"] = "Success Upload!";

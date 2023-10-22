@@ -247,14 +247,14 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp6y2XwKXUYOC56UVR7AtoCN0iTWvuJs0&callback=initMap"></script>
     <script>
         // --------------- map start ---------------
-
+        // Function to initialize the Google Map and related functionality
         function initMap() {
             var clt_address = "1 Tarella Road, Clayton Victoria 3168";
             var mel_address = "68 LONSDALE STREET, Melbourne Victoria 3000";
-
+            // Hardcode latitude and longitude coordinates for these addresses
             var clayton = { lat: -37.919890, lng: 145.126160 };
             var melbourne = { lat: -37.809820, lng: 144.969830 };
-
+            // Initialize a Google Map centered on Melbournes
             var map = new google.maps.Map($('#map')[0], {
                 zoom: 10, // Reduced zoom to ensure both markers are visible
                 center: melbourne
@@ -264,14 +264,14 @@
 
             var currentPositionMarker;
 
-            // Try to get the current location of the user
+            // Try to fetch and mark the user's current geolocation on the map
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
                     var currentPosition = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
-
+                    // Place a marker on the user's current location
                     currentPositionMarker = new google.maps.Marker({
                         position: currentPosition,
                         map: map,
@@ -282,17 +282,17 @@
                     map.setCenter(currentPosition);
                 });
             }
-
+            // Information window for the Melbourne address
             var infoWindowMelbourne = new google.maps.InfoWindow({
                 content: '<h4>' + mel_address.split(',')[0] + '</h4><p>' + mel_address.split(',').slice(1).join(',') + '</p>'
             });
-
+            // Marker for the Melbourne address
             var markerMelbourne = new google.maps.Marker({
                 position: melbourne,
                 map: map,
                 title: mel_address
             });
-
+            // When the Melbourne marker is clicked, it displays distance from the user's location and opens the info window
             markerMelbourne.addListener('click', function () {
                 if (currentPositionMarker) {
                     var distance = haversine_distance(currentPositionMarker, markerMelbourne);
@@ -302,17 +302,17 @@
                 map.setCenter(markerMelbourne.getPosition());
                 infoWindowMelbourne.open(map, markerMelbourne);
             });
-
+            // Information window for the Clayton address
             var infoWindowClayton = new google.maps.InfoWindow({
                 content: '<h4>' + clt_address.split(',')[0] + '</h4><p>' + clt_address.split(',').slice(1).join(',') + '</p>'
             });
-
+            // Marker for the Clayton address
             var markerClayton = new google.maps.Marker({
                 position: clayton,
                 map: map,
                 title: clt_address
             });
-
+            // When the Clayton marker is clicked, it displays distance from the user's location and opens the info window
             markerClayton.addListener('click', function () {
                 if (currentPositionMarker) {
                     var distance = haversine_distance(currentPositionMarker, markerClayton);
@@ -323,7 +323,7 @@
                 infoWindowClayton.open(map, markerClayton);
             });
 
-
+            // Function to search and match input address with pre-defined addresses and set the map view
             window.checkAddressMatch = function () {
                 var inputAddress = $('#searchBox').val().trim().toLowerCase();
 
@@ -347,7 +347,7 @@
         }
 
 
-
+        // Function to calculate the  distance between two markers in miles
         function haversine_distance(mk1, mk2) {
             var R = 3958.8; // Radius of the Earth in miles
             var rlat1 = mk1.position.lat() * (Math.PI / 180);
@@ -367,11 +367,12 @@
         // --------------- datepicker start ---------------
 
         var selectedDate;
+        // Change event handler for the scan part dropdown
         $('#scanPartDropdown').change(function () {
             var selectedValue = $(this).val();
             $('#selectedScan').text(selectedValue);
         });
-
+        // Initializing the datepicker with necessary options and event handlers
         $('#datepicker').datepicker({
             weekStart: 1,
             daysOfWeekHighlighted: "6,0",
@@ -382,7 +383,7 @@
         }).on('changeDate', function (e) {
             selectedDate = $('#datepicker').val();
             console.log(selectedDate);
-            fetchData(selectedDate);
+            fetchData(selectedDate);// Fetch data on date change
             $('#timeSlotSelection').show();
 
         });
@@ -391,7 +392,7 @@
             var selectedClinicText = $('#cliniclist option:selected').text();
             $('#selectedClinic').text(selectedClinicText);
         });
-
+        // Click event handler for the time slots
         $('.time-slot').on('click', function () {
             var startTime = $(this).data('start-time');
             var endTime = $(this).data('end-time');
@@ -415,11 +416,9 @@
 
 
 
-        // Call the function to initialize the event listener
-
-
+        // Fetch available appointment times based on the selected date
         function fetchData(date) {
-            // First, enable all time slots
+            // Enable all time slots initially
             $('label.btn').removeClass('disabled btn-outline-secondary').addClass('btn-outline-primary');
 
             $.ajax({
@@ -428,7 +427,7 @@
                 data: { date: date },
                 dataType: 'json',
                 success: function (data) {
-                    // Loop through each item in the returned data
+                    // Disable time slots based on already booked appointments
                     $.each(data, function (index, item) {
                         var timeSlotText = item.StartTime + '-' + item.EndTime;
                         $('label.btn').each(function () {
@@ -444,7 +443,7 @@
             });
         }
 
-
+        // Initializing another datepicker for birthday
         $('#birthdayPicker').datepicker({
             endDate: new Date()
         }).on('changeDate', function (e) {

@@ -27,6 +27,7 @@ namespace FIT5032_Assignment.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        // The Index action is responsible for loading the main page/view of the application.
         public ActionResult Index()
         {
             var userId = User.Identity.GetUserId();
@@ -37,9 +38,11 @@ namespace FIT5032_Assignment.Controllers
             if (staff != null)
             {
                 var clinic = db.Clinics.Find(staff.ClinicId);
-
+                // If the clinic was found
                 if (clinic != null)
                 {
+                    // Retrieve appointment data for the current month, week, and day.
+                    // The data is fetched in a format suitable for charting/graphing.
                     List<DataPoint> monthdataPoints = FetchCurrentMonthAppointment(clinic);
                     ViewBag.MonthDataPoints = JsonConvert.SerializeObject(monthdataPoints);
 
@@ -52,6 +55,7 @@ namespace FIT5032_Assignment.Controllers
 
                     return View(clinic);
                 }
+                // If the clinic was not found, redirect to an error page.
                 else
                 {
                     return RedirectToAction("ErrorClinicNotFound");
@@ -62,11 +66,13 @@ namespace FIT5032_Assignment.Controllers
                 return RedirectToAction("ErrorStaffNotFound");
             }
         }
+        // This method fetches and processes appointment data for the current month.
         private List<DataPoint> FetchCurrentMonthAppointment(Clinic clinic)
         {
+            // Define the start and end dates of the current month.
             DateTime startOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             DateTime endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
-
+            // Fetch all appointments for the specified clinic that fall within the current month.
             var currentMonthAppointments = db.Appointments.Where(a => a.ClinicId == clinic.Id &&
                                           a.AppointmentDate >= startOfMonth &&
                                           a.AppointmentDate <= endOfMonth).ToList();
@@ -77,7 +83,7 @@ namespace FIT5032_Assignment.Controllers
                 .Select(g => new { Date = g.Key, Count = g.Count() })
                 .ToList();
 
-            // Convert the grouped data into a format suitable for the chart
+            // Convert the grouped and counted appointment data into a format suitable for charting.
             List<DataPoint> dataPoints = groupedAppointments
                 .Select(g => new DataPoint((double)g.Date.Day, g.Count))
                 .ToList();
@@ -88,6 +94,7 @@ namespace FIT5032_Assignment.Controllers
         private List<DataPoint> FetchTodayAppointment(Clinic clinic)
         {
             DateTime today = DateTime.Now.Date;
+            // Fetch today's appointments for the given clinic.
 
             var todayAppointments = db.Appointments.Where(a => a.ClinicId == clinic.Id &&
                                               a.AppointmentDate == today).ToList();
@@ -108,7 +115,7 @@ namespace FIT5032_Assignment.Controllers
 
         private List<DataPoint> FetchCurrentWeekAppointment(Clinic clinic)
         {
-
+            // Determine the current date and the start of the week (Monday).
             DateTime today = DateTime.Now.Date;
             int daysFromMonday = (int)today.DayOfWeek - (int)DayOfWeek.Monday;
             DateTime startOfWeek = today.AddDays(-daysFromMonday);
@@ -116,7 +123,7 @@ namespace FIT5032_Assignment.Controllers
             // The end of the week would be the start of the week plus 6 days.
             DateTime endOfWeek = startOfWeek.AddDays(6);
 
-
+            // Fetch appointments for the given clinic that fall within the current week.
             var currentWeekAppointments = db.Appointments.Where(a => a.ClinicId == clinic.Id &&
                                           a.AppointmentDate >= startOfWeek &&
                                           a.AppointmentDate <= endOfWeek).ToList();
@@ -135,61 +142,61 @@ namespace FIT5032_Assignment.Controllers
             return dataPoints;
         }
 
-
+        // Exports current month's appointment data to a CSV file.
         public ActionResult ExportAppointmentsToCSV()
         {
+            // Reset export messages
             TempData["SuccessExport"] = null;
             TempData["FiledExport"] = null;
 
+            // Retrieve current user's ID
             var userId = User.Identity.GetUserId();
 
-            // Getting the staff record for the logged-in user.
+            // Attempt to retrieve the associated staff record for the logged-in user
             var staff = db.Staffs.FirstOrDefault(s => s.UserId == userId);
             if (staff != null)
             {
+                // If staff exists, fetch associated clinic
                 var clinic = db.Clinics.Find(staff.ClinicId);
                 if (clinic != null)
                 {
+                    // Fetch current month's appointment data for the clinic
                     var dataPoints = FetchCurrentMonthAppointment(clinic);
 
                     var csvData = new StringBuilder();
 
+                    // Determine current month and year for CSV header
                     string currentYear = DateTime.Now.ToString("yyyy");
                     string currentMonth = DateTime.Now.ToString("MMM", CultureInfo.InvariantCulture);
 
+                    // Append CSV headers and data
                     csvData.AppendLine($"{currentMonth}.{currentYear}");
-                    csvData.AppendLine("Date,Count"); // CSV header
-                        
+                    csvData.AppendLine("Date,Count");
                     foreach (var point in dataPoints)
                     {
                         csvData.AppendLine($"{point.X},{point.Y}");
                     }
 
-                    // Save CSV to a folder
+                    // Define where to save the CSV file
                     var folderPath = Server.MapPath("~/ExportData/");
 
-                    // Ensure directory exists
-                    if (!Directory.Exists(folderPath))
-                    {
-                        Directory.CreateDirectory(folderPath);
-                    }
                     DateTime now = DateTime.Now;
                     string timestamp = now.ToString("yyyyMMdd_HHmmss");
                     string filename = $"{timestamp}.csv";
                     var filePath = Path.Combine(folderPath, filename);
                     System.IO.File.WriteAllText(filePath, csvData.ToString());
+
                     TempData["SuccessExport"] = "Export CSV Successed!";
-                    // Return a success message or redirect to another action.
                     return RedirectToAction("Index");
                 }
             }
             TempData["FiledExport"] = "Export CSV Failed!";
-
             return View();
         }
 
         public ActionResult ExportAppointmentsToPDF()
         {
+            // Reset export messages
             TempData["SuccessExport"] = null;
             TempData["FiledExport"] = null;
             var userId = User.Identity.GetUserId();
@@ -201,13 +208,14 @@ namespace FIT5032_Assignment.Controllers
                 var clinic = db.Clinics.Find(staff.ClinicId);
                 if (clinic != null)
                 {
+                    // Fetch current month's appointment data for the clinic
                     var dataPoints = FetchCurrentMonthAppointment(clinic);
                     var pdfData = new StringBuilder();
-
+                    // Determine current month and year for table header
                     string currentYear = DateTime.Now.ToString("yyyy");
                     string currentMonth = DateTime.Now.ToString("MM");
 
-
+                    // Start building the HTML representation for the PDF
                     pdfData.Append("<table style='border: 1px solid black;'>");
                     pdfData.Append("<tr>");
                     pdfData.Append($"<th style='border: 1px solid black'>{currentYear}.{currentMonth}</th>");
@@ -229,7 +237,7 @@ namespace FIT5032_Assignment.Controllers
                     }
                     pdfData.Append("</table>");
 
-
+                    // Convert HTML representation to PDF
                     using (MemoryStream stream = new MemoryStream())
                     {
                         StringReader sr = new StringReader(pdfData.ToString());
@@ -243,11 +251,6 @@ namespace FIT5032_Assignment.Controllers
                         // Save to a folder
                         var folderPath = Server.MapPath("~/ExportData/");
 
-                        // Ensure directory exists
-                        if (!Directory.Exists(folderPath))
-                        {
-                            Directory.CreateDirectory(folderPath);
-                        }
                         DateTime now = DateTime.Now;
                         string timestamp = now.ToString("yyyyMMdd_HHmmss");
                         string filename = $"{timestamp}.pdf";
@@ -263,7 +266,7 @@ namespace FIT5032_Assignment.Controllers
             TempData["FiledExport"] = "Export PDF Failed!";
             return View();
         }
-
+        // Exports current month's appointment data to an Excel file.
         public ActionResult ExportAppointmentsToExcel()
         {
             TempData["SuccessExport"] = null;
@@ -278,15 +281,17 @@ namespace FIT5032_Assignment.Controllers
                 var clinic = db.Clinics.Find(staff.ClinicId);
                 if (clinic != null)
                 {
+                    // Fetch current month's appointment data for the clinic
                     var dataPoints = FetchCurrentMonthAppointment(clinic);
 
+                    // Determine current month and year
                     string currentYear = DateTime.Now.ToString("yyyy");
                     string currentMonth = DateTime.Now.ToString("MMM", CultureInfo.InvariantCulture);
 
                     DataTable Dt = new DataTable();
                     Dt.Columns.Add("Date", typeof(string));
                     Dt.Columns.Add("Count", typeof(string));
-
+                    // Populate the DataTable from the data points
                     foreach (var data in dataPoints)
                     {
                         DataRow row = Dt.NewRow();
@@ -295,7 +300,7 @@ namespace FIT5032_Assignment.Controllers
                         Dt.Rows.Add(row);
                     }
                     ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
+                    // Generate the Excel file
                     using (var package = new ExcelPackage())
                     {
                         var ws = package.Workbook.Worksheets.Add("Appointments");
@@ -304,7 +309,7 @@ namespace FIT5032_Assignment.Controllers
                         var folderPath = Server.MapPath("~/ExportData/");
 
 
-
+                        // Define where to save the Excel file
                         DateTime now = DateTime.Now;
                         string timestamp = now.ToString("yyyyMMdd_HHmmss");
                         string filename = $"{timestamp}.xlsx";
@@ -331,6 +336,7 @@ namespace FIT5032_Assignment.Controllers
         [HttpPost]
         public ActionResult SendEmail(EmailViewModel model)
         {
+            // Reset TempData messages
             TempData["SuccessMessage"] = null;
             TempData["ErrorMessage"] = null;
 
@@ -340,11 +346,15 @@ namespace FIT5032_Assignment.Controllers
             {
                 try
                 {
+                    // Fetch the attachment file from the model
                     HttpPostedFileBase file = model.Attachment;
+                    // Create a new instance of the EmailSender class
                     EmailSender es = new EmailSender();
+                    // Split the provided email recipients by semicolon and clean up any extra whitespace
                     var recipientEmails = model.Emails.Split(';').Select(email => email.Trim()).ToList();
-
-                    es.Send(recipientEmails, model.Subject, model.Contents, file); 
+                    // Send the email using the EmailSender instance
+                    es.Send(recipientEmails, model.Subject, model.Contents, file);
+                    // If successful, show success message and clear the model state
                     TempData["SuccessMessage"] = "Email has been sent.";
                     ModelState.Clear();
                     return RedirectToAction("Index");

@@ -43,7 +43,8 @@ namespace FIT5032_Assignment.Controllers
             return View(appointment);
         }
         [Authorize]
-        public ActionResult BookSuccessed() {
+        public ActionResult BookSuccessed()
+        {
             return View();
         }
 
@@ -72,28 +73,15 @@ namespace FIT5032_Assignment.Controllers
         [Authorize(Roles = "Patient")]
         public ActionResult UserAppointments()
         {
+            //return user owned appointments list
             var userId = User.Identity.GetUserId();
-            var userAppointments = db.Appointments.Where(a=>a.UserId ==userId)
+            var userAppointments = db.Appointments.Where(a => a.UserId == userId)
                 .Include(a => a.Clinic)
                 .Include(a => a.Feedback)
-                .Include(a =>a.Image);
+                .Include(a => a.Image);
             return View(userAppointments);
         }
 
-
-        public ActionResult Indiv(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Appointment appointment = db.Appointments.Find(id);
-            if (appointment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(appointment);
-        }
 
         // GET: Appointments/Create
         [Authorize]
@@ -125,31 +113,32 @@ namespace FIT5032_Assignment.Controllers
                 appointment.UserId = User.Identity.GetUserId();
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
+                // Send an email confirmation for the appointment
                 SendAppointmentConfirmation(appointment);
                 return RedirectToAction("BookSuccessed");
             }
-
+            // Populate the dropdown lists for the view
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", appointment.ClinicId);
             ViewBag.AppointmentId = new SelectList(db.Feedbacks, "AppointmentId", "Comment", appointment.AppointmentId);
             return View(appointment);
         }
-
+        // Sends an email confirmation once the appointment is successfully booked.
         private void SendAppointmentConfirmation(Appointment appointment)
         {
             var email = appointment.Email;
             var subject = "Appointment has Booked";
             var content = GenerateAppointmentEmailContent(appointment);
+            // Use the EmailSender class to send the email
+            EmailSender es = new EmailSender();
+            es.Send(email, subject, content);
 
-                EmailSender es = new EmailSender();
-                es.Send(email, subject, content);
-            
- 
+
         }
-
+        // Generates the content for the appointment confirmation email.
         public string GenerateAppointmentEmailContent(Appointment appointment)
         {
             var content = new StringBuilder();
-
+            // Create the content of the email
             content.AppendLine($"Hi {appointment.Title} {appointment.FirstName} {appointment.LastName},<br/>");
             content.AppendLine("<br/>"); // Add a new line for spacing
             content.AppendLine("Thank you for scheduling an appointment with us. Here are the details of your appointment:<br/>");
@@ -203,7 +192,7 @@ namespace FIT5032_Assignment.Controllers
             {
                 db.Entry(appointment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index","Clinics");
+                return RedirectToAction("Index", "Clinics");
             }
             ViewBag.ClinicId = new SelectList(db.Clinics, "Id", "ClinicName", appointment.ClinicId);
             ViewBag.AppointmentId = new SelectList(db.Feedbacks, "AppointmentId", "Comment", appointment.AppointmentId);
@@ -231,6 +220,7 @@ namespace FIT5032_Assignment.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            // Retrieve the appointment with its feedback if has, from the database using the provided ID.
             Appointment appointment = db.Appointments.Find(id);
             FeedbackAndRating feedback = db.Feedbacks.Find(id);
             db.Appointments.Remove(appointment);
@@ -238,9 +228,11 @@ namespace FIT5032_Assignment.Controllers
             {
                 db.Feedbacks.Remove(feedback);
             }
+            // Retrieve the image associated with the appointment, if any.
             Images image = db.Images.FirstOrDefault(i => i.AppointmentId == id);
             if (image != null)
             {
+                // Construct the full path to the image on the server.
                 string serverPath = Server.MapPath("~/Uploads/");
                 string fullPath = serverPath + image.Path;
                 if (System.IO.File.Exists(fullPath))
@@ -260,7 +252,7 @@ namespace FIT5032_Assignment.Controllers
             db.Images.Remove(image);
 
             db.SaveChanges();
-            return RedirectToAction("Index","Clinics");
+            return RedirectToAction("Index", "Clinics");
         }
 
 
@@ -274,7 +266,7 @@ namespace FIT5032_Assignment.Controllers
             }
             base.Dispose(disposing);
         }
-
+        // This method returns a predefined list of scan parts.
         private IEnumerable<string> GetScanParts()
         {
             var scanParts = new List<string>
@@ -288,7 +280,7 @@ namespace FIT5032_Assignment.Controllers
             return scanParts;
 
         }
-
+        // This method returns a list of titles for user selection
         public static IEnumerable<SelectListItem> GetTitleList()
         {
             var titleList = new List<SelectListItem>
@@ -300,6 +292,7 @@ namespace FIT5032_Assignment.Controllers
             return titleList;
         }
 
+        // This method returns a list of genders for user selection
         public static IEnumerable<SelectListItem> GetGenderList()
         {
             var genderList = new List<SelectListItem>
@@ -312,11 +305,13 @@ namespace FIT5032_Assignment.Controllers
         }
 
 
-
+        // This method retrieves booked appointment slots for a given date from the database.
         [HttpGet]
         public JsonResult GetBookedSlots(DateTime selectedDate)
         {
+            // Hardcoded clinicId in this case.
             var clinicId = 1;
+            // Query the database for appointments matching the given clinicId and date.
             var bookedSlots = db.Appointments
                 .Where(a => a.ClinicId == clinicId && a.AppointmentDate == selectedDate.Date)
                 .Select(a => new { a.StartTime, a.EndTime })
@@ -324,7 +319,7 @@ namespace FIT5032_Assignment.Controllers
 
             return Json(bookedSlots, JsonRequestBehavior.AllowGet);
         }
-
+        // A test method to check if the server receives a selected date.
         public ActionResult CheckTime(string selectedDate)
         {
             if (!string.IsNullOrEmpty(selectedDate))
@@ -338,10 +333,12 @@ namespace FIT5032_Assignment.Controllers
                 return Json(new { success = false, message = "Date not received" });
             }
         }
-
+        // This method retrieves the available appointment times for a specific clinic.
         public List<Appointment> AvailableTime()
         {
+            // Hardcoded clinicId in this case.
             var clinicid = 1;
+            // Query the database for appointment times for the specified clinic.
             var time = db.Clinics.Find(clinicid).Appointments.Select(a =>
                 new Appointment
                 {
@@ -354,7 +351,7 @@ namespace FIT5032_Assignment.Controllers
 
 
 
-
+        // This method retrieves unavailable appointment times for a given date.
         [HttpGet]
         public JsonResult GetAppointmentTimes(string date)
         {
@@ -383,7 +380,7 @@ namespace FIT5032_Assignment.Controllers
             var addresses = db.Clinics.Select(c => c.Address).ToList();
             return addresses;
         }
-
+        // This method returns the list of addresses in a JSON format.
         public JsonResult GetAddresses()
         {
             var addresses = GetAddress();

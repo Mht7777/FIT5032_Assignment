@@ -149,9 +149,13 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
     <script>
+        // Initialize when the document is ready.
         $(document).ready(function () {
+            // Trigger click event for the "chart-month" element.
             $("#chart-month").trigger("click");
+            // Set the visibility of the "email-Contents" element to visible.
             $('#email-Contents').css('visibility', 'visible');
+            // Initialize the TinyMCE text editor for the "email-Contents" textarea.
             tinymce.init({
                 selector: '#email-Contents',
                 toolbar: 'undo redo | styles | fontfamily |bold italic forecolor | link image emoticons | align | mergetags inserttemplate | spellcheckdialog a11ycheck | code removeformat',
@@ -169,7 +173,8 @@
         });
 
         //chart start
-        function setChartData (title, dataPoints) {
+        function setChartData(title, dataPoints) {
+            // Function to render a chart using CanvasJS.
             var chart = new CanvasJS.Chart("chartContainer", {
                 theme: "light2",
                 animationEnabled: true,
@@ -198,6 +203,7 @@
             );
             chart.render();
         };
+        // Event listeners to render charts based on the button clicked.
 
          $("#chart-today").click(function() {
             var dataPoints = @Html.Raw(ViewBag.TodayDataPoints);
@@ -221,7 +227,9 @@
 
 
         //select emial start
+        // Email Selection Functionality Start
         function updateEmailTextbox() {
+            // Function to update the email textbox based on the selected email checkboxes.
             var selectedEmailsSet = new Set(); // Initialize a set for unique values
 
             $('.emailCheckbox:checked').each(function () {
@@ -231,13 +239,13 @@
             $('#Useremail').val(Array.from(selectedEmailsSet).join(';'));
         }
 
-
+        // Event listeners for the "select all" functionality.
         $('#selectAll').on('change', function () {
             var isChecked = $(this).is(':checked');
             $('.emailCheckbox').prop('checked', isChecked);
             updateEmailTextbox();
         });
-
+        // Event listener to handle individual email checkbox changes.
         $('.emailCheckbox').on('change', function () {
             var totalCheckboxes = $('.emailCheckbox').length;
             var checkedCheckboxes = $('.emailCheckbox:checked').length;
@@ -246,7 +254,7 @@
             updateEmailTextbox();
         });
 
-
+        // Event listener to display the email sending area.
         $('.send-email').on('click', function () {
             $('#email-area').show();
             $('#selectAllArea').show();

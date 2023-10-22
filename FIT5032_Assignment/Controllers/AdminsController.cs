@@ -14,6 +14,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace FIT5032_Assignment.Controllers
 {
+    // This controller is accessible only to users with the "Admin" role.
     [Authorize(Roles = "Admin")]
     public class AdminsController : Controller
     {

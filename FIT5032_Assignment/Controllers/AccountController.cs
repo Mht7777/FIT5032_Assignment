@@ -156,8 +156,9 @@ namespace FIT5032_Assignment.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    // Assign the new user the "Patient" role
                     await UserManager.AddToRoleAsync(user.Id, "Patient");
-
+                    // Sign the user into the system
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
 
@@ -210,11 +211,7 @@ namespace FIT5032_Assignment.Controllers
                 }
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+
             }
 
             // If we got this far, something failed, redisplay form
