@@ -5,12 +5,12 @@
 <main>
     <!-- Image div -->
     <div class="image-container">
-        <div style="background-image: url('@Url.Content("~/Content/img/slide-1.jpg")'); background-size: cover; background-position: center;" class="vh-100 wh-100 m-0 p-0">
-            <!-- Text div overlay at the bottom with a semi-transparent gray background -->
-            <div class="overlay-text">
-                <h1>Ultra Scan</h1>
-                <p>Revolutionizing the way you see the world, one scan at a time.</p>
-            </div>
+        <img srcset="@Url.Content("~/Content/img/home1.jpg") 320w, @Url.Content("~/Content/img/home1.jpg") 640w"
+             src="@Url.Content("~/Content/img/home2.jpg")"
+             alt="Ultra Scan Background"
+             class="img-fluid rounded mb-3">            <div class="overlay-text">
+            <h1>Ultra Scan</h1>
+            <p>Revolutionizing the way you see the world, one scan at a time.</p>
         </div>
     </div>
 
@@ -28,7 +28,10 @@
         <div class="container ">
             <div class="row">
                 <div class="col m-0 p-0 align-center justify-content-center centeredImageContainer">
-                    <img src="@Url.Content("~/Content/img/about.jpg")" alt="About Us Image">
+                    <img srcset="@Url.Content("~/Content/img/about3.jpg") 320w, @Url.Content("~/Content/img/about1.jpg") 640w"
+                         src="@Url.Content("~/Content/img/about2.jpg")"
+                         alt="About Us Image"
+                         class="img-fluid rounded mb-3">
                 </div>
                 <div class="col">
                     <p><strong>Our Commitment:</strong> From day one, our commitment to excellence has set us apart. It's not just about having advanced equipment or skilled technicians—though we have both. It's about a promise we make to each of our clients: a promise of impeccable quality, reliability, and unmatched precision.</p>
@@ -46,8 +49,5 @@
         </div>
     </div>
 
-
-
-
-
 </main>
+

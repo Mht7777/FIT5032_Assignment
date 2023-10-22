@@ -16,11 +16,9 @@ namespace FIT5032_Assignment.Models
             this.Y = y;
         }
 
-        //Explicitly setting the name to be used while serializing to JSON.
         [DataMember(Name = "x")]
         public Nullable<double> X = null;
 
-        //Explicitly setting the name to be used while serializing to JSON.
         [DataMember(Name = "y")]
         public Nullable<double> Y = null;
     }
